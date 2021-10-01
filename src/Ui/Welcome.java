@@ -18,6 +18,25 @@ public class Welcome extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
+        setVisible(true);
+        loading();
+        new Login().setVisible(true);
+        this.dispose();
+    }
+
+    public static void loading() {
+        int i = 0;
+        String loading = "Đang tải";
+
+        while (i <= 100) {
+            i++;
+            try {
+                pb_loading.setValue(i);
+                Thread.sleep(10);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -30,9 +49,10 @@ public class Welcome extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jProgressBar1 = new javax.swing.JProgressBar();
+        pb_loading = new javax.swing.JProgressBar();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        lb_loading = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -40,8 +60,9 @@ public class Welcome extends javax.swing.JFrame {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jProgressBar1.setStringPainted(true);
-        jPanel1.add(jProgressBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 558, 20));
+        pb_loading.setBackground(new java.awt.Color(0, 255, 0));
+        pb_loading.setStringPainted(true);
+        jPanel1.add(pb_loading, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 570, 20));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 51, 102));
@@ -50,6 +71,9 @@ public class Welcome extends javax.swing.JFrame {
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/logo302.png"))); // NOI18N
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, -40, 570, 570));
+
+        lb_loading.setText("Đang tải...");
+        jPanel1.add(lb_loading, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,17 +125,14 @@ public class Welcome extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Welcome().setVisible(true);
-            }
-        });
+        new Welcome();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JProgressBar jProgressBar1;
+    private static javax.swing.JLabel lb_loading;
+    private static javax.swing.JProgressBar pb_loading;
     // End of variables declaration//GEN-END:variables
 }
