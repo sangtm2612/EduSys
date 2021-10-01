@@ -24,6 +24,8 @@ CREATE TABLE NhanVien
 )
 GO
 
+insert into NhanVien values('1', '1', N'Trần Minh Sáng', 'admin')
+select * from nhanvien
 CREATE TABLE KhoaHoc
 (
 	MaKH INT IDENTITY(0,1) PRIMARY KEY,

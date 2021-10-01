@@ -60,7 +60,7 @@ public class Welcome extends javax.swing.JFrame {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        pb_loading.setBackground(new java.awt.Color(0, 255, 0));
+        pb_loading.setBackground(new java.awt.Color(135, 255, 0));
         pb_loading.setStringPainted(true);
         jPanel1.add(pb_loading, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 570, 20));
 

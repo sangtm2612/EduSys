@@ -6,6 +6,7 @@
 package Ui;
 
 import java.awt.Toolkit;
+import Model.NhanVien;
 
 /**
  *
@@ -16,11 +17,17 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
-    public Main() {
+    public Main(NhanVien nv) {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Image/logo20.png")));
         setResizable(false);
         setLocationRelativeTo(null);
+        setVisible(true);
+        if (nv.getVaitro().equalsIgnoreCase("admin")) {
+            
+        } else {
+            
+        }
     }
 
     /**
@@ -232,11 +239,7 @@ public class Main extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Main().setVisible(true);
-            }
-        });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
