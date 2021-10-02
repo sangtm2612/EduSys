@@ -6,7 +6,7 @@ GO
 
 CREATE TABLE ChuyenDe
 (
-	MaCD INT IDENTITY(0,1) PRIMARY KEY,
+	MaCD INT IDENTITY(1,1) PRIMARY KEY,
 	TenCD NVARCHAR(50) NOT NULL,
 	HocPhi MONEY NOT NULL,
 	ThoiLuong INT NOT NULL,
@@ -14,6 +14,9 @@ CREATE TABLE ChuyenDe
 	Mota NVARCHAR(200) NULL,
 )
 GO
+
+--insert into chuyende values (?, ?, ?, ?, ?, ?)
+select * from chuyende
 
 CREATE TABLE NhanVien
 (
@@ -27,9 +30,10 @@ GO
 insert into NhanVien values('1', '1', N'Trần Minh Sáng', 0)
 update NhanVien set MatKhau = '123' where manv = N'Sáng'
 select * from nhanvien
+
 CREATE TABLE KhoaHoc
 (
-	MaKH INT IDENTITY(0,1) PRIMARY KEY,
+	MaKH INT IDENTITY(1,1) PRIMARY KEY,
 	MaCD INT NOT NULL,
 	HocPhi MONEY NOT NULL,
 	ThoiLuong INT NOT NULL,
@@ -42,9 +46,13 @@ CREATE TABLE KhoaHoc
 )
 GO
 
+insert into khoahoc(macd, hocphi, thoiluong, ngaykg, ghichu, manv) values (1, 2, 2, '20200302', 'a', 1)
+delete from khoahoc
+select * from khoahoc
+
 CREATE TABLE NguoiHoc
 (
-	MaNH INT IDENTITY(0,1) PRIMARY KEY,
+	MaNH INT IDENTITY(1,1) PRIMARY KEY,
 	Hoten INT NOT NULL,
 	NgaySinh INT NOT NULL,
 	GioiTinh bit NOT NULL,
@@ -59,7 +67,7 @@ go
 
 CREATE TABLE HocVien
 (
-	MaHV INT IDENTITY(0,1) PRIMARY KEY,
+	MaHV INT IDENTITY(1,1) PRIMARY KEY,
 	MaKH INT NOT NULL,
 	MaNH INT NOT NULL,
 	Diem INT NOT NULL,
@@ -67,3 +75,10 @@ CREATE TABLE HocVien
 	FOREIGN KEY(MaNH) REFERENCES dbo.NguoiHoc(MaNH) ON DELETE NO ACTION ON UPDATE CASCADE,
 )
 GO
+
+
+select * from nhanvien
+select * from chuyende
+select * from khoahoc
+select * from hocvien
+select * from nguoihoc
