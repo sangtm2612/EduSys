@@ -20,11 +20,12 @@ CREATE TABLE NhanVien
 	MaNV NVARCHAR(50) NOT NULL PRIMARY KEY,
 	MatKhau NVARCHAR(50) NOT NULL,
 	Hoten NVARCHAR(50) NOT NULL,
-	VaiTro NVARCHAR(20) NOT NULL,
+	VaiTro bit NOT NULL,
 )
 GO
 
-insert into NhanVien values('1', '1', N'Trần Minh Sáng', 'admin')
+insert into NhanVien values('1', '1', N'Trần Minh Sáng', 0)
+update NhanVien set MatKhau = '123' where manv = N'Sáng'
 select * from nhanvien
 CREATE TABLE KhoaHoc
 (
