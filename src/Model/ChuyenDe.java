@@ -6,14 +6,17 @@
 package Model;
 
 public class ChuyenDe {
-    private String MaCD;
+    private int MaCD;
     private String TenCD;
     private float HocPhi;
     private int ThoiLuong;
     private String Hinh;
     private String MoTa;
 
-    public ChuyenDe(String MaCD, String TenCD, float HocPhi, int ThoiLuong, String Hinh, String MoTa) {
+    public ChuyenDe() {
+    }
+
+    public ChuyenDe(int MaCD, String TenCD, float HocPhi, int ThoiLuong, String Hinh, String MoTa) {
         this.MaCD = MaCD;
         this.TenCD = TenCD;
         this.HocPhi = HocPhi;
@@ -22,14 +25,11 @@ public class ChuyenDe {
         this.MoTa = MoTa;
     }
 
-    public ChuyenDe() {
-    }
-
-    public String getMaCD() {
+    public int getMaCD() {
         return MaCD;
     }
 
-    public void setMaCD(String MaCD) {
+    public void setMaCD(int MaCD) {
         this.MaCD = MaCD;
     }
 
@@ -77,6 +77,7 @@ public class ChuyenDe {
     public String toString() {
         return "ChuyenDe{" + "MaCD=" + MaCD + ", TenCD=" + TenCD + ", HocPhi=" + HocPhi + ", ThoiLuong=" + ThoiLuong + ", Hinh=" + Hinh + ", MoTa=" + MoTa + '}';
     }
+
     
     
 }

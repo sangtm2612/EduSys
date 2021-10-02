@@ -12,30 +12,23 @@ import java.util.Date;
  * @author ADMIN ASUS
  */
 public class NguoiHoc {
-    private String MaNH,HoTen,Gioitinh,DienThoai,Email,GhiChu,MaNV;
+    private String HoTen,DienThoai,Email,GhiChu,MaNV;
     private Date NgayDk,NgaySinh;
+    private int MaNH,Gioitinh;
 
     public NguoiHoc() {
     }
 
-    public NguoiHoc(String MaNH, String HoTen, String Gioitinh, String DienThoai, String Email, String GhiChu, String MaNV, Date NgayDk, Date NgaySinh) {
-        this.MaNH = MaNH;
+    public NguoiHoc(String HoTen, String DienThoai, String Email, String GhiChu, String MaNV, Date NgayDk, Date NgaySinh, int MaNH, int Gioitinh) {
         this.HoTen = HoTen;
-        this.Gioitinh = Gioitinh;
         this.DienThoai = DienThoai;
         this.Email = Email;
         this.GhiChu = GhiChu;
         this.MaNV = MaNV;
         this.NgayDk = NgayDk;
         this.NgaySinh = NgaySinh;
-    }
-
-    public String getMaNH() {
-        return MaNH;
-    }
-
-    public void setMaNH(String MaNH) {
         this.MaNH = MaNH;
+        this.Gioitinh = Gioitinh;
     }
 
     public String getHoTen() {
@@ -44,14 +37,6 @@ public class NguoiHoc {
 
     public void setHoTen(String HoTen) {
         this.HoTen = HoTen;
-    }
-
-    public String getGioitinh() {
-        return Gioitinh;
-    }
-
-    public void setGioitinh(String Gioitinh) {
-        this.Gioitinh = Gioitinh;
     }
 
     public String getDienThoai() {
@@ -102,10 +87,23 @@ public class NguoiHoc {
         this.NgaySinh = NgaySinh;
     }
 
-    @Override
-    public String toString() {
-        return "NguoiHoc{" + "MaNH=" + MaNH + ", HoTen=" + HoTen + ", Gioitinh=" + Gioitinh + ", DienThoai=" + DienThoai + ", Email=" + Email + ", GhiChu=" + GhiChu + ", MaNV=" + MaNV + ", NgayDk=" + NgayDk + ", NgaySinh=" + NgaySinh + '}';
+    public int getMaNH() {
+        return MaNH;
     }
+
+    public void setMaNH(int MaNH) {
+        this.MaNH = MaNH;
+    }
+
+    public int getGioitinh() {
+        return Gioitinh;
+    }
+
+    public void setGioitinh(int Gioitinh) {
+        this.Gioitinh = Gioitinh;
+    }
+
     
+
     
 }

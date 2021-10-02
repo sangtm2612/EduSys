@@ -12,8 +12,8 @@ import java.util.Date;
  * @author sangt
  */
 public class KhoaHoc {
-    private String MaKH;
-    private String MaCD;
+    private int MaKH;
+    private int MaCD;
     private float HocPhi;
     private int ThoiLuong;
     private Date NgayKG;
@@ -24,7 +24,7 @@ public class KhoaHoc {
     public KhoaHoc() {
     }
 
-    public KhoaHoc(String MaKH, String MaCD, float HocPhi, int ThoiLuong, Date NgayKG, String GhiChu, String MaNV, Date NgayTao) {
+    public KhoaHoc(int MaKH, int MaCD, float HocPhi, int ThoiLuong, Date NgayKG, String GhiChu, String MaNV, Date NgayTao) {
         this.MaKH = MaKH;
         this.MaCD = MaCD;
         this.HocPhi = HocPhi;
@@ -35,19 +35,19 @@ public class KhoaHoc {
         this.NgayTao = NgayTao;
     }
 
-    public String getMaKH() {
+    public int getMaKH() {
         return MaKH;
     }
 
-    public void setMaKH(String MaKH) {
+    public void setMaKH(int MaKH) {
         this.MaKH = MaKH;
     }
 
-    public String getMaCD() {
+    public int getMaCD() {
         return MaCD;
     }
 
-    public void setMaCD(String MaCD) {
+    public void setMaCD(int MaCD) {
         this.MaCD = MaCD;
     }
 
@@ -98,6 +98,12 @@ public class KhoaHoc {
     public void setNgayTao(Date NgayTao) {
         this.NgayTao = NgayTao;
     }
+
+    @Override
+    public String toString() {
+        return "KhoaHoc{" + "MaKH=" + MaKH + ", MaCD=" + MaCD + ", HocPhi=" + HocPhi + ", ThoiLuong=" + ThoiLuong + ", NgayKG=" + NgayKG + ", GhiChu=" + GhiChu + ", MaNV=" + MaNV + ", NgayTao=" + NgayTao + '}';
+    }
+
     
     
 }
