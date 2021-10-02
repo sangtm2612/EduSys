@@ -15,6 +15,9 @@ CREATE TABLE ChuyenDe
 )
 GO
 
+insert into chuyende values (?, ?, ?, ?, ?, ?)
+select * from chuyende
+
 CREATE TABLE NhanVien
 (
 	MaNV NVARCHAR(50) NOT NULL PRIMARY KEY,
