@@ -23,7 +23,7 @@ public class Main extends javax.swing.JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
-        if (nv.getVaitro().equalsIgnoreCase("admin")) {
+        if (nv.getVaitro()==1) {
             
         } else {
             

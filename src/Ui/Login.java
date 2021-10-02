@@ -110,7 +110,7 @@ public class Login extends javax.swing.JFrame {
             
             while (rs.next()) {
                 if (rs.getString(1).equalsIgnoreCase(user) && rs.getString(2).equals(pass)) {
-                    return new NhanVien(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
+                    return new NhanVien(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
                 }
             }
         } catch (Exception e) {

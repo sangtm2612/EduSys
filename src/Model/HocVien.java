@@ -11,42 +11,42 @@ package Model;
  */
 public class HocVien {
 
-    private String MaHV;
-    private String MaKH;
-    private String MaNH;
+    private int MaHV;
+    private int MaKH;
+    private int MaNH;
     private float Diem;
 
     public HocVien() {
     }
 
-    public HocVien(String MaHV, String MaKH, String MaNH, float Diem) {
+    public HocVien(int MaHV, int MaKH, int MaNH, float Diem) {
         this.MaHV = MaHV;
         this.MaKH = MaKH;
         this.MaNH = MaNH;
         this.Diem = Diem;
     }
 
-    public String getMaHV() {
+    public int getMaHV() {
         return MaHV;
     }
 
-    public void setMaHV(String MaHV) {
+    public void setMaHV(int MaHV) {
         this.MaHV = MaHV;
     }
 
-    public String getMaKH() {
+    public int getMaKH() {
         return MaKH;
     }
 
-    public void setMaKH(String MaKH) {
+    public void setMaKH(int MaKH) {
         this.MaKH = MaKH;
     }
 
-    public String getMaNH() {
+    public int getMaNH() {
         return MaNH;
     }
 
-    public void setMaNH(String MaNH) {
+    public void setMaNH(int MaNH) {
         this.MaNH = MaNH;
     }
 
@@ -62,5 +62,7 @@ public class HocVien {
     public String toString() {
         return "HocVien{" + "MaHV=" + MaHV + ", MaKH=" + MaKH + ", MaNH=" + MaNH + ", Diem=" + Diem + '}';
     }
+
+    
 
 }
