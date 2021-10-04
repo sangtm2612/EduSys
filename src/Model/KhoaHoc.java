@@ -14,7 +14,7 @@ import java.util.Date;
 public class KhoaHoc {
     private int MaKH;
     private int MaCD;
-    private float HocPhi;
+    private int HocPhi;
     private int ThoiLuong;
     private Date NgayKG;
     private String GhiChu;
@@ -24,7 +24,7 @@ public class KhoaHoc {
     public KhoaHoc() {
     }
 
-    public KhoaHoc(int MaKH, int MaCD, float HocPhi, int ThoiLuong, Date NgayKG, String GhiChu, String MaNV, Date NgayTao) {
+    public KhoaHoc(int MaKH, int MaCD, int HocPhi, int ThoiLuong, Date NgayKG, String GhiChu, String MaNV, Date NgayTao) {
         this.MaKH = MaKH;
         this.MaCD = MaCD;
         this.HocPhi = HocPhi;
@@ -55,7 +55,7 @@ public class KhoaHoc {
         return HocPhi;
     }
 
-    public void setHocPhi(float HocPhi) {
+    public void setHocPhi(int HocPhi) {
         this.HocPhi = HocPhi;
     }
 

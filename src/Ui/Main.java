@@ -7,6 +7,10 @@ package Ui;
 
 import java.awt.Toolkit;
 import Model.NhanVien;
+import Thread.DongHo;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.Timer;
 
 /**
  *
@@ -25,12 +29,23 @@ public class Main extends javax.swing.JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss dd-M-yyyy");
+                Date d;
+                while (true) {
+                    d = new Date();
+                    Main.lb_dongho.setText(sdf.format(d).toString());
+                }
+            }
+        });
+        t.start();
         this.nv = nv;
         if (nv.getVaitro() == 1) {
-
-        } else {
-
+            btn_nhanvien.setEnabled(false);
         }
+
     }
 
     /**
@@ -51,7 +66,7 @@ public class Main extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JToolBar.Separator();
         jButton3 = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JToolBar.Separator();
-        jButton4 = new javax.swing.JButton();
+        btn_nhanvien = new javax.swing.JButton();
         jSeparator5 = new javax.swing.JToolBar.Separator();
         jButton5 = new javax.swing.JButton();
         jSeparator6 = new javax.swing.JToolBar.Separator();
@@ -79,6 +94,11 @@ public class Main extends javax.swing.JFrame {
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton1);
         jToolBar1.add(jSeparator1);
 
@@ -100,18 +120,18 @@ public class Main extends javax.swing.JFrame {
         jToolBar1.add(jButton3);
         jToolBar1.add(jSeparator4);
 
-        jButton4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/nhanvien24.png"))); // NOI18N
-        jButton4.setText("Nhân viên");
-        jButton4.setFocusable(false);
-        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btn_nhanvien.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btn_nhanvien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/nhanvien24.png"))); // NOI18N
+        btn_nhanvien.setText("Nhân viên");
+        btn_nhanvien.setFocusable(false);
+        btn_nhanvien.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_nhanvien.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_nhanvien.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btn_nhanvienActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton4);
+        jToolBar1.add(btn_nhanvien);
         jToolBar1.add(jSeparator5);
 
         jButton5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -143,6 +163,11 @@ public class Main extends javax.swing.JFrame {
         jButton7.setFocusable(false);
         jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton7);
         jToolBar1.add(jSeparator8);
 
@@ -152,25 +177,50 @@ public class Main extends javax.swing.JFrame {
         jButton8.setFocusable(false);
         jButton8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton8.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton8);
 
         pn_statusbar.setBackground(new java.awt.Color(255, 255, 255));
         pn_statusbar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pn_statusbar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Hệ thống quản lý đào tạo");
-        pn_statusbar.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, -1, -1));
 
         lb_dongho.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        lb_dongho.setText("01:13 28/9/2021");
-        pn_statusbar.add(lb_dongho, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 0, -1, -1));
+        lb_dongho.setText("01:13:00 28/9/2021");
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/dongho.png"))); // NOI18N
-        pn_statusbar.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 0, -1, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/i.png"))); // NOI18N
-        pn_statusbar.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, -1));
+
+        javax.swing.GroupLayout pn_statusbarLayout = new javax.swing.GroupLayout(pn_statusbar);
+        pn_statusbar.setLayout(pn_statusbarLayout);
+        pn_statusbarLayout.setHorizontalGroup(
+            pn_statusbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pn_statusbarLayout.createSequentialGroup()
+                .addGap(8, 8, 8)
+                .addComponent(jLabel4)
+                .addGap(14, 14, 14)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lb_dongho))
+        );
+        pn_statusbarLayout.setVerticalGroup(
+            pn_statusbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel4)
+            .addComponent(jLabel2)
+            .addGroup(pn_statusbarLayout.createSequentialGroup()
+                .addGap(1, 1, 1)
+                .addGroup(pn_statusbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(lb_dongho)))
+        );
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/logo450.png"))); // NOI18N
 
@@ -195,7 +245,7 @@ public class Main extends javax.swing.JFrame {
         pn_main.setLayout(pn_mainLayout);
         pn_mainLayout.setHorizontalGroup(
             pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE)
             .addComponent(pn_statusbar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(pn_logo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -205,8 +255,8 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(pn_logo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(pn_statusbar, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addComponent(pn_statusbar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
 
@@ -224,15 +274,33 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btn_nhanvienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nhanvienActionPerformed
         // TODO add your handling code here:
         this.dispose();
         new Ui.NhanVien(nv).setVisible(true);
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btn_nhanvienActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new ChuyenDe(nv).setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new DoiMatKhau(nv).setVisible(true);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new Login().setVisible(true);
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -265,10 +333,10 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_nhanvien;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
@@ -286,7 +354,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator7;
     private javax.swing.JToolBar.Separator jSeparator8;
     private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JLabel lb_dongho;
+    public static javax.swing.JLabel lb_dongho;
     private javax.swing.JPanel pn_logo;
     private javax.swing.JPanel pn_main;
     private javax.swing.JPanel pn_statusbar;

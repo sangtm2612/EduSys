@@ -14,12 +14,12 @@ public class HocVien {
     private int MaHV;
     private int MaKH;
     private int MaNH;
-    private float Diem;
+    private double Diem;
 
     public HocVien() {
     }
 
-    public HocVien(int MaHV, int MaKH, int MaNH, float Diem) {
+    public HocVien(int MaHV, int MaKH, int MaNH, double Diem) {
         this.MaHV = MaHV;
         this.MaKH = MaKH;
         this.MaNH = MaNH;
@@ -50,7 +50,7 @@ public class HocVien {
         this.MaNH = MaNH;
     }
 
-    public float getDiem() {
+    public double getDiem() {
         return Diem;
     }
 

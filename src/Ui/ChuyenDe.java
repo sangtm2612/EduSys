@@ -7,6 +7,10 @@ package Ui;
 
 import DAO.ChuyenDeDAO;
 import java.awt.Toolkit;
+import java.io.File;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -14,28 +18,29 @@ import javax.swing.table.DefaultTableModel;
  * @author sangt
  */
 public class ChuyenDe extends javax.swing.JFrame {
-
-    DefaultTableModel dtm;
-
+    
+    Model.NhanVien nv;
     /**
      * Creates new form ChuyenDe
      */
-    public ChuyenDe() {
+    public ChuyenDe(Model.NhanVien nv) {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Icon/chuyende24.png")));
         initComponents();
         setResizable(false);
         setLocationRelativeTo(null);
-        dtm = (DefaultTableModel) tb_content.getModel();
-        dtm.setRowCount(0);
+        this.nv = nv;
         ChuyenDeDAO.loadChuyenDe();
     }
-    
+
     public void clearForm() {
+        tf_ma.setText("");
         tf_chuyende.setText("");
         tf_hocphi.setText("");
         tf_hinh.setText("");
         tf_thoiluong.setText("");
         ta_mota.setText("");
+        ChuyenDeDAO.loadChuyenDe();
+        lb_anh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/hinh.png")));
     }
 
     /**
@@ -68,7 +73,7 @@ public class ChuyenDe extends javax.swing.JFrame {
         tf_hinh = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
+        lb_anh = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         ta_mota = new javax.swing.JTextArea();
@@ -106,6 +111,11 @@ public class ChuyenDe extends javax.swing.JFrame {
         btn_sua.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btn_sua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/sua.png"))); // NOI18N
         btn_sua.setText("Sửa     ");
+        btn_sua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_suaActionPerformed(evt);
+            }
+        });
 
         btn_xoa.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btn_xoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/xoa.png"))); // NOI18N
@@ -186,8 +196,18 @@ public class ChuyenDe extends javax.swing.JFrame {
         });
 
         tf_thoiluong.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tf_thoiluong.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tf_thoiluongMouseClicked(evt);
+            }
+        });
 
         tf_hinh.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tf_hinh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tf_hinhMouseClicked(evt);
+            }
+        });
 
         jLabel7.setText("Bảng chuyên đề:");
 
@@ -196,9 +216,9 @@ public class ChuyenDe extends javax.swing.JFrame {
         jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel9.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/hinh.png"))); // NOI18N
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 130, 140));
+        lb_anh.setBackground(new java.awt.Color(255, 255, 255));
+        lb_anh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/hinh.png"))); // NOI18N
+        jPanel1.add(lb_anh, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 130, 140));
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/trolai.png"))); // NOI18N
         jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -327,6 +347,16 @@ public class ChuyenDe extends javax.swing.JFrame {
 
     private void btn_xoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xoaActionPerformed
         // TODO add your handling code here:
+        String ma = tf_ma.getText().trim();
+        if (ma.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn chuyên đề cần xóa!");
+            return;
+        }
+        int maInt = Integer.parseInt(ma);
+        ChuyenDeDAO.xoaCD(maInt);
+        clearForm();
+        JOptionPane.showMessageDialog(this, "Xóa thành công!");
+
     }//GEN-LAST:event_btn_xoaActionPerformed
 
     private void tf_hocphiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_hocphiActionPerformed
@@ -336,6 +366,8 @@ public class ChuyenDe extends javax.swing.JFrame {
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         // TODO add your handling code here:
         System.out.println("trở lại");
+        this.dispose();
+        new Main(nv).setVisible(true);
     }//GEN-LAST:event_jLabel8MouseClicked
 
     private void tf_chuyendeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_chuyendeActionPerformed
@@ -345,25 +377,98 @@ public class ChuyenDe extends javax.swing.JFrame {
     private void btn_themActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_themActionPerformed
         // TODO add your handling code here:
         String tenChuyenDe = tf_chuyende.getText().trim();
-        float hocPhi = Float.parseFloat(tf_hocphi.getText().trim());
-        int thoiLuong = Integer.parseInt(tf_hocphi.getText().trim());
+        if (tenChuyenDe.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên chuyên đề!");
+            return;
+        }
+        String hocphiString = tf_hocphi.getText().trim();
+        if (hocphiString.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập học phí!");
+            return;
+        }
+        int hocPhi = Integer.parseInt(hocphiString);
+        String thoiString = tf_thoiluong.getText().trim();
+        if (thoiString.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập thời lượng!");
+            return;
+        }
+        int thoiLuong = Integer.parseInt(thoiString);
         String hinh = tf_hinh.getText().trim();
         String moTa = ta_mota.getText().trim();
         ChuyenDeDAO.themCD(tenChuyenDe, hocPhi, thoiLuong, hinh, moTa);
         ChuyenDeDAO.loadChuyenDe();
+        JOptionPane.showMessageDialog(this, "Thêm thành công!");
+
     }//GEN-LAST:event_btn_themActionPerformed
 
     private void btn_lammoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lammoiActionPerformed
         // TODO add your handling code here:
         clearForm();
-
+        ChuyenDeDAO.loadChuyenDe();
     }//GEN-LAST:event_btn_lammoiActionPerformed
 
     private void tb_contentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_contentMouseClicked
         // TODO add your handling code here:
         int i = tb_content.getSelectedRow();
-        //tf_ma.setText(tb_content.getValueAt(i, 0)); 
+        tf_ma.setText(String.valueOf(tb_content.getValueAt(i, 0)));
+        tf_chuyende.setText(String.valueOf(tb_content.getValueAt(i, 1)));
+        tf_hocphi.setText(String.valueOf(tb_content.getValueAt(i, 2)));
+        tf_hinh.setText(String.valueOf(tb_content.getValueAt(i, 4)));
+        tf_thoiluong.setText(String.valueOf(tb_content.getValueAt(i, 3)));
+        ta_mota.setText(String.valueOf(tb_content.getValueAt(i, 5)));
+        lb_anh.setIcon(new javax.swing.ImageIcon(String.valueOf(tb_content.getValueAt(i, 4))));
     }//GEN-LAST:event_tb_contentMouseClicked
+
+    private void btn_suaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_suaActionPerformed
+        // TODO add your handling code here:
+        String ma = tf_ma.getText().trim();
+        if (ma.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn chuyên đề cần sửa!");
+            return;
+        }
+        int maInt = Integer.parseInt(ma);
+        String tenChuyenDe = tf_chuyende.getText().trim();
+        if (tenChuyenDe.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên chuyên đề!");
+            return;
+        }
+        String hocphiString = tf_hocphi.getText().trim();
+        if (hocphiString.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập học phí!");
+            return;
+        }
+        int hocPhi = Integer.parseInt(hocphiString);
+        String thoiString = tf_thoiluong.getText().trim();
+        if (thoiString.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập thời lượng!");
+            return;
+        }
+        int thoiLuong = Integer.parseInt(thoiString);
+        String hinh = tf_hinh.getText().trim();
+        String moTa = ta_mota.getText().trim();
+        ChuyenDeDAO.suaCD(maInt, tenChuyenDe, hocPhi, thoiLuong, hinh, moTa);
+        ChuyenDeDAO.loadChuyenDe();
+    }//GEN-LAST:event_btn_suaActionPerformed
+
+    private void tf_thoiluongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tf_thoiluongMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_tf_thoiluongMouseClicked
+
+    private void tf_hinhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tf_hinhMouseClicked
+        // TODO add your handling code here:
+        JFileChooser fc = new JFileChooser();
+        FileNameExtensionFilter fnef = new FileNameExtensionFilter("Hình ảnh", "jpg", "png");
+        fc.setFileFilter(fnef);
+        fc.setMultiSelectionEnabled(false);
+
+        int i = fc.showDialog(this, "Chọn file ảnh");
+        if (i == JFileChooser.APPROVE_OPTION) {
+            File f = fc.getSelectedFile();
+            tf_hinh.setText(f.getAbsolutePath());
+            lb_anh.setIcon(new javax.swing.ImageIcon(f.getAbsolutePath()));
+        }
+    }//GEN-LAST:event_tf_hinhMouseClicked
 
     /**
      * @param args the command line arguments
@@ -393,11 +498,6 @@ public class ChuyenDe extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ChuyenDe().setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -413,10 +513,10 @@ public class ChuyenDe extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lb_anh;
     private javax.swing.JPanel pn_btn;
     private javax.swing.JPanel pn_main;
     private javax.swing.JTextArea ta_mota;

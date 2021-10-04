@@ -8,7 +8,7 @@ package Model;
 public class ChuyenDe {
     private int MaCD;
     private String TenCD;
-    private float HocPhi;
+    private int HocPhi;
     private int ThoiLuong;
     private String Hinh;
     private String MoTa;
@@ -16,7 +16,7 @@ public class ChuyenDe {
     public ChuyenDe() {
     }
 
-    public ChuyenDe(int MaCD, String TenCD, float HocPhi, int ThoiLuong, String Hinh, String MoTa) {
+    public ChuyenDe(int MaCD, String TenCD, int HocPhi, int ThoiLuong, String Hinh, String MoTa) {
         this.MaCD = MaCD;
         this.TenCD = TenCD;
         this.HocPhi = HocPhi;
@@ -45,7 +45,7 @@ public class ChuyenDe {
         return HocPhi;
     }
 
-    public void setHocPhi(float HocPhi) {
+    public void setHocPhi(int HocPhi) {
         this.HocPhi = HocPhi;
     }
 
