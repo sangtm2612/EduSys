@@ -18,7 +18,7 @@ public class NhanVienDAO {
     public static void themNV(String Ma, String MatKhau, String HoTen, int VaiTro) {
         try {
             Connection conn = DatabaseHelper.getConnection("EduSys");
-            String sql = "insert into NhanVien values ( ?, ?, ?, ?)";
+            String sql = "insert into NhanVien values ( ?, ?, ?, ?, 0)";
             PreparedStatement ps = conn.prepareStatement(sql);
             
             ps.setString(1, Ma);

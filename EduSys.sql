@@ -12,7 +12,7 @@ CREATE TABLE ChuyenDe
 	ThoiLuong INT NOT NULL,
 	Hinh NVARCHAR(200) NULL,
 	Mota NVARCHAR(200) NULL,
-	TrangThai bit not null,
+	TrangThai bit default(0),
 )
 GO
 
@@ -22,7 +22,7 @@ CREATE TABLE NhanVien
 	MatKhau NVARCHAR(50) NOT NULL,
 	Hoten NVARCHAR(50) NOT NULL,
 	VaiTro bit NOT NULL,
-	TrangThai bit not null,
+	TrangThai bit default(0),
 )
 GO
 
@@ -36,7 +36,7 @@ CREATE TABLE KhoaHoc
 	GhiChu NVARCHAR(200) NULL,
 	NgayTao DATETIME DEFAULT GETDATE() NOT NULL,
 	MaNV NVARCHAR(50) NOT NULL,
-	TrangThai bit not null,
+	TrangThai bit default(0),
 	FOREIGN KEY(MaCD) REFERENCES dbo.ChuyenDe(MaCD) ON UPDATE CASCADE ON DELETE NO ACTION,
 	FOREIGN KEY(MaNV) REFERENCES dbo.NhanVien(MaNV) ON UPDATE CASCADE ON DELETE NO ACTION,
 )
@@ -53,7 +53,7 @@ CREATE TABLE NguoiHoc
 	GhiChu NVARCHAR(200) NULL,
 	MaNV NVARCHAR(50),
 	NgayDK DATETIME not null,
-	TrangThai bit not null,
+	TrangThai bit default(0),
 	FOREIGN KEY(MaNV) REFERENCES dbo.NhanVien(MaNV) ON UPDATE CASCADE ON DELETE NO ACTION,
 )
 go
@@ -64,7 +64,7 @@ CREATE TABLE HocVien
 	MaKH INT NOT NULL,
 	MaNH INT NOT NULL,
 	Diem float NOT NULL,
-	TrangThai bit not null,
+	TrangThai bit default(0),
 	FOREIGN KEY(MaKH) REFERENCES dbo.KhoaHoc(MaKH) ON DELETE NO ACTION,
 	FOREIGN KEY(MaNH) REFERENCES dbo.NguoiHoc(MaNH) ON DELETE NO ACTION ON UPDATE CASCADE,
 )
