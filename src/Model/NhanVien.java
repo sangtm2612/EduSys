@@ -10,13 +10,13 @@ package Model;
  * @author ADMIN ASUS
  */
 public class NhanVien {
-    private int Vaitro;
     private String MaNv,MatKhau,HoTen;
+    private int Vaitro;
 
     public NhanVien() {
     }
 
-    public NhanVien(int Vaitro, String MaNv, String MatKhau, String HoTen) {
+    public NhanVien(String MaNv, String MatKhau, String HoTen, int Vaitro) {
         this.Vaitro = Vaitro;
         this.MaNv = MaNv;
         this.MatKhau = MatKhau;
@@ -57,10 +57,8 @@ public class NhanVien {
 
     @Override
     public String toString() {
-        return "NhanVien{" + "Vaitro=" + Vaitro + ", MaNv=" + MaNv + ", MatKhau=" + MatKhau + ", HoTen=" + HoTen + '}';
-    }
-
-    
+        return "NhanVien{" + "MaNv=" + MaNv + ", MatKhau=" + MatKhau + ", HoTen=" + HoTen + ", Vaitro=" + Vaitro + '}';
+    }    
     
     
 }

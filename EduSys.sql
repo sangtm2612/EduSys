@@ -70,3 +70,8 @@ CREATE TABLE HocVien
 )
 GO
 
+insert into nhanvien values ( '3','1','1', 1)
+select * from nhanvien where trangthai = 0
+select * from nhanvien
+delete from nhanvien
+update nhanvien set trangthai = 0 where manv = 'sangsakerquy'

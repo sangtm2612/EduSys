@@ -362,7 +362,7 @@ public class ChuyenDe extends javax.swing.JFrame {
     private void tb_contentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_contentMouseClicked
         // TODO add your handling code here:
         int i = tb_content.getSelectedRow();
-        tf_ma.setText(tb_content.getValueAt(i, 0)); 
+        //tf_ma.setText(tb_content.getValueAt(i, 0)); 
     }//GEN-LAST:event_tb_contentMouseClicked
 
     /**

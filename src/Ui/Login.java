@@ -103,17 +103,18 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public NhanVien getNhanVien(String user, String pass) {
-        String sql = "select * from nhanvien";
+        String sql = "select * from nhanvien where trangthai = 0";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             
             while (rs.next()) {
                 if (rs.getString(1).equalsIgnoreCase(user) && rs.getString(2).equals(pass)) {
-                    return new NhanVien(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+                    return new NhanVien(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4));
                 }
             }
         } catch (Exception e) {
+            System.out.println(e);
         }
         return null;
     }
@@ -121,7 +122,7 @@ public class Login extends javax.swing.JFrame {
     private void btn_dangnhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_dangnhapActionPerformed
         // TODO add your handling code here:
         String user = tf_dangnhap.getText().trim();
-        String pass = pf_pass.getText();
+        String pass = pf_pass.getText().trim();
         NhanVien nv = getNhanVien(user, pass);
         
         if (nv == null) {
