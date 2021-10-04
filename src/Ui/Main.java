@@ -14,6 +14,8 @@ import Model.NhanVien;
  */
 public class Main extends javax.swing.JFrame {
 
+    NhanVien nv;
+
     /**
      * Creates new form Main
      */
@@ -23,10 +25,11 @@ public class Main extends javax.swing.JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
-        if (nv.getVaitro()==1) {
-            
+        this.nv = nv;
+        if (nv.getVaitro() == 1) {
+
         } else {
-            
+
         }
     }
 
@@ -103,6 +106,11 @@ public class Main extends javax.swing.JFrame {
         jButton4.setFocusable(false);
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton4);
         jToolBar1.add(jSeparator5);
 
@@ -112,6 +120,11 @@ public class Main extends javax.swing.JFrame {
         jButton5.setFocusable(false);
         jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton5);
         jToolBar1.add(jSeparator6);
 
@@ -211,6 +224,16 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new Ui.NhanVien(nv).setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -239,7 +262,6 @@ public class Main extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
