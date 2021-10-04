@@ -6,8 +6,11 @@
 package DAO;
 
 import Database.DatabaseHelper;
+import Ui.ChuyenDe;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -51,7 +54,7 @@ public class ChuyenDeDAO {
             e.printStackTrace();
         }
     }
-    
+
     public static void xoaCD(int MaCD) {
         try {
             Connection conn = DatabaseHelper.getConnection("EduSys");
@@ -61,6 +64,23 @@ public class ChuyenDeDAO {
             int rs = ps.executeUpdate();
             System.out.println(rs);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadChuyenDe() {
+        try {
+            Connection conn = DatabaseHelper.getConnection("EduSys");
+            String sql = "select * from chuyende";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            DefaultTableModel dtm = (DefaultTableModel) ChuyenDe.tb_content.getModel();
+            dtm.setRowCount(0);
+            while (rs.next()) {
+                dtm.addRow(new Object[] {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)});
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

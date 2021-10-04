@@ -12,11 +12,9 @@ CREATE TABLE ChuyenDe
 	ThoiLuong INT NOT NULL,
 	Hinh NVARCHAR(200) NULL,
 	Mota NVARCHAR(200) NULL,
+	TrangThai bit not null,
 )
 GO
-
---insert into chuyende values (?, ?, ?, ?, ?, ?)
-select * from chuyende
 
 CREATE TABLE NhanVien
 (
@@ -24,12 +22,9 @@ CREATE TABLE NhanVien
 	MatKhau NVARCHAR(50) NOT NULL,
 	Hoten NVARCHAR(50) NOT NULL,
 	VaiTro bit NOT NULL,
+	TrangThai bit not null,
 )
 GO
-
-insert into NhanVien values('1', '1', N'Trần Minh Sáng', 0)
-update NhanVien set MatKhau = '123' where manv = N'Sáng'
-select * from nhanvien
 
 CREATE TABLE KhoaHoc
 (
@@ -41,14 +36,11 @@ CREATE TABLE KhoaHoc
 	GhiChu NVARCHAR(200) NULL,
 	NgayTao DATETIME DEFAULT GETDATE() NOT NULL,
 	MaNV NVARCHAR(50) NOT NULL,
+	TrangThai bit not null,
 	FOREIGN KEY(MaCD) REFERENCES dbo.ChuyenDe(MaCD) ON UPDATE CASCADE ON DELETE NO ACTION,
 	FOREIGN KEY(MaNV) REFERENCES dbo.NhanVien(MaNV) ON UPDATE CASCADE ON DELETE NO ACTION,
 )
 GO
-
-insert into khoahoc(macd, hocphi, thoiluong, ngaykg, ghichu, manv) values (1, 2, 2, '20200302', 'a', 1)
-delete from khoahoc
-select * from khoahoc
 
 CREATE TABLE NguoiHoc
 (
@@ -56,11 +48,12 @@ CREATE TABLE NguoiHoc
 	Hoten NVARCHAR(50) NOT NULL,
 	NgaySinh DATETIME NOT NULL,
 	GioiTinh bit NOT NULL,
-	DienThoai VARCHAR(10),
+	DienThoai VARCHAR(10) not null,
 	Email NVARCHAR(50) NOT NULL,
 	GhiChu NVARCHAR(200) NULL,
-	MaNV NVARCHAR(50) NOT NULL,
-	NgayDK DATETIME,
+	MaNV NVARCHAR(50),
+	NgayDK DATETIME not null,
+	TrangThai bit not null,
 	FOREIGN KEY(MaNV) REFERENCES dbo.NhanVien(MaNV) ON UPDATE CASCADE ON DELETE NO ACTION,
 )
 go
@@ -71,14 +64,9 @@ CREATE TABLE HocVien
 	MaKH INT NOT NULL,
 	MaNH INT NOT NULL,
 	Diem float NOT NULL,
+	TrangThai bit not null,
 	FOREIGN KEY(MaKH) REFERENCES dbo.KhoaHoc(MaKH) ON DELETE NO ACTION,
 	FOREIGN KEY(MaNH) REFERENCES dbo.NguoiHoc(MaNH) ON DELETE NO ACTION ON UPDATE CASCADE,
 )
 GO
 
-
-select * from nhanvien
-select * from chuyende
-select * from khoahoc
-select * from hocvien
-select * from nguoihoc
