@@ -360,6 +360,7 @@ public class NguoiHoc extends javax.swing.JFrame {
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         // TODO add your handling code here:
         System.out.println("trở lại");
+        this.dispose();
         new Main(nv).setVisible(true);
     }//GEN-LAST:event_jLabel8MouseClicked
 

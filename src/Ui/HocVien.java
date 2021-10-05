@@ -5,7 +5,9 @@
  */
 package Ui;
 
+import DAO.HocVienDAO;
 import java.awt.Toolkit;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,14 +15,25 @@ import java.awt.Toolkit;
  */
 public class HocVien extends javax.swing.JFrame {
 
+    Model.NhanVien nv;
+
     /**
      * Creates new form ChuyenDe
      */
-    public HocVien() {
+    public HocVien(Model.NhanVien nv) {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Icon/hocvien24.png")));
         initComponents();
         setResizable(false);
         setLocationRelativeTo(null);
+        this.nv = nv;
+        HocVienDAO.loadHocVien();
+    }
+
+    public void clear() {
+        tf_mahocvien.setText("");
+        tf_makhoahoc.setText("");
+        tf_manguoihoc.setText("");
+        tf_diem.setText("");
     }
 
     /**
@@ -38,16 +51,16 @@ public class HocVien extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         pn_btn = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btn_them = new javax.swing.JButton();
+        btn_sua = new javax.swing.JButton();
+        btn_xoa = new javax.swing.JButton();
+        btn_lammoi = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tb_content = new javax.swing.JTable();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        tf_mahocvien = new javax.swing.JTextField();
+        tf_makhoahoc = new javax.swing.JTextField();
+        tf_manguoihoc = new javax.swing.JTextField();
+        tf_diem = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
 
@@ -68,30 +81,45 @@ public class HocVien extends javax.swing.JFrame {
 
         pn_btn.setLayout(new java.awt.GridLayout(4, 1, 0, 5));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/them.png"))); // NOI18N
-        jButton1.setText("Thêm    ");
-        pn_btn.add(jButton1);
-
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/sua.png"))); // NOI18N
-        jButton2.setText("Sửa     ");
-        pn_btn.add(jButton2);
-
-        jButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/xoa.png"))); // NOI18N
-        jButton3.setText("Xóa       ");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btn_them.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btn_them.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/them.png"))); // NOI18N
+        btn_them.setText("Thêm    ");
+        btn_them.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btn_themActionPerformed(evt);
             }
         });
-        pn_btn.add(jButton3);
+        pn_btn.add(btn_them);
 
-        jButton4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/lammoi.png"))); // NOI18N
-        jButton4.setText("Làm mới");
-        pn_btn.add(jButton4);
+        btn_sua.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btn_sua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/sua.png"))); // NOI18N
+        btn_sua.setText("Sửa     ");
+        btn_sua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_suaActionPerformed(evt);
+            }
+        });
+        pn_btn.add(btn_sua);
+
+        btn_xoa.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btn_xoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/xoa.png"))); // NOI18N
+        btn_xoa.setText("Xóa       ");
+        btn_xoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_xoaActionPerformed(evt);
+            }
+        });
+        pn_btn.add(btn_xoa);
+
+        btn_lammoi.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btn_lammoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/lammoi.png"))); // NOI18N
+        btn_lammoi.setText("Làm mới");
+        btn_lammoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_lammoiActionPerformed(evt);
+            }
+        });
+        pn_btn.add(btn_lammoi);
 
         tb_content.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -101,21 +129,26 @@ public class HocVien extends javax.swing.JFrame {
                 "Mã học viên", "Mã khóa học", "Mã người học", "Điểm trung bình"
             }
         ));
+        tb_content.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tb_contentMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tb_content);
 
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jTextField1.setEnabled(false);
+        tf_mahocvien.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tf_mahocvien.setEnabled(false);
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tf_makhoahoc.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
-        jTextField3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        tf_manguoihoc.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tf_manguoihoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                tf_manguoihocActionPerformed(evt);
             }
         });
 
-        jTextField4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tf_diem.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         jLabel7.setText("Bảng học viên:");
 
@@ -145,10 +178,10 @@ public class HocVien extends javax.swing.JFrame {
                                     .addComponent(jLabel4))
                                 .addGap(22, 22, 22)
                                 .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(tf_mahocvien, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tf_makhoahoc, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tf_manguoihoc, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tf_diem, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                                 .addComponent(pn_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())))
@@ -166,19 +199,19 @@ public class HocVien extends javax.swing.JFrame {
                 .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pn_mainLayout.createSequentialGroup()
                         .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tf_mahocvien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))
                         .addGap(19, 19, 19)
                         .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tf_makhoahoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addGap(18, 18, 18)
                         .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tf_manguoihoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
                         .addGap(18, 18, 18)
                         .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tf_diem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4)))
                     .addComponent(pn_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
@@ -204,18 +237,106 @@ public class HocVien extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btn_xoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xoaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+        String maHocVien = tf_makhoahoc.getText();
+        if (maHocVien.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn học viên cần xóa!");
+            return;
+        }
+        int parseHV = Integer.parseInt(maHocVien);
+        HocVienDAO.XoaHV(parseHV);
+        HocVienDAO.loadHocVien();
+        JOptionPane.showMessageDialog(this, "Xóa thành công!");
+    }//GEN-LAST:event_btn_xoaActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void tf_manguoihocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_manguoihocActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_tf_manguoihocActionPerformed
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         // TODO add your handling code here:
         System.out.println("trở lại");
+        this.dispose();
+        new Main(nv).setVisible(true);
     }//GEN-LAST:event_jLabel8MouseClicked
+
+    private void btn_lammoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lammoiActionPerformed
+        // TODO add your handling code here:
+        clear();
+        HocVienDAO.loadHocVien();
+    }//GEN-LAST:event_btn_lammoiActionPerformed
+
+    private void btn_themActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_themActionPerformed
+        // TODO add your handling code here:
+        String maKhoaHoc = tf_makhoahoc.getText().trim();
+        if (maKhoaHoc.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã khóa học!");
+            return;
+        }
+        int parseKH = Integer.parseInt(maKhoaHoc);
+        String maNguoiHoc = tf_manguoihoc.getText().trim();
+        if (maNguoiHoc.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã người học!");
+            return;
+        }
+        int parseNH = Integer.parseInt(maNguoiHoc);
+        String diem = tf_diem.getText().trim();
+        if (diem.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập điểm!");
+            return;
+        }
+        float parseDiem = Float.parseFloat(diem);
+        try {
+            HocVienDAO.ThemHV(parseKH, parseNH, parseDiem);
+            HocVienDAO.loadHocVien();
+            JOptionPane.showMessageDialog(this, "Thêm thành công!");
+        } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(this, "Thêm thất bại!");
+        }
+    }//GEN-LAST:event_btn_themActionPerformed
+
+    private void btn_suaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_suaActionPerformed
+        // TODO add your handling code here:
+        String maHocVien = tf_mahocvien.getText();
+        int parseHV = Integer.parseInt(maHocVien);
+        String maKhoaHoc = tf_makhoahoc.getText().trim();
+        if (maKhoaHoc.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã khóa học!");
+            return;
+        }
+        int parseKH = Integer.parseInt(maKhoaHoc);
+        String maNguoiHoc = tf_manguoihoc.getText().trim();
+        if (maNguoiHoc.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã người học!");
+            return;
+        }
+        int parseNH = Integer.parseInt(maNguoiHoc);
+        String diem = tf_diem.getText().trim();
+        if (diem.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập điểm!");
+            return;
+        }
+        float parseDiem = Float.parseFloat(diem);
+        try {
+            HocVienDAO.SuaHV(parseHV, parseKH, parseNH, parseDiem);
+            HocVienDAO.loadHocVien();
+            JOptionPane.showMessageDialog(this, "Sửa thành công!");
+        } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(this, "Sửa thất bại!");
+        }
+    }//GEN-LAST:event_btn_suaActionPerformed
+
+    private void tb_contentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_contentMouseClicked
+        // TODO add your handling code here:
+        int index = tb_content.getSelectedRow();
+        tf_mahocvien.setText(String.valueOf(tb_content.getValueAt(index, 0)));
+        tf_makhoahoc.setText(String.valueOf(tb_content.getValueAt(index, 1)));
+        tf_manguoihoc.setText(String.valueOf(tb_content.getValueAt(index, 2)));
+        tf_diem.setText(String.valueOf(tb_content.getValueAt(index, 3)));
+    }//GEN-LAST:event_tb_contentMouseClicked
 
     /**
      * @param args the command line arguments
@@ -246,18 +367,13 @@ public class HocVien extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new HocVien().setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btn_lammoi;
+    private javax.swing.JButton btn_sua;
+    private javax.swing.JButton btn_them;
+    private javax.swing.JButton btn_xoa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -265,12 +381,12 @@ public class HocVien extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JPanel pn_btn;
     private javax.swing.JPanel pn_main;
-    private javax.swing.JTable tb_content;
+    public static javax.swing.JTable tb_content;
+    private javax.swing.JTextField tf_diem;
+    private javax.swing.JTextField tf_mahocvien;
+    private javax.swing.JTextField tf_makhoahoc;
+    private javax.swing.JTextField tf_manguoihoc;
     // End of variables declaration//GEN-END:variables
 }
