@@ -58,6 +58,7 @@ CREATE TABLE NguoiHoc
 )
 go
 
+
 CREATE TABLE HocVien
 (
 	MaHV INT IDENTITY(1,1) PRIMARY KEY,
@@ -77,3 +78,5 @@ delete from nhanvien
 update nhanvien set trangthai = 0 where manv = 'sangsakerquy'
 
 select * from chuyende
+
+select * from nguoihoc
