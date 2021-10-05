@@ -19,14 +19,14 @@ import java.util.Date;
  */
 public class KhoaHocDAO {
 
-    public static void themKH(int MaCD, float HocPhi, int ThoiLuong, Date NgayKG, String GhiChu, String MaNV) {
+    public static void themKH(int MaCD, int HocPhi, int ThoiLuong, Date NgayKG, String GhiChu, String MaNV) {
         try {
             Connection conn = DatabaseHelper.getConnection("EduSys");
             String sql = "insert into khoahoc( macd, hocphi, thoiluong, ngaykg, ghichu, manv) values (?, ?, ?, ?, ?, ?)";
             java.sql.Date sqlDate = new java.sql.Date(NgayKG.getTime());
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, MaCD);
-            ps.setFloat(2, HocPhi);
+            ps.setInt(2, HocPhi);
             ps.setInt(3, ThoiLuong);
             ps.setDate(4, sqlDate);
             ps.setString(5, GhiChu);
