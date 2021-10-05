@@ -18,8 +18,9 @@ import javax.swing.table.DefaultTableModel;
  * @author sangt
  */
 public class ChuyenDe extends javax.swing.JFrame {
-    
+
     Model.NhanVien nv;
+
     /**
      * Creates new form ChuyenDe
      */
@@ -448,11 +449,12 @@ public class ChuyenDe extends javax.swing.JFrame {
         String moTa = ta_mota.getText().trim();
         ChuyenDeDAO.suaCD(maInt, tenChuyenDe, hocPhi, thoiLuong, hinh, moTa);
         ChuyenDeDAO.loadChuyenDe();
+        JOptionPane.showMessageDialog(this, "Sửa thành công!");
     }//GEN-LAST:event_btn_suaActionPerformed
 
     private void tf_thoiluongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tf_thoiluongMouseClicked
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_tf_thoiluongMouseClicked
 
     private void tf_hinhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tf_hinhMouseClicked

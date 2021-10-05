@@ -78,5 +78,7 @@ delete from nhanvien
 update nhanvien set trangthai = 0 where manv = 'sangsakerquy'
 
 select * from chuyende
-
+select * from hocvien
 select * from nguoihoc
+select * from khoahoc
+
