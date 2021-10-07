@@ -21,6 +21,7 @@ CREATE TABLE NhanVien
 	MaNV NVARCHAR(50) NOT NULL PRIMARY KEY,
 	MatKhau NVARCHAR(50) NOT NULL,
 	Hoten NVARCHAR(50) NOT NULL,
+	Email NVARCHAR(50) NOT NULL,
 	VaiTro bit NOT NULL,
 	TrangThai bit default(0),
 )
@@ -71,14 +72,15 @@ CREATE TABLE HocVien
 )
 GO
 
-insert into nhanvien values ( '3','1','1', 1)
+--insert into nhanvien values ( '3','1','1', 1)
 select * from nhanvien where trangthai = 0
 select * from nhanvien
 delete from nhanvien
-update nhanvien set trangthai = 0 where manv = 'sangsakerquy'
-
+--update nhanvien set manv = 'sangsakerquy' where trangthai = 0 
+insert into NhanVien values('thaohocdot','123456','thaoongvang','thaocnph13274@fpt.edu.vn',0,0)
 select * from chuyende
 select * from hocvien
 select * from nguoihoc
 select * from khoahoc
-
+update NhanVien set MatKhau =1 where MaNV='thaohocdot'
+update NhanVien set MatKhau =? where Email=?
