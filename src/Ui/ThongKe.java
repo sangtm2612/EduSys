@@ -6,6 +6,7 @@
 package Ui;
 
 import Database.DatabaseHelper;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,6 +24,7 @@ public class ThongKe extends javax.swing.JFrame {
      */
     public ThongKe(Model.NhanVien nv) {
         initComponents();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Icon/thongke24.png")));
         setLocationRelativeTo(null);
         setResizable(false);
         this.nv = nv;
@@ -59,6 +61,7 @@ public class ThongKe extends javax.swing.JFrame {
         tb_doanhthu = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("THỐNG KÊ");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 102));

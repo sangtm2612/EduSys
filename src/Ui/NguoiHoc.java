@@ -377,8 +377,8 @@ public class NguoiHoc extends javax.swing.JFrame {
         }
         int parseMa = Integer.parseInt(ma);
         NguoiHocDao.XoaNH(parseMa);
-        JOptionPane.showMessageDialog(this, "Xóa thành công!");
         NguoiHocDao.loadNguoiHoc();
+        JOptionPane.showMessageDialog(this, "Xóa thành công!");
         clear();
     }//GEN-LAST:event_btn_xoaActionPerformed
 
@@ -414,8 +414,8 @@ public class NguoiHoc extends javax.swing.JFrame {
         }
         long ngayDangKyLong = parseDate(ngayDangKy);
         NguoiHocDao.themNH(hoTen, ngaySinhLong, gioiTinh, soDienThoai, email, ghiChu, nv.getMaNv(), ngayDangKyLong);
-        JOptionPane.showMessageDialog(this, "Thêm thành công!");
         NguoiHocDao.loadNguoiHoc();
+        JOptionPane.showMessageDialog(this, "Thêm thành công!");
     }//GEN-LAST:event_btn_themActionPerformed
 
     private void tb_fillNHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_fillNHMouseClicked
@@ -493,8 +493,8 @@ public class NguoiHoc extends javax.swing.JFrame {
             return;
         }
         NguoiHocDao.suaNH(parseMa, hoTen, ngaySinhLong, gioiTinh, soDienThoai, email, ghiChu, ngayDangKyLong);
-        JOptionPane.showMessageDialog(this, "Sửa thành công!");
         NguoiHocDao.loadNguoiHoc();
+        JOptionPane.showMessageDialog(this, "Sửa thành công!");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

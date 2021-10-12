@@ -19,34 +19,32 @@ import javax.swing.table.DefaultTableModel;
  */
 public class NhanVienDAO {
 
-    public static void themNV(String Ma, String MatKhau, String HoTen, int VaiTro) {
+    public static void themNV(String Ma, String MatKhau, String HoTen, String Email, int VaiTro) {
         try {
             Connection conn = DatabaseHelper.getConnection("EduSys");
-            String sql = "insert into NhanVien values ( ?, ?, ?, ?, 0)";
+            String sql = "insert into NhanVien values ( ?, ?, ?, ?, ?, 0)";
             PreparedStatement ps = conn.prepareStatement(sql);
-
             ps.setString(1, Ma);
             ps.setString(2, MatKhau);
             ps.setString(3, HoTen);
-            ps.setInt(4, VaiTro);
-
+            ps.setString(4, Email);
+            ps.setInt(5, VaiTro);
             int rs = ps.executeUpdate();
             System.out.println(rs);
-
         } catch (Exception e) {
             System.out.println(e);
         }
     }
 
-    public static void suaNV(String Ma, String MatKhau, String HoTen, int VaiTro) {
+    public static void suaNV(String Ma, String HoTen, String Email, int VaiTro) {
         try {
             Connection conn = DatabaseHelper.getConnection("EduSys");
-            String sql = "update NhanVien set MatKhau = ?, HoTen = ?, VaiTro = ? where manv = ?";
+            String sql = "update NhanVien set HoTen = ?, Email = ?, VaiTro = ? where manv = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
 
             ps.setString(4, Ma);
-            ps.setString(1, MatKhau);
-            ps.setString(2, HoTen);
+            ps.setString(1, HoTen);
+            ps.setString(2, Email);
             ps.setInt(3, VaiTro);
 
             int rs = ps.executeUpdate();
@@ -79,8 +77,8 @@ public class NhanVienDAO {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                String vaitro = rs.getInt(4) == 0 ? "Trưởng phòng" : "Nhân viên";
-                dtm.addRow(new Object[]{rs.getString(1), rs.getString(2), rs.getString(3), vaitro});
+                String vaitro = rs.getInt(5) == 0 ? "Trưởng phòng" : "Nhân viên";
+                dtm.addRow(new Object[]{rs.getString(1), rs.getString(3), rs.getString(4), vaitro});
             }
         } catch (Exception e) {
             System.out.println(e);
