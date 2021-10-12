@@ -81,12 +81,17 @@ delete from nhanvien
 --update nhanvien set manv = 'sangsakerquy' where trangthai = 0 
 insert into NhanVien values('thaohocdot','123456','thaoongvang','thaocnph13274@fpt.edu.vn',0,0)
 insert into NhanVien values('admin','admin','admin','admin@fpt.edu.vn',0,0)
+insert into NhanVien values('sang','sang','sang','sangtm2612@gmail.com',0,0)
+
 select * from chuyende
 select * from hocvien
 select * from nguoihoc
-select * from khoahoc join chuyende on chuyende.macd = khoahoc.macd where khoahoc.trangthai = 0 and chuyende.trangthai = 0 and chuyende.macd = ?
+--select * from khoahoc join chuyende on chuyende.macd = khoahoc.macd where khoahoc.trangthai = 0 and chuyende.trangthai = 0 and chuyende.macd = ?
 --update NhanVien set MatKhau =1 where MaNV='thaohocdot'
 --update NhanVien set MatKhau =? where Email=?
 
-delete from khoahoc
+select tencd, ngaykg from khoahoc join chuyende on chuyende.macd = khoahoc.macd
+
+
+
 
