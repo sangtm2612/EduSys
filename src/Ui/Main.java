@@ -7,9 +7,13 @@ package Ui;
 
 import java.awt.Toolkit;
 import Model.NhanVien;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 /**
@@ -75,6 +79,8 @@ public class Main extends javax.swing.JFrame {
         jSeparator7 = new javax.swing.JToolBar.Separator();
         jButton7 = new javax.swing.JButton();
         jSeparator8 = new javax.swing.JToolBar.Separator();
+        jButton4 = new javax.swing.JButton();
+        jSeparator9 = new javax.swing.JToolBar.Separator();
         jButton8 = new javax.swing.JButton();
         pn_statusbar = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -187,6 +193,20 @@ public class Main extends javax.swing.JFrame {
         jToolBar1.add(jButton7);
         jToolBar1.add(jSeparator8);
 
+        jButton4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Brick house.png"))); // NOI18N
+        jButton4.setText("Giới Thiệu");
+        jButton4.setFocusable(false);
+        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton4);
+        jToolBar1.add(jSeparator9);
+
         jButton8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/logout.png"))); // NOI18N
         jButton8.setText("Đăng xuất");
@@ -261,7 +281,7 @@ public class Main extends javax.swing.JFrame {
         pn_main.setLayout(pn_mainLayout);
         pn_mainLayout.setHorizontalGroup(
             pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE)
             .addComponent(pn_statusbar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(pn_logo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -338,6 +358,10 @@ public class Main extends javax.swing.JFrame {
         new ThongKe(nv).setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        OpenGioiThieu();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -373,6 +397,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
@@ -389,10 +414,20 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator6;
     private javax.swing.JToolBar.Separator jSeparator7;
     private javax.swing.JToolBar.Separator jSeparator8;
+    private javax.swing.JToolBar.Separator jSeparator9;
     private javax.swing.JToolBar jToolBar1;
     public static javax.swing.JLabel lb_dongho;
     private javax.swing.JPanel pn_logo;
     private javax.swing.JPanel pn_main;
     private javax.swing.JPanel pn_statusbar;
     // End of variables declaration//GEN-END:variables
+
+    private void OpenGioiThieu() {
+       try {
+            Desktop.getDesktop().browse(new File("GioiThieu/gioithieu.pdf").toURI());
+            //thư mục gioithieu đặt ngang hàng với src
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "dd");
+        }
+    }
 }
