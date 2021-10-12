@@ -10,19 +10,15 @@ public class ChuyenDe {
     private String TenCD;
     private int HocPhi;
     private int ThoiLuong;
-    private String Hinh;
-    private String MoTa;
 
     public ChuyenDe() {
     }
 
-    public ChuyenDe(int MaCD, String TenCD, int HocPhi, int ThoiLuong, String Hinh, String MoTa) {
+    public ChuyenDe(int MaCD, String TenCD, int HocPhi, int ThoiLuong) {
         this.MaCD = MaCD;
         this.TenCD = TenCD;
         this.HocPhi = HocPhi;
         this.ThoiLuong = ThoiLuong;
-        this.Hinh = Hinh;
-        this.MoTa = MoTa;
     }
 
     public int getMaCD() {
@@ -41,7 +37,7 @@ public class ChuyenDe {
         this.TenCD = TenCD;
     }
 
-    public float getHocPhi() {
+    public int getHocPhi() {
         return HocPhi;
     }
 
@@ -57,25 +53,9 @@ public class ChuyenDe {
         this.ThoiLuong = ThoiLuong;
     }
 
-    public String getHinh() {
-        return Hinh;
-    }
-
-    public void setHinh(String Hinh) {
-        this.Hinh = Hinh;
-    }
-
-    public String getMoTa() {
-        return MoTa;
-    }
-
-    public void setMoTa(String MoTa) {
-        this.MoTa = MoTa;
-    }
-
     @Override
     public String toString() {
-        return "ChuyenDe{" + "MaCD=" + MaCD + ", TenCD=" + TenCD + ", HocPhi=" + HocPhi + ", ThoiLuong=" + ThoiLuong + ", Hinh=" + Hinh + ", MoTa=" + MoTa + '}';
+        return TenCD;
     }
 
     
