@@ -5,7 +5,12 @@
  */
 package Ui;
 
+import Database.DatabaseHelper;
 import java.awt.Color;
+import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.Random;
 import javax.mail.Message;
@@ -22,15 +27,19 @@ import javax.swing.JOptionPane;
  * @author ADMIN ASUS
  */
 public class SendCode extends javax.swing.JFrame {
+
     int RamDom;
+
     /**
      * Creates new form SendCode
      */
     public SendCode() {
         initComponents();
         setLocationRelativeTo(null);
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Icon/quenmk24.png")));
+        setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
+
     }
 
     /**
@@ -46,12 +55,13 @@ public class SendCode extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtcode = new javax.swing.JTextField();
-        txtEmail = new javax.swing.JTextField();
+        tf_email = new javax.swing.JTextField();
         btn_xacnhan = new javax.swing.JButton();
         btn_send = new javax.swing.JButton();
         lbl_trolai = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("QUÊN MẬT KHẨU");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Xác Nhận Email");
@@ -62,7 +72,7 @@ public class SendCode extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setText("Mã Xác Nhận");
 
-        txtEmail.setText("thaocnph13274@fpt.edu.vn");
+        tf_email.setText("thaocnph13274@fpt.edu.vn");
 
         btn_xacnhan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Accept.png"))); // NOI18N
         btn_xacnhan.setText("Xác nhận");
@@ -100,7 +110,7 @@ public class SendCode extends javax.swing.JFrame {
                             .addComponent(jLabel2))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tf_email, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtcode, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,7 +138,7 @@ public class SendCode extends javax.swing.JFrame {
                         .addGap(2, 2, 2)
                         .addComponent(jLabel2))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tf_email, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btn_send)))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -138,43 +148,59 @@ public class SendCode extends javax.swing.JFrame {
                 .addContainerGap(50, Short.MAX_VALUE))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtEmail, txtcode});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {tf_email, txtcode});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_xacnhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xacnhanActionPerformed
         try {
-            if(txtcode.getText().equals("") ){
-                JOptionPane.showMessageDialog(this, "chưa nhập mã xác nhận");
-                   txtcode.setBackground(Color.yellow);
+            if (txtcode.getText().equals("")) {
+                JOptionPane.showMessageDialog(this, "Chưa nhập mã xác nhận");
+                txtcode.setBackground(Color.yellow);
                 return;
-             
+
             }
-            if(Integer.valueOf(txtcode.getText())==RamDom){
-            this.dispose();
-            Reset rs=new Reset(txtEmail.getText());
-            rs.setVisible(true);
-        }
-        else{
-            JOptionPane.showMessageDialog(this, "sai mã xác nhận");
-        }
+            if (Integer.valueOf(txtcode.getText()) == RamDom) {
+                this.dispose();
+                Reset rs = new Reset(tf_email.getText());
+                rs.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Sai mã xác nhận");
+            }
         } catch (Exception e) {
         }
-        
+
     }//GEN-LAST:event_btn_xacnhanActionPerformed
 
     private void btn_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sendActionPerformed
+        String email = tf_email.getText().trim();
+        boolean check = false;
+        try {
+            Connection conn = DatabaseHelper.getConnection("EduSys");
+            String sql = "select email from nhanvien where trangthai = 0";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                if (email.equalsIgnoreCase(rs.getString(1))) {
+                    check = true;
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
         final String username = "minhoo.lee84@gmail.com";
         final String password = "01692437655";
-        Random rd=new Random();
-        RamDom=rd.nextInt(999999);
+        Random rd = new Random();
+        RamDom = rd.nextInt(999999);
         Properties prop = new Properties();
-          prop.put("mail.smtp.starttls.enable", "true");
+        prop.put("mail.smtp.starttls.enable", "true");
         prop.put("mail.smtp.host", "smtp.gmail.com");
         prop.put("mail.smtp.port", "587");
         prop.put("mail.smtp.auth", "true");
-       //TLS
+        //TLS
 
         Session session = Session.getInstance(prop,
                 new javax.mail.Authenticator() {
@@ -184,30 +210,34 @@ public class SendCode extends javax.swing.JFrame {
         });
 
         try {
-            if(txtEmail.getText().equals("") ){
+            if (tf_email.getText().equals("")) {
                 JOptionPane.showMessageDialog(this, "chưa nhập Email");
-                   txtEmail.setBackground(Color.yellow);
+                tf_email.setBackground(Color.yellow);
                 return;
-             
+
             }
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("minhoo.lee84@gmail.com"));
-            message.setRecipients(
-                    Message.RecipientType.TO,
-                    InternetAddress.parse(txtEmail.getText())
-            );
-            message.setSubject("Reset Mail");
-            String Htmlcode="<h1>Thao Handsome send to you Verify Code: </h1> ";
-            message.setContent(Htmlcode+RamDom,"text/html");
+            if (check == false) {
+                JOptionPane.showMessageDialog(this, "Email không tồn tại trên hệ thống!");
+                tf_email.setBackground(Color.yellow);
+                return;
+            } else {
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress("minhoo.lee84@gmail.com"));
+                message.setRecipients(
+                        Message.RecipientType.TO,
+                        InternetAddress.parse(tf_email.getText())
+                );
+                message.setSubject("Reset Mail");
+                String Htmlcode = "<h1>Thao Handsome send to you Verify Code: </h1> ";
+                message.setContent(Htmlcode + RamDom, "text/html");
 
-            Transport.send(message);
-
-            System.out.println("Done");
-
+                Transport.send(message);
+                JOptionPane.showMessageDialog(this, "Code đã được gửi tới email của bạn!");
+            }
         } catch (MessagingException e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
-        
+
     }//GEN-LAST:event_btn_sendActionPerformed
 
     private void lbl_trolaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_trolaiMouseClicked
@@ -258,7 +288,7 @@ public class SendCode extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lbl_trolai;
-    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField tf_email;
     private javax.swing.JTextField txtcode;
     // End of variables declaration//GEN-END:variables
 }

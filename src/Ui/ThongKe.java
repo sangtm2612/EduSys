@@ -28,6 +28,24 @@ public class ThongKe extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         this.nv = nv;
+        loadCbb();
+    }
+    
+    public void loadCbb() {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Connection conn = DatabaseHelper.getConnection("EduSys");
+            String sql = "select tencd, ngaykg from khoahoc join chuyende on chuyende.macd = khoahoc.macd";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String tencd = String.valueOf(rs.getString(1));
+                Date d = new Date(rs.getDate(2).getTime());
+                cbb_khoahoc.addItem(sdf.format(d));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     /**
@@ -82,7 +100,6 @@ public class ThongKe extends javax.swing.JFrame {
         jLabel3.setText("Khóa học:");
 
         cbb_khoahoc.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        cbb_khoahoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbb_khoahoc.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cbb_khoahocItemStateChanged(evt);
@@ -152,7 +169,7 @@ public class ThongKe extends javax.swing.JFrame {
         );
         pn_nguoihocLayout.setVerticalGroup(
             pn_nguoihocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 646, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 648, Short.MAX_VALUE)
         );
 
         tb_thongke.addTab("Người học", pn_nguoihoc);
@@ -177,7 +194,7 @@ public class ThongKe extends javax.swing.JFrame {
         );
         pn_diemchuyendeLayout.setVerticalGroup(
             pn_diemchuyendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 646, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 648, Short.MAX_VALUE)
         );
 
         tb_thongke.addTab("Điểm chuyên đề", pn_diemchuyende);
@@ -218,7 +235,7 @@ public class ThongKe extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(cbb_nam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE))
         );
 
         tb_thongke.addTab("Doanh thu", pn_doanhthu);
@@ -271,11 +288,13 @@ public class ThongKe extends javax.swing.JFrame {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             Connection conn = DatabaseHelper.getConnection("EduSys");
-            String sql = "select makh, ngaykg from khoahoc";
+            String sql = "select tencd, ngaykg from khoahoc join chuyende on chuyende.macd = khoahoc.macd";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                String ma = String.valueOf(rs.getInt(1));
+                String tencd = String.valueOf(rs.getInt(1));
+                Date d = new Date(rs.getDate(2).getTime());
+                System.out.println(sdf.format(d));
             }
         } catch (Exception e) {
             System.out.println(e);
