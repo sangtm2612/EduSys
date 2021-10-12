@@ -16,6 +16,8 @@ CREATE TABLE ChuyenDe
 )
 GO
 
+--Nhập dữ liệu chuyên đề:
+
 CREATE TABLE NhanVien
 (
 	MaNV NVARCHAR(50) NOT NULL PRIMARY KEY,
@@ -78,9 +80,10 @@ select * from nhanvien
 delete from nhanvien
 --update nhanvien set manv = 'sangsakerquy' where trangthai = 0 
 insert into NhanVien values('thaohocdot','123456','thaoongvang','thaocnph13274@fpt.edu.vn',0,0)
+insert into NhanVien values('admin','admin','admin','admin@fpt.edu.vn',0,0)
 select * from chuyende
 select * from hocvien
 select * from nguoihoc
 select * from khoahoc
-update NhanVien set MatKhau =1 where MaNV='thaohocdot'
-update NhanVien set MatKhau =? where Email=?
+--update NhanVien set MatKhau =1 where MaNV='thaohocdot'
+--update NhanVien set MatKhau =? where Email=?
