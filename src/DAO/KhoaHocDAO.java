@@ -79,7 +79,7 @@ public class KhoaHocDAO {
         dtm.setRowCount(0);
         try {
             Connection conn = DatabaseHelper.getConnection("EduSys");
-            String sql = "select * from khoahoc where trangthai = 0";
+            String sql = "select * from khoahoc join chuyende on chuyende.macd = khoahoc.macd where khoahoc.trangthai = 0 and chuyende.trangthai = 0";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

@@ -84,6 +84,9 @@ insert into NhanVien values('admin','admin','admin','admin@fpt.edu.vn',0,0)
 select * from chuyende
 select * from hocvien
 select * from nguoihoc
-select * from khoahoc
+select * from khoahoc join chuyende on chuyende.macd = khoahoc.macd where khoahoc.trangthai = 0 and chuyende.trangthai = 0 and chuyende.macd = ?
 --update NhanVien set MatKhau =1 where MaNV='thaohocdot'
 --update NhanVien set MatKhau =? where Email=?
+
+delete from khoahoc
+

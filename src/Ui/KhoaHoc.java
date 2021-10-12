@@ -7,13 +7,18 @@ package Ui;
 
 import DAO.ChuyenDeDAO;
 import DAO.KhoaHocDAO;
+import Database.DatabaseHelper;
 import java.awt.Toolkit;
 import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -26,6 +31,7 @@ import javax.swing.table.DefaultTableModel;
 public class KhoaHoc extends javax.swing.JFrame {
 
     Model.NhanVien nv;
+    DefaultComboBoxModel dcm;
 
     /**
      * Creates new form ChuyenDe
@@ -36,16 +42,30 @@ public class KhoaHoc extends javax.swing.JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         this.nv = nv;
-        KhoaHocDAO.loadKhoaHoc();
+        dcm = (DefaultComboBoxModel) cbb_chuyende.getModel();
+        dcm.removeAllElements();
+        loadCbbChuyenDe();
     }
 
     public void clearForm() {
-        tf_ma.setText("");
-        tf_machuyende.setText("");
         tf_hocphi.setText("");
         tf_ngaykhaigiang.setText("");
         tf_thoiluong.setText("");
         tf_ghichu.setText("");
+    }
+
+    public void loadCbbChuyenDe() {
+        try {
+            Connection conn = DatabaseHelper.getConnection("EduSys");
+            String sql = "select * from chuyende where trangthai = 0";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                dcm.addElement(new Model.ChuyenDe(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4)));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     public long parseDate(String ngay) {
@@ -58,6 +78,35 @@ public class KhoaHoc extends javax.swing.JFrame {
         return d.getTime();
     }
 
+    public void loadTable(int macd) {
+        DefaultTableModel dtm = (DefaultTableModel) KhoaHoc.tb_content.getModel();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        dtm.setRowCount(0);
+        try {
+            Connection conn = DatabaseHelper.getConnection("EduSys");
+            String sql = "select * from khoahoc join chuyende on chuyende.macd = khoahoc.macd where khoahoc.trangthai = 0 and chuyende.trangthai = 0 and chuyende.macd = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, macd);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                java.sql.Date d = rs.getDate(5);
+                Date ngaykh = new Date(d.getTime());
+                java.sql.Date d1 = rs.getDate(7);
+                Date ngaytao = new Date(d1.getTime());
+                dtm.addRow(new Object[]{rs.getInt(1), rs.getString(11), rs.getInt(3), rs.getInt(4), sdf.format(ngaykh), rs.getString(6), rs.getString(8), sdf.format(d1)});
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public void fillForm(int i) {
+        tf_hocphi.setText(String.valueOf(tb_content.getValueAt(i, 2)));
+        tf_ngaykhaigiang.setText(String.valueOf(tb_content.getValueAt(i, 4)));
+        tf_thoiluong.setText(String.valueOf(tb_content.getValueAt(i, 3)));
+        tf_ghichu.setText(String.valueOf(tb_content.getValueAt(i, 5)));
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -68,7 +117,6 @@ public class KhoaHoc extends javax.swing.JFrame {
     private void initComponents() {
 
         pn_main = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -81,8 +129,6 @@ public class KhoaHoc extends javax.swing.JFrame {
         btn_lammoi = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tb_content = new javax.swing.JTable();
-        tf_ma = new javax.swing.JTextField();
-        tf_machuyende = new javax.swing.JTextField();
         tf_hocphi = new javax.swing.JTextField();
         tf_thoiluong = new javax.swing.JTextField();
         tf_ngaykhaigiang = new javax.swing.JTextField();
@@ -90,15 +136,13 @@ public class KhoaHoc extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tf_ghichu = new javax.swing.JTextArea();
+        cbb_chuyende = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("QUẢN LÝ KHÓA HỌC");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Mã khóa học:");
-
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("Mã chuyên đề:");
+        jLabel2.setText("Chuyên đề:");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Học phí:");
@@ -159,9 +203,17 @@ public class KhoaHoc extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Mã khóa học", "Mã chuyên đề", "Học phí", "Thời lượng", "Ngày khai giảng", "Ghi chú", "Mã nhân viên", "Ngày tạo"
+                "Mã khóa học", "Tên chuyên đề", "Học phí", "Thời lượng", "Ngày khai giảng", "Ghi chú", "Mã nhân viên", "Ngày tạo"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, true, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tb_content.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tb_contentMouseClicked(evt);
@@ -169,17 +221,10 @@ public class KhoaHoc extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tb_content);
 
-        tf_ma.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        tf_ma.setEnabled(false);
-
-        tf_machuyende.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        tf_machuyende.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_machuyendeActionPerformed(evt);
-            }
-        });
-
+        tf_hocphi.setBackground(new java.awt.Color(240, 240, 240));
         tf_hocphi.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tf_hocphi.setForeground(new java.awt.Color(0, 255, 0));
+        tf_hocphi.setEnabled(false);
         tf_hocphi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tf_hocphiActionPerformed(evt);
@@ -187,6 +232,8 @@ public class KhoaHoc extends javax.swing.JFrame {
         });
 
         tf_thoiluong.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tf_thoiluong.setForeground(new java.awt.Color(0, 255, 0));
+        tf_thoiluong.setEnabled(false);
         tf_thoiluong.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tf_thoiluongMouseClicked(evt);
@@ -214,51 +261,49 @@ public class KhoaHoc extends javax.swing.JFrame {
         tf_ghichu.setRows(5);
         jScrollPane2.setViewportView(tf_ghichu);
 
+        cbb_chuyende.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbb_chuyendeItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout pn_mainLayout = new javax.swing.GroupLayout(pn_main);
         pn_main.setLayout(pn_mainLayout);
         pn_mainLayout.setHorizontalGroup(
             pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_mainLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
                 .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pn_mainLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
+                        .addComponent(jLabel8)
+                        .addGap(431, 431, 431))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_mainLayout.createSequentialGroup()
+                        .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addGap(24, 24, 24)
                         .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 629, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pn_mainLayout.createSequentialGroup()
-                                .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(pn_mainLayout.createSequentialGroup()
-                                        .addGap(38, 38, 38)
-                                        .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel5)
-                                            .addComponent(jLabel6))
-                                        .addGap(24, 24, 24)
-                                        .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(tf_ngaykhaigiang, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                            .addComponent(tf_thoiluong, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(tf_hocphi, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(tf_machuyende, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(tf_ma, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(pn_mainLayout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addComponent(jLabel8))
-                                    .addGroup(pn_mainLayout.createSequentialGroup()
-                                        .addGap(38, 38, 38)
-                                        .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel1)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabel3)
-                                            .addComponent(jLabel4))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(pn_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(57, 57, 57))))
-                    .addGroup(pn_mainLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel7)))
+                            .addComponent(tf_ngaykhaigiang, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(tf_thoiluong, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(tf_hocphi, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(cbb_chuyende, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(61, 61, 61)))
+                .addComponent(pn_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_mainLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 629, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addContainerGap())
         );
 
-        pn_mainLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jScrollPane2, tf_hocphi, tf_ma, tf_machuyende, tf_ngaykhaigiang, tf_thoiluong});
+        pn_mainLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jScrollPane2, tf_hocphi, tf_ngaykhaigiang, tf_thoiluong});
 
         pn_mainLayout.setVerticalGroup(
             pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -267,44 +312,37 @@ public class KhoaHoc extends javax.swing.JFrame {
                 .addComponent(jLabel8)
                 .addGap(6, 6, 6)
                 .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pn_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pn_mainLayout.createSequentialGroup()
-                        .addComponent(tf_ma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(tf_machuyende, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
+                        .addComponent(tf_hocphi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pn_mainLayout.createSequentialGroup()
+                        .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(cbb_chuyende, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(22, 22, 22)
+                        .addComponent(jLabel3)
                         .addGap(21, 21, 21)
-                        .addComponent(tf_hocphi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(238, 238, 238))
-                    .addGroup(pn_mainLayout.createSequentialGroup()
-                        .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pn_mainLayout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(jLabel1)
-                                .addGap(25, 25, 25)
-                                .addComponent(jLabel2)
-                                .addGap(25, 25, 25)
-                                .addComponent(jLabel3)
-                                .addGap(24, 24, 24)
-                                .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel4)
-                                    .addComponent(tf_thoiluong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(pn_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(17, 17, 17)
+                        .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(tf_thoiluong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(21, 21, 21)
                         .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pn_mainLayout.createSequentialGroup()
                                 .addGap(1, 1, 1)
                                 .addComponent(jLabel5)
                                 .addGap(22, 22, 22)
                                 .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel7))
+                                .addGap(58, 58, 58))
                             .addGroup(pn_mainLayout.createSequentialGroup()
                                 .addComponent(tf_ngaykhaigiang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(10, 10, 10))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -325,22 +363,8 @@ public class KhoaHoc extends javax.swing.JFrame {
 
     private void btn_xoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xoaActionPerformed
         // TODO add your handling code here:
-        String ma = tf_ma.getText().trim();
-        if (ma.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn chuyên đề cần xóa!");
-            return;
-        }
-        int maInt = Integer.parseInt(ma);
-        KhoaHocDAO.XoaKH(maInt);
-        KhoaHocDAO.loadKhoaHoc();
-        clearForm();
-        JOptionPane.showMessageDialog(this, "Xóa thành công!");
 
     }//GEN-LAST:event_btn_xoaActionPerformed
-
-    private void tf_hocphiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_hocphiActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tf_hocphiActionPerformed
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         // TODO add your handling code here:
@@ -349,38 +373,17 @@ public class KhoaHoc extends javax.swing.JFrame {
         new Main(nv).setVisible(true);
     }//GEN-LAST:event_jLabel8MouseClicked
 
-    private void tf_machuyendeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_machuyendeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tf_machuyendeActionPerformed
-
     private void btn_themActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_themActionPerformed
         // TODO add your handling code here:
-        String maChuyenDe = tf_machuyende.getText().trim();
-        if (maChuyenDe.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã chuyên đề!");
-            return;
-        }
-        int maCDInt = Integer.parseInt(maChuyenDe);
-        String hocphiString = tf_hocphi.getText().trim();
-        if (hocphiString.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập học phí!");
-            return;
-        }
-        int hocPhi = Integer.parseInt(hocphiString);
-        String thoiString = tf_thoiluong.getText().trim();
-        if (thoiString.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập thời lượng!");
-            return;
-        }
-        int thoiLuong = Integer.parseInt(thoiString);
         String ngayKG = tf_ngaykhaigiang.getText().trim();
         if (ngayKG.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập ngày khai giảng!");
             return;
         }
         long ngayKhaiGiang = parseDate(ngayKG);
+        Model.ChuyenDe cd = (Model.ChuyenDe) dcm.getSelectedItem();
         String ghiChu = tf_ghichu.getText().trim();
-        KhoaHocDAO.themKH(maCDInt, hocPhi, thoiLuong, ngayKhaiGiang, ghiChu, nv.getMaNv());
+        KhoaHocDAO.themKH(cd.getMaCD(), cd.getHocPhi(), cd.getThoiLuong(), ngayKhaiGiang, ghiChu, nv.getMaNv());
         KhoaHocDAO.loadKhoaHoc();
         JOptionPane.showMessageDialog(this, "Thêm thành công!");
 
@@ -389,14 +392,13 @@ public class KhoaHoc extends javax.swing.JFrame {
     private void btn_lammoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lammoiActionPerformed
         // TODO add your handling code here:
         clearForm();
+        cbb_chuyende.setSelectedIndex(0);
         KhoaHocDAO.loadKhoaHoc();
     }//GEN-LAST:event_btn_lammoiActionPerformed
 
     private void tb_contentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_contentMouseClicked
         // TODO add your handling code here:
         int i = tb_content.getSelectedRow();
-        tf_ma.setText(String.valueOf(tb_content.getValueAt(i, 0)));
-        tf_machuyende.setText(String.valueOf(tb_content.getValueAt(i, 1)));
         tf_hocphi.setText(String.valueOf(tb_content.getValueAt(i, 2)));
         tf_ngaykhaigiang.setText(String.valueOf(tb_content.getValueAt(i, 4)));
         tf_thoiluong.setText(String.valueOf(tb_content.getValueAt(i, 3)));
@@ -404,52 +406,51 @@ public class KhoaHoc extends javax.swing.JFrame {
     }//GEN-LAST:event_tb_contentMouseClicked
 
     private void btn_suaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_suaActionPerformed
-        // TODO add your handling code here:
-        String ma = tf_ma.getText().trim();
-        if (ma.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn chuyên đề cần sửa!");
+        // TODO add your handling code here
+        int index = tb_content.getSelectedRow();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn khóa học cần sửa!");
             return;
         }
-        int maInt = Integer.parseInt(ma);
-        String maChuyenDe = tf_machuyende.getText().trim();
-        if (maChuyenDe.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã chuyên đề!");
-            return;
-        }
-        int maCDInt = Integer.parseInt(maChuyenDe);
-        String hocphiString = tf_hocphi.getText().trim();
-        if (hocphiString.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập học phí!");
-            return;
-        }
-        int hocPhi = Integer.parseInt(hocphiString);
-        String thoiString = tf_thoiluong.getText().trim();
-        if (thoiString.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập thời lượng!");
-            return;
-        }
-        int thoiLuong = Integer.parseInt(thoiString);
+        String maKH = tb_content.getValueAt(index, 0).toString();
+        int maInt = Integer.parseInt(maKH);
         String ngayKG = tf_ngaykhaigiang.getText().trim();
         if (ngayKG.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập ngày khai giảng!");
             return;
         }
+        Model.ChuyenDe cd = (Model.ChuyenDe) dcm.getSelectedItem();
         long ngayKhaiGiang = parseDate(ngayKG);
         String ghiChu = tf_ghichu.getText().trim();
-        KhoaHocDAO.suaKH(maInt, maCDInt, hocPhi, thoiLuong, ngayKhaiGiang, ghiChu);
+        KhoaHocDAO.suaKH(maInt, cd.getMaCD(), cd.getHocPhi(), cd.getThoiLuong(), ngayKhaiGiang, ghiChu);
         KhoaHocDAO.loadKhoaHoc();
         JOptionPane.showMessageDialog(this, "Sửa thành công!");
 
     }//GEN-LAST:event_btn_suaActionPerformed
 
-    private void tf_thoiluongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tf_thoiluongMouseClicked
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_tf_thoiluongMouseClicked
-
     private void tf_ngaykhaigiangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tf_ngaykhaigiangMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_tf_ngaykhaigiangMouseClicked
+
+    private void tf_thoiluongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tf_thoiluongMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tf_thoiluongMouseClicked
+
+    private void tf_hocphiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_hocphiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tf_hocphiActionPerformed
+
+    private void cbb_chuyendeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbb_chuyendeItemStateChanged
+        // TODO add your handling code here:
+        Model.ChuyenDe cd = (Model.ChuyenDe) dcm.getSelectedItem();
+        tf_hocphi.setText(String.valueOf(cd.getHocPhi()));
+        tf_thoiluong.setText(String.valueOf(cd.getThoiLuong()));
+        loadTable(cd.getMaCD());
+        if (tb_content.getRowCount() > 0) {
+            tb_content.setRowSelectionInterval(0, 0);
+            fillForm(0);
+        }
+    }//GEN-LAST:event_cbb_chuyendeItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -481,6 +482,11 @@ public class KhoaHoc extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new KhoaHoc(new Model.NhanVien()).setVisible(true);
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -488,7 +494,7 @@ public class KhoaHoc extends javax.swing.JFrame {
     private javax.swing.JButton btn_sua;
     private javax.swing.JButton btn_them;
     private javax.swing.JButton btn_xoa;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JComboBox<String> cbb_chuyende;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -503,8 +509,6 @@ public class KhoaHoc extends javax.swing.JFrame {
     public static javax.swing.JTable tb_content;
     private javax.swing.JTextArea tf_ghichu;
     private javax.swing.JTextField tf_hocphi;
-    private javax.swing.JTextField tf_ma;
-    private javax.swing.JTextField tf_machuyende;
     private javax.swing.JTextField tf_ngaykhaigiang;
     private javax.swing.JTextField tf_thoiluong;
     // End of variables declaration//GEN-END:variables
