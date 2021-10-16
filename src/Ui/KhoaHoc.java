@@ -372,6 +372,12 @@ public class KhoaHoc extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày khai giảng!");
             return;
         }
+        Date d = dc_calendar.getDate();
+        if (d.getTime() < new Date().getTime()) {
+            JOptionPane.showMessageDialog(this, "Ngày khai giảng > ngày hiện tại!");
+            dc_calendar.setDate(null);
+            return;
+        }
         long ngayKhaiGiang = dc_calendar.getDate().getTime();
         Model.ChuyenDe cd = (Model.ChuyenDe) dcm.getSelectedItem();
         String ghiChu = tf_ghichu.getText().trim();

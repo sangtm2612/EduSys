@@ -6,8 +6,12 @@
 package Ui;
 
 import DAO.ChuyenDeDAO;
+import Database.DatabaseHelper;
 import java.awt.Toolkit;
 import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -18,7 +22,8 @@ import javax.swing.table.DefaultTableModel;
  * @author sangt
  */
 public class ChuyenDe extends javax.swing.JFrame {
-DefaultTableModel model;
+
+    DefaultTableModel model;
     Model.NhanVien nv;
 
     /**
@@ -31,7 +36,7 @@ DefaultTableModel model;
         setLocationRelativeTo(null);
         this.nv = nv;
         ChuyenDeDAO.loadChuyenDe();
-        model=(DefaultTableModel) tb_content.getModel();
+        model = (DefaultTableModel) tb_content.getModel();
     }
 
     public void clearForm() {
@@ -349,20 +354,41 @@ DefaultTableModel model;
 
     private void btn_xoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xoaActionPerformed
         // TODO add your handling code here:
-        if(nv.getVaitro()==1){
-            JOptionPane.showMessageDialog(this,"chỉ trưởng phòng mới được dùng chức năng này");
-            return;
-        }
+
         String ma = tf_ma.getText().trim();
         if (ma.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn chuyên đề cần xóa!");
             return;
         }
-        int maInt = Integer.parseInt(ma);
-        ChuyenDeDAO.xoaCD(maInt);
-        clearForm();
-        JOptionPane.showMessageDialog(this, "Xóa thành công!");
 
+        int hoi = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa chuyên đề này?", "Xóa chuyên đề", JOptionPane.YES_NO_OPTION);
+        if (hoi == JOptionPane.YES_OPTION) {
+            if (nv.getVaitro() == 1) {
+                JOptionPane.showMessageDialog(this, "Chỉ trưởng phòng mới được dùng chức năng này");
+                return;
+            }
+            int maInt = Integer.parseInt(ma);
+            try {
+                Connection conn = DatabaseHelper.getConnection("EduSys");
+                String sql = "SELECT COUNT(ChuyenDe.MaCD) FROM dbo.KhoaHoc \n"
+                        + "JOIN dbo.ChuyenDe ON ChuyenDe.MaCD = KhoaHoc.MaCD \n"
+                        + "WHERE ChuyenDe.TrangThai = 0 AND KhoaHoc.TrangThai = 0 AND ChuyenDe.MaCD = ?";
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ps.setInt(1, maInt);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    if (rs.getInt(1) > 0) {
+                        JOptionPane.showMessageDialog(this, "Chuyên đề đang có khóa học không được phép xóa!");
+                        return;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            ChuyenDeDAO.xoaCD(maInt);
+            clearForm();
+            JOptionPane.showMessageDialog(this, "Xóa thành công!");
+        }
     }//GEN-LAST:event_btn_xoaActionPerformed
 
     private void tf_hocphiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_hocphiActionPerformed
@@ -401,17 +427,16 @@ DefaultTableModel model;
         int thoiLuong = Integer.parseInt(thoiString);
         String hinh = tf_hinh.getText().trim();
         String moTa = ta_mota.getText().trim();
-          for(int i=0;i<model.getRowCount();i++){
-                if(model.getValueAt(i, 1).equals(tf_chuyende.getText())){
-                    JOptionPane.showMessageDialog(this, "trùng tên chuyên đề");
-                    return; 
-                }
-               
-                
-            } 
+        for (int i = 0; i < model.getRowCount(); i++) {
+            if (model.getValueAt(i, 1).equals(tf_chuyende.getText())) {
+                JOptionPane.showMessageDialog(this, "trùng tên chuyên đề");
+                return;
+            }
+
+        }
         ChuyenDeDAO.themCD(tenChuyenDe, hocPhi, thoiLuong, hinh, moTa);
         ChuyenDeDAO.loadChuyenDe();
-        
+
         JOptionPane.showMessageDialog(this, "Thêm thành công!");
 
     }//GEN-LAST:event_btn_themActionPerformed

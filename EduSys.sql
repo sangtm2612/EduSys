@@ -82,6 +82,13 @@ delete from nhanvien
 insert into NhanVien values('thaohocdot','123456','thaoongvang','thaocnph13274@fpt.edu.vn',0,0)
 insert into NhanVien values('admin','admin','admin','admin@fpt.edu.vn',0,0)
 insert into NhanVien values('sang','sang','sang','sangtm2612@gmail.com',0,0)
+insert into NhanVien values('1','1','sang','sangtm2612@gmail.com',0,0)
+
+SELECT COUNT(ChuyenDe.MaCD) FROM dbo.KhoaHoc 
+JOIN dbo.ChuyenDe ON ChuyenDe.MaCD = KhoaHoc.MaCD 
+WHERE ChuyenDe.TrangThai = 0 AND KhoaHoc.TrangThai = 0 AND ChuyenDe.MaCD = ?
+
+
 
 select * from chuyende
 select * from hocvien

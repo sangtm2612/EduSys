@@ -5,7 +5,9 @@
  */
 package Ui;
 
+import DAO.ChuyenDeDAO;
 import DAO.NguoiHocDao;
+import static Ui.NhanVien.tb_fillNV;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.text.ParseException;
@@ -78,6 +80,7 @@ public class NguoiHoc extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         btn_xoa = new javax.swing.JButton();
         btn_lammoi = new javax.swing.JButton();
+        btn_timkiem = new javax.swing.JButton();
         tf_ma = new javax.swing.JTextField();
         tf_hoten = new javax.swing.JTextField();
         tf_ngaysinh = new javax.swing.JTextField();
@@ -116,7 +119,7 @@ public class NguoiHoc extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setText("Email");
 
-        pn_btn.setLayout(new java.awt.GridLayout(4, 1, 0, 5));
+        pn_btn.setLayout(new java.awt.GridLayout(5, 1, 0, 5));
 
         btn_them.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btn_them.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/them.png"))); // NOI18N
@@ -157,6 +160,16 @@ public class NguoiHoc extends javax.swing.JFrame {
             }
         });
         pn_btn.add(btn_lammoi);
+
+        btn_timkiem.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btn_timkiem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Search.png"))); // NOI18N
+        btn_timkiem.setText("Tìm kiếm");
+        btn_timkiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_timkiemActionPerformed(evt);
+            }
+        });
+        pn_btn.add(btn_timkiem);
 
         tf_ma.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tf_ma.setEnabled(false);
@@ -235,54 +248,56 @@ public class NguoiHoc extends javax.swing.JFrame {
             .addGroup(pn_mainLayout.createSequentialGroup()
                 .addGap(48, 48, 48)
                 .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addGap(38, 38, 38)
-                .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tf_ma, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tf_hoten, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tf_ngaysinh, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pn_mainLayout.createSequentialGroup()
-                        .addComponent(rbtn_nam)
-                        .addGap(40, 40, 40)
-                        .addComponent(rbtn_nu, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-                .addComponent(pn_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35))
-            .addGroup(pn_mainLayout.createSequentialGroup()
-                .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel6)
+                        .addGap(95, 95, 95)
+                        .addComponent(tf_email, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pn_mainLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel8))
+                        .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10))
+                        .addGap(35, 35, 35)
+                        .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+                            .addComponent(tf_ngaydangky)))
                     .addGroup(pn_mainLayout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addComponent(jLabel5)
-                        .addGap(59, 59, 59)
-                        .addComponent(tf_sodienthoai, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pn_mainLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel7))
-                    .addGroup(pn_mainLayout.createSequentialGroup()
-                        .addGap(48, 48, 48)
                         .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pn_mainLayout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(95, 95, 95)
-                                .addComponent(tf_email, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pn_mainLayout.createSequentialGroup()
                                 .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel10))
-                                .addGap(35, 35, 35)
-                                .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-                                    .addComponent(tf_ngaydangky))))))
-                .addContainerGap(205, Short.MAX_VALUE))
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4))
+                                .addGap(38, 38, 38)
+                                .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(tf_ma, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tf_hoten, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tf_ngaysinh, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(pn_mainLayout.createSequentialGroup()
+                                        .addComponent(rbtn_nam)
+                                        .addGap(40, 40, 40)
+                                        .addComponent(rbtn_nu, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(pn_mainLayout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(59, 59, 59)
+                                .addComponent(tf_sodienthoai, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(58, 58, 58)
+                        .addComponent(pn_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(pn_mainLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pn_mainLayout.createSequentialGroup()
+                        .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pn_mainLayout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel8))
+                            .addGroup(pn_mainLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel7)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(pn_mainLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -295,13 +310,12 @@ public class NguoiHoc extends javax.swing.JFrame {
                 .addComponent(jLabel8)
                 .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pn_mainLayout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(jLabel1))
-                    .addGroup(pn_mainLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
                         .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pn_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(pn_mainLayout.createSequentialGroup()
+                                .addGap(7, 7, 7)
+                                .addComponent(jLabel1))
+                            .addGroup(pn_mainLayout.createSequentialGroup()
+                                .addGap(6, 6, 6)
                                 .addComponent(tf_ma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -315,30 +329,34 @@ public class NguoiHoc extends javax.swing.JFrame {
                                 .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel4)
                                     .addComponent(rbtn_nam)
-                                    .addComponent(rbtn_nu))))))
-                .addGap(18, 18, 18)
-                .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(rbtn_nu))))
+                        .addGap(18, 18, 18)
+                        .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pn_mainLayout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(jLabel5))
+                            .addComponent(tf_sodienthoai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pn_mainLayout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(jLabel6))
+                            .addComponent(tf_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                        .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(tf_ngaydangky, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(pn_mainLayout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(jLabel5))
-                    .addComponent(tf_sodienthoai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pn_mainLayout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(jLabel6))
-                    .addComponent(tf_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(tf_ngaydangky, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(6, 6, 6)
+                        .addComponent(pn_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -352,7 +370,7 @@ public class NguoiHoc extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pn_main, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -372,24 +390,26 @@ public class NguoiHoc extends javax.swing.JFrame {
     private void btn_xoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xoaActionPerformed
         // TODO add your handling code here:
         try {
-               if(nv.getVaitro()==1){
-            JOptionPane.showMessageDialog(this,"chỉ trưởng phòng mới được dùng chức năng này");
-            return;
-        }
-        String ma = tf_ma.getText();
-        if (ma.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn người học cần xóa!");
-            return;
-        }
-        int parseMa = Integer.parseInt(ma);
-       
-        NguoiHocDao.XoaNH(parseMa);
-        NguoiHocDao.loadNguoiHoc();
-        JOptionPane.showMessageDialog(this, "Xóa thành công!");
-        clear();
+            if (nv.getVaitro() == 1) {
+                JOptionPane.showMessageDialog(this, "Chỉ trưởng phòng mới được dùng chức năng này");
+                return;
+            }
+            String ma = tf_ma.getText();
+            if (ma.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn người học cần xóa!");
+                return;
+            }
+            int hoi = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa người học này?", "Xóa người học", JOptionPane.YES_NO_OPTION);
+            if (hoi == JOptionPane.YES_OPTION) {
+                int parseMa = Integer.parseInt(ma);
+                NguoiHocDao.XoaNH(parseMa);
+                NguoiHocDao.loadNguoiHoc();
+                JOptionPane.showMessageDialog(this, "Xóa thành công!");
+                clear();
+            }
         } catch (Exception e) {
         }
-     
+
     }//GEN-LAST:event_btn_xoaActionPerformed
 
     private void btn_themActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_themActionPerformed
@@ -416,13 +436,23 @@ public class NguoiHoc extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập email!");
             return;
         }
-         String checkEmail = "\\w+@\\w+(\\.\\w+){1,2}";
-                if (!email.matches(checkEmail)) {
-                    JOptionPane.showMessageDialog(this, "Email không hợp lệ");
-                    tf_email.setBackground(Color.yellow);
-                    tf_email.requestFocus();
-                    return;
-                }
+        for (int i = 0; i < tb_fillNH.getRowCount(); i++) {
+            if (tb_fillNH.getValueAt(i, 4).toString().equals(soDienThoai)) {
+                JOptionPane.showMessageDialog(this, "Trùng số điện thoại!");
+                return;
+            }
+            if (tb_fillNH.getValueAt(i, 5).toString().equals(email)) {
+                JOptionPane.showMessageDialog(this, "Trùng email!");
+                return;
+            }
+        }
+        String checkEmail = "\\w+@\\w+(\\.\\w+){1,2}";
+        if (!email.matches(checkEmail)) {
+            JOptionPane.showMessageDialog(this, "Email không hợp lệ");
+            tf_email.setBackground(Color.yellow);
+            tf_email.requestFocus();
+            return;
+        }
         String ghiChu = ta_ghichu.getText().trim();
         String ngayDangKy = tf_ngaydangky.getText().trim();
         if (ngayDangKy.isEmpty()) {
@@ -514,6 +544,39 @@ public class NguoiHoc extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Sửa thành công!");
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void btn_timkiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_timkiemActionPerformed
+        // TODO add your handling code here:
+        boolean check = false;
+        String soDienThoai = tf_sodienthoai.getText().trim();
+        if (soDienThoai.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập số điện thoại!");
+            return;
+        }
+        for (int i = 0; i < tb_fillNH.getRowCount(); i++) {
+            if (soDienThoai.equals(tb_fillNH.getValueAt(i, 4))) {
+                tb_fillNH.setRowSelectionInterval(i, i);
+                int index = tb_fillNH.getSelectedRow();
+                tf_ma.setText(String.valueOf(tb_fillNH.getValueAt(index, 0)));
+                tf_hoten.setText(String.valueOf(tb_fillNH.getValueAt(index, 1)));
+                tf_ngaysinh.setText(String.valueOf(tb_fillNH.getValueAt(index, 2)));
+                if (String.valueOf(tb_fillNH.getValueAt(index, 3)).equals("Nam")) {
+                    rbtn_nam.setSelected(true);
+                } else {
+                    rbtn_nu.setSelected(true);
+                }
+                tf_sodienthoai.setText(String.valueOf(tb_fillNH.getValueAt(index, 4)));
+                tf_email.setText(String.valueOf(tb_fillNH.getValueAt(index, 5)));
+                ta_ghichu.setText(String.valueOf(tb_fillNH.getValueAt(index, 6)));
+                tf_ngaydangky.setText(String.valueOf(tb_fillNH.getValueAt(index, 8)));
+                check = true;
+            }
+        }
+        if (check == false) {
+            JOptionPane.showMessageDialog(this, "Người học không tồn tại");
+            return;
+        }
+    }//GEN-LAST:event_btn_timkiemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -548,6 +611,7 @@ public class NguoiHoc extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_lammoi;
     private javax.swing.JButton btn_them;
+    private javax.swing.JButton btn_timkiem;
     private javax.swing.JButton btn_xoa;
     private javax.swing.ButtonGroup btngr_gioitinh;
     private javax.swing.JButton jButton2;

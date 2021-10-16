@@ -64,19 +64,19 @@ public class HocVienDAO {
         }
     }
 
-    public static void loadHocVien() {
-        DefaultTableModel dtm = (DefaultTableModel) HocVien.tb_content.getModel();
-        dtm.setRowCount(0);
-        try {
-            Connection conn = DatabaseHelper.getConnection("EduSys");
-            String sql = "select * from hocvien where trangthai = 0";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                dtm.addRow(new Object[] {rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getFloat(4)});
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
+//    public static void loadHocVien() {
+//        DefaultTableModel dtm = (DefaultTableModel) HocVien.tb_content.getModel();
+//        dtm.setRowCount(0);
+//        try {
+//            Connection conn = DatabaseHelper.getConnection("EduSys");
+//            String sql = "select * from hocvien where trangthai = 0";
+//            PreparedStatement ps = conn.prepareStatement(sql);
+//            ResultSet rs = ps.executeQuery();
+//            while (rs.next()) {
+//                dtm.addRow(new Object[] {rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getFloat(4)});
+//            }
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
+//    }
 }

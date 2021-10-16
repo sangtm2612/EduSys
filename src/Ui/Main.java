@@ -32,7 +32,7 @@ public class Main extends javax.swing.JFrame {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Image/logo20.png")));
         setResizable(false);
         setLocationRelativeTo(null);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
         Thread t = new Thread(new Runnable() {
             @Override
