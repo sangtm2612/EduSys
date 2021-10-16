@@ -71,6 +71,7 @@ public class NguoiHocDao {
 
     public static void XoaNH(int MaNH) {
         try {
+            
             Connection conn = DatabaseHelper.getConnection("EduSys");
             String sql = "update nguoihoc set trangthai = 1 where manh = ?";
             PreparedStatement ps = conn.prepareStatement(sql);

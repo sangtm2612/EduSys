@@ -7,11 +7,21 @@ package Ui;
 
 import Database.DatabaseHelper;
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import static org.apache.commons.math3.fitting.leastsquares.LeastSquaresFactory.model;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -66,17 +76,21 @@ public class ThongKe extends javax.swing.JFrame {
         cbb_khoahoc = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tb_bangdiem = new javax.swing.JTable();
+        Btn_xuatdiem = new javax.swing.JButton();
         pn_nguoihoc = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tb_nguoihoc = new javax.swing.JTable();
+        btn_xuatnguoihoc = new javax.swing.JButton();
         pn_diemchuyende = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tb_diemchuyende = new javax.swing.JTable();
+        btn_xuatdiemchuyende = new javax.swing.JButton();
         pn_doanhthu = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         cbb_nam = new javax.swing.JComboBox<>();
         jScrollPane4 = new javax.swing.JScrollPane();
         tb_doanhthu = new javax.swing.JTable();
+        btn_doanhthu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("THỐNG KÊ");
@@ -124,6 +138,13 @@ public class ThongKe extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tb_bangdiem);
 
+        Btn_xuatdiem.setText("Xuất File Excel");
+        Btn_xuatdiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_xuatdiemActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pn_bangdiemLayout = new javax.swing.GroupLayout(pn_bangdiem);
         pn_bangdiem.setLayout(pn_bangdiemLayout);
         pn_bangdiemLayout.setHorizontalGroup(
@@ -133,8 +154,12 @@ public class ThongKe extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cbb_khoahoc, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(147, 147, 147))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 808, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_bangdiemLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Btn_xuatdiem)
+                .addGap(39, 39, 39))
         );
         pn_bangdiemLayout.setVerticalGroup(
             pn_bangdiemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -143,8 +168,10 @@ public class ThongKe extends javax.swing.JFrame {
                 .addGroup(pn_bangdiemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(cbb_khoahoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Btn_xuatdiem)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 646, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         tb_thongke.addTab("Bảng điểm", pn_bangdiem);
@@ -161,15 +188,30 @@ public class ThongKe extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tb_nguoihoc);
 
+        btn_xuatnguoihoc.setText("Xuất File Excel");
+        btn_xuatnguoihoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_xuatnguoihocActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pn_nguoihocLayout = new javax.swing.GroupLayout(pn_nguoihoc);
         pn_nguoihoc.setLayout(pn_nguoihocLayout);
         pn_nguoihocLayout.setHorizontalGroup(
             pn_nguoihocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 808, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_nguoihocLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_xuatnguoihoc)
+                .addGap(48, 48, 48))
         );
         pn_nguoihocLayout.setVerticalGroup(
             pn_nguoihocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 648, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_nguoihocLayout.createSequentialGroup()
+                .addGap(0, 33, Short.MAX_VALUE)
+                .addComponent(btn_xuatnguoihoc)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 693, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         tb_thongke.addTab("Người học", pn_nguoihoc);
@@ -186,15 +228,30 @@ public class ThongKe extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(tb_diemchuyende);
 
+        btn_xuatdiemchuyende.setText("Xuất File Excel");
+        btn_xuatdiemchuyende.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_xuatdiemchuyendeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pn_diemchuyendeLayout = new javax.swing.GroupLayout(pn_diemchuyende);
         pn_diemchuyende.setLayout(pn_diemchuyendeLayout);
         pn_diemchuyendeLayout.setHorizontalGroup(
             pn_diemchuyendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 808, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_diemchuyendeLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_xuatdiemchuyende)
+                .addGap(79, 79, 79))
         );
         pn_diemchuyendeLayout.setVerticalGroup(
             pn_diemchuyendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 648, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_diemchuyendeLayout.createSequentialGroup()
+                .addGap(0, 50, Short.MAX_VALUE)
+                .addComponent(btn_xuatdiemchuyende)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 669, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         tb_thongke.addTab("Điểm chuyên đề", pn_diemchuyende);
@@ -215,6 +272,13 @@ public class ThongKe extends javax.swing.JFrame {
         ));
         jScrollPane4.setViewportView(tb_doanhthu);
 
+        btn_doanhthu.setText("Xuất File Excel");
+        btn_doanhthu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_doanhthuActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pn_doanhthuLayout = new javax.swing.GroupLayout(pn_doanhthu);
         pn_doanhthu.setLayout(pn_doanhthuLayout);
         pn_doanhthuLayout.setHorizontalGroup(
@@ -226,6 +290,10 @@ public class ThongKe extends javax.swing.JFrame {
                 .addComponent(cbb_nam, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 808, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_doanhthuLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_doanhthu)
+                .addGap(35, 35, 35))
         );
         pn_doanhthuLayout.setVerticalGroup(
             pn_doanhthuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,8 +302,10 @@ public class ThongKe extends javax.swing.JFrame {
                 .addGroup(pn_doanhthuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(cbb_nam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btn_doanhthu)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         tb_thongke.addTab("Doanh thu", pn_doanhthu);
@@ -261,7 +331,7 @@ public class ThongKe extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tb_thongke))
         );
 
@@ -269,15 +339,11 @@ public class ThongKe extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 2, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -306,6 +372,22 @@ public class ThongKe extends javax.swing.JFrame {
         this.dispose();
         new Main(nv).setVisible(true);
     }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void Btn_xuatdiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_xuatdiemActionPerformed
+        ngu((DefaultTableModel) tb_bangdiem.getModel());
+    }//GEN-LAST:event_Btn_xuatdiemActionPerformed
+
+    private void btn_xuatnguoihocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xuatnguoihocActionPerformed
+       ngu((DefaultTableModel) tb_nguoihoc.getModel());
+    }//GEN-LAST:event_btn_xuatnguoihocActionPerformed
+
+    private void btn_xuatdiemchuyendeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xuatdiemchuyendeActionPerformed
+        ngu((DefaultTableModel) tb_diemchuyende.getModel());
+    }//GEN-LAST:event_btn_xuatdiemchuyendeActionPerformed
+
+    private void btn_doanhthuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_doanhthuActionPerformed
+        ngu((DefaultTableModel) tb_doanhthu.getModel());
+    }//GEN-LAST:event_btn_doanhthuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -343,6 +425,10 @@ public class ThongKe extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Btn_xuatdiem;
+    private javax.swing.JButton btn_doanhthu;
+    private javax.swing.JButton btn_xuatdiemchuyende;
+    private javax.swing.JButton btn_xuatnguoihoc;
     private javax.swing.JComboBox<String> cbb_khoahoc;
     private javax.swing.JComboBox<String> cbb_nam;
     private javax.swing.JLabel jLabel1;
@@ -364,4 +450,52 @@ public class ThongKe extends javax.swing.JFrame {
     private javax.swing.JTable tb_nguoihoc;
     private javax.swing.JTabbedPane tb_thongke;
     // End of variables declaration//GEN-END:variables
+
+    private void ngu(DefaultTableModel model) {
+        
+          JFileChooser fchoChooser = new JFileChooser();
+        int result = fchoChooser.showSaveDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            try {
+                if (!fchoChooser.getSelectedFile().toString().endsWith(".xlsx")) {
+                    JOptionPane.showMessageDialog(this, "ngu");
+                    return;
+                }
+                File newFile = new File(fchoChooser.getSelectedFile().toString());
+                FileOutputStream file = new FileOutputStream(newFile.getAbsoluteFile().getPath());
+//       
+                XSSFWorkbook wb = new XSSFWorkbook();
+                XSSFSheet wsheep = wb.createSheet("name");
+                XSSFRow row = wsheep.createRow((short) 0);
+                XSSFCell h;
+//      
+                for (int i = 0; i < model.getColumnCount(); i++) {
+                    h = row.createCell((short) i);
+                    h.setCellValue(model.getColumnName(i));
+                }
+                XSSFRow row1;
+                XSSFCell a1;
+                XSSFCell a2;
+                XSSFCell a3;
+                XSSFCell a4;
+                for (int i = 0; i < model.getRowCount(); i++) {
+                    row1 = wsheep.createRow((short) i + 1);
+//           
+                    for (int j = 0; j < model.getColumnCount(); j++) {
+                        a1 = row1.createCell((short) j);
+                        a1.setCellValue(model.getValueAt(i, j).toString());
+                    }
+                }
+                wb.write(file);
+                wb.close();
+                file.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                
+            }
+        }
+
+        
+    }
 }

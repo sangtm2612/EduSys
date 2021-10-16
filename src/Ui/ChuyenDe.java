@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
  * @author sangt
  */
 public class ChuyenDe extends javax.swing.JFrame {
-
+DefaultTableModel model;
     Model.NhanVien nv;
 
     /**
@@ -31,6 +31,7 @@ public class ChuyenDe extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         this.nv = nv;
         ChuyenDeDAO.loadChuyenDe();
+        model=(DefaultTableModel) tb_content.getModel();
     }
 
     public void clearForm() {
@@ -348,6 +349,10 @@ public class ChuyenDe extends javax.swing.JFrame {
 
     private void btn_xoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xoaActionPerformed
         // TODO add your handling code here:
+        if(nv.getVaitro()==1){
+            JOptionPane.showMessageDialog(this,"chỉ trưởng phòng mới được dùng chức năng này");
+            return;
+        }
         String ma = tf_ma.getText().trim();
         if (ma.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn chuyên đề cần xóa!");
@@ -396,8 +401,17 @@ public class ChuyenDe extends javax.swing.JFrame {
         int thoiLuong = Integer.parseInt(thoiString);
         String hinh = tf_hinh.getText().trim();
         String moTa = ta_mota.getText().trim();
+          for(int i=0;i<model.getRowCount();i++){
+                if(model.getValueAt(i, 1).equals(tf_chuyende.getText())){
+                    JOptionPane.showMessageDialog(this, "trùng tên chuyên đề");
+                    return; 
+                }
+               
+                
+            } 
         ChuyenDeDAO.themCD(tenChuyenDe, hocPhi, thoiLuong, hinh, moTa);
         ChuyenDeDAO.loadChuyenDe();
+        
         JOptionPane.showMessageDialog(this, "Thêm thành công!");
 
     }//GEN-LAST:event_btn_themActionPerformed
@@ -418,6 +432,7 @@ public class ChuyenDe extends javax.swing.JFrame {
         tf_thoiluong.setText(String.valueOf(tb_content.getValueAt(i, 3)));
         ta_mota.setText(String.valueOf(tb_content.getValueAt(i, 5)));
         lb_anh.setIcon(new javax.swing.ImageIcon(String.valueOf(tb_content.getValueAt(i, 4))));
+        tb_content.setRowSelectionInterval(i, i);
     }//GEN-LAST:event_tb_contentMouseClicked
 
     private void btn_suaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_suaActionPerformed
