@@ -95,5 +95,3 @@ select tencd, ngaykg from khoahoc join chuyende on chuyende.macd = khoahoc.macd
 
 
 
-
-select tencd, ngaykg, makh from khoahoc join chuyende on chuyende.macd = khoahoc.macd WHERE dbo.KhoaHoc.TrangThai = 0
