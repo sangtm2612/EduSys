@@ -75,7 +75,7 @@ public class KhoaHocDAO {
     
     public static void loadKhoaHoc() {
         DefaultTableModel dtm = (DefaultTableModel) KhoaHoc.tb_content.getModel();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy");
         dtm.setRowCount(0);
         try {
             Connection conn = DatabaseHelper.getConnection("EduSys");

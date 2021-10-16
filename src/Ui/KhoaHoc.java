@@ -49,7 +49,7 @@ public class KhoaHoc extends javax.swing.JFrame {
 
     public void clearForm() {
         tf_hocphi.setText("");
-        tf_ngaykhaigiang.setText("");
+        dc_calendar.setDate(null);
         tf_thoiluong.setText("");
         tf_ghichu.setText("");
     }
@@ -68,19 +68,11 @@ public class KhoaHoc extends javax.swing.JFrame {
         }
     }
 
-    public long parseDate(String ngay) {
-        Date d = null;
-        try {
-            d = new SimpleDateFormat("dd/MM/yyyy").parse(ngay);
-        } catch (ParseException ex) {
-            Logger.getLogger(NguoiHoc.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return d.getTime();
-    }
+    
 
     public void loadTable(int macd) {
         DefaultTableModel dtm = (DefaultTableModel) KhoaHoc.tb_content.getModel();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy");
         dtm.setRowCount(0);
         try {
             Connection conn = DatabaseHelper.getConnection("EduSys");
@@ -102,9 +94,15 @@ public class KhoaHoc extends javax.swing.JFrame {
 
     public void fillForm(int i) {
         tf_hocphi.setText(String.valueOf(tb_content.getValueAt(i, 2)));
-        tf_ngaykhaigiang.setText(String.valueOf(tb_content.getValueAt(i, 4)));
         tf_thoiluong.setText(String.valueOf(tb_content.getValueAt(i, 3)));
         tf_ghichu.setText(String.valueOf(tb_content.getValueAt(i, 5)));
+        String date = String.valueOf(tb_content.getValueAt(i, 4));
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy");
+        try {
+            dc_calendar.setDate(sdf.parse(date));
+        } catch (ParseException ex) {
+            Logger.getLogger(KhoaHoc.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -131,12 +129,12 @@ public class KhoaHoc extends javax.swing.JFrame {
         tb_content = new javax.swing.JTable();
         tf_hocphi = new javax.swing.JTextField();
         tf_thoiluong = new javax.swing.JTextField();
-        tf_ngaykhaigiang = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tf_ghichu = new javax.swing.JTextArea();
         cbb_chuyende = new javax.swing.JComboBox<>();
+        dc_calendar = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("QUẢN LÝ KHÓA HỌC");
@@ -240,13 +238,6 @@ public class KhoaHoc extends javax.swing.JFrame {
             }
         });
 
-        tf_ngaykhaigiang.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        tf_ngaykhaigiang.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tf_ngaykhaigiangMouseClicked(evt);
-            }
-        });
-
         jLabel7.setText("Bảng khóa học:");
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/trolai.png"))); // NOI18N
@@ -287,11 +278,11 @@ public class KhoaHoc extends javax.swing.JFrame {
                             .addComponent(jLabel4))
                         .addGap(24, 24, 24)
                         .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(tf_ngaykhaigiang, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(tf_thoiluong, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                             .addComponent(tf_hocphi, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                            .addComponent(cbb_chuyende, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbb_chuyende, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dc_calendar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(61, 61, 61)))
                 .addComponent(pn_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -303,7 +294,7 @@ public class KhoaHoc extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pn_mainLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jScrollPane2, tf_hocphi, tf_ngaykhaigiang, tf_thoiluong});
+        pn_mainLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jScrollPane2, tf_hocphi, tf_thoiluong});
 
         pn_mainLayout.setVerticalGroup(
             pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -326,16 +317,14 @@ public class KhoaHoc extends javax.swing.JFrame {
                         .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(tf_thoiluong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(21, 21, 21)
+                        .addGap(22, 22, 22)
                         .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pn_mainLayout.createSequentialGroup()
-                                .addGap(1, 1, 1)
                                 .addComponent(jLabel5)
                                 .addGap(22, 22, 22)
-                                .addComponent(jLabel6)
-                                .addGap(58, 58, 58))
+                                .addComponent(jLabel6))
                             .addGroup(pn_mainLayout.createSequentialGroup()
-                                .addComponent(tf_ngaykhaigiang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(dc_calendar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(18, 18, 18)
@@ -379,12 +368,11 @@ public class KhoaHoc extends javax.swing.JFrame {
 
     private void btn_themActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_themActionPerformed
         // TODO add your handling code here:
-        String ngayKG = tf_ngaykhaigiang.getText().trim();
-        if (ngayKG.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập ngày khai giảng!");
+        if (dc_calendar.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày khai giảng!");
             return;
         }
-        long ngayKhaiGiang = parseDate(ngayKG);
+        long ngayKhaiGiang = dc_calendar.getDate().getTime();
         Model.ChuyenDe cd = (Model.ChuyenDe) dcm.getSelectedItem();
         String ghiChu = tf_ghichu.getText().trim();
         KhoaHocDAO.themKH(cd.getMaCD(), cd.getHocPhi(), cd.getThoiLuong(), ngayKhaiGiang, ghiChu, nv.getMaNv());
@@ -404,9 +392,15 @@ public class KhoaHoc extends javax.swing.JFrame {
         // TODO add your handling code here:
         int i = tb_content.getSelectedRow();
         tf_hocphi.setText(String.valueOf(tb_content.getValueAt(i, 2)));
-        tf_ngaykhaigiang.setText(String.valueOf(tb_content.getValueAt(i, 4)));
         tf_thoiluong.setText(String.valueOf(tb_content.getValueAt(i, 3)));
         tf_ghichu.setText(String.valueOf(tb_content.getValueAt(i, 5)));
+        String date = String.valueOf(tb_content.getValueAt(i, 4));
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy");
+        try {
+            dc_calendar.setDate(sdf.parse(date));
+        } catch (ParseException ex) {
+            Logger.getLogger(KhoaHoc.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_tb_contentMouseClicked
 
     private void btn_suaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_suaActionPerformed
@@ -418,23 +412,17 @@ public class KhoaHoc extends javax.swing.JFrame {
         }
         String maKH = tb_content.getValueAt(index, 0).toString();
         int maInt = Integer.parseInt(maKH);
-        String ngayKG = tf_ngaykhaigiang.getText().trim();
-        if (ngayKG.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập ngày khai giảng!");
+        if (dc_calendar.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày khai giảng!");
             return;
         }
         Model.ChuyenDe cd = (Model.ChuyenDe) dcm.getSelectedItem();
-        long ngayKhaiGiang = parseDate(ngayKG);
         String ghiChu = tf_ghichu.getText().trim();
-        KhoaHocDAO.suaKH(maInt, cd.getMaCD(), cd.getHocPhi(), cd.getThoiLuong(), ngayKhaiGiang, ghiChu);
+        KhoaHocDAO.suaKH(maInt, cd.getMaCD(), cd.getHocPhi(), cd.getThoiLuong(), dc_calendar.getDate().getTime(), ghiChu);
         KhoaHocDAO.loadKhoaHoc();
         JOptionPane.showMessageDialog(this, "Sửa thành công!");
 
     }//GEN-LAST:event_btn_suaActionPerformed
-
-    private void tf_ngaykhaigiangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tf_ngaykhaigiangMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tf_ngaykhaigiangMouseClicked
 
     private void tf_thoiluongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tf_thoiluongMouseClicked
         // TODO add your handling code here:
@@ -499,6 +487,7 @@ public class KhoaHoc extends javax.swing.JFrame {
     private javax.swing.JButton btn_them;
     private javax.swing.JButton btn_xoa;
     private javax.swing.JComboBox<String> cbb_chuyende;
+    private com.toedter.calendar.JDateChooser dc_calendar;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -513,7 +502,6 @@ public class KhoaHoc extends javax.swing.JFrame {
     public static javax.swing.JTable tb_content;
     private javax.swing.JTextArea tf_ghichu;
     private javax.swing.JTextField tf_hocphi;
-    private javax.swing.JTextField tf_ngaykhaigiang;
     private javax.swing.JTextField tf_thoiluong;
     // End of variables declaration//GEN-END:variables
 }

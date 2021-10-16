@@ -193,7 +193,7 @@ public class Login extends javax.swing.JFrame {
         NhanVien nv = getNhanVien(user, pass);
 
         if (nv == null) {
-            JOptionPane.showMessageDialog(this, "Lỗi đăng nhập");
+            JOptionPane.showMessageDialog(this, "Tài khoản không tồn tại!");
         } else {
             System.out.println("Đăng nhập thành công");
             new Main(nv);
