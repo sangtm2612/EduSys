@@ -429,7 +429,7 @@ public class NhanVien extends javax.swing.JFrame {
                 }
                 
         int vaitro = rbtn_truongphong.isSelected() ? 0 : 1;
-        NhanVienDAO.suaNV(ma, hoten, email, vaitro);
+        NhanVienDAO.suaNV(ma, nv.getMatKhau(), hoten, email, vaitro);
         NhanVienDAO.loadNhanVien();
     }//GEN-LAST:event_btn_suaActionPerformed
 

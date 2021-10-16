@@ -181,7 +181,7 @@ public class DoiMatKhau extends javax.swing.JFrame {
             return;
         }
         if (mkcu.equals(nv.getMatKhau()) && mkmoi.equals(mkxacnhan)) {
-            NhanVienDAO.suaNV(nv.getMaNv(), mkmoi, nv.getHoTen(), nv.getVaitro());
+            NhanVienDAO.suaNV(nv.getMaNv(), mkmoi, nv.getHoTen(), nv.getEmail(), nv.getVaitro());
             nv.setMaNv(mkmoi);
             JOptionPane.showMessageDialog(this, "Đổi mật khẩu thành công!");
             this.dispose();

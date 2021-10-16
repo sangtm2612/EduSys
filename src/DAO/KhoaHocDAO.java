@@ -93,7 +93,4 @@ public class KhoaHocDAO {
             System.out.println(e);
         }
     }
-
-    public static void main(String[] args) {
-    }
 }

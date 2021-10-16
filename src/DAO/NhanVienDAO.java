@@ -36,16 +36,17 @@ public class NhanVienDAO {
         }
     }
 
-    public static void suaNV(String Ma, String HoTen, String Email, int VaiTro) {
+    public static void suaNV(String Ma, String MatKhau, String HoTen, String Email, int VaiTro) {
         try {
             Connection conn = DatabaseHelper.getConnection("EduSys");
-            String sql = "update NhanVien set HoTen = ?, Email = ?, VaiTro = ? where manv = ?";
+            String sql = "update NhanVien set MatKhau = ?, HoTen = ?, Email = ?, VaiTro = ? where manv = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
 
-            ps.setString(4, Ma);
-            ps.setString(1, HoTen);
-            ps.setString(2, Email);
-            ps.setInt(3, VaiTro);
+            ps.setString(5, Ma);
+            ps.setString(1, MatKhau);
+            ps.setString(2, HoTen);
+            ps.setString(3, Email);
+            ps.setInt(4, VaiTro);
 
             int rs = ps.executeUpdate();
             System.out.println(rs);
