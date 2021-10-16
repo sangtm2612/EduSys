@@ -53,8 +53,6 @@ public class HocVien extends javax.swing.JFrame {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-//                String tencd = String.valueOf(rs.getString(1));
-//                Date d = new Date(rs.getDate(2).getTime());
                 Model.KhoaHoc kh = new Model.KhoaHoc();
                 kh.setMaKH(rs.getInt(3));
                 kh.setTenCD(rs.getString(1));
