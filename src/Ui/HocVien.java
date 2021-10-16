@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,6 +25,7 @@ public class HocVien extends javax.swing.JFrame {
 
     Model.NhanVien nv;
     DefaultComboBoxModel dcm;
+    DefaultTableModel dtm;
 
     /**
      * Creates new form ChuyenDe
@@ -34,7 +36,7 @@ public class HocVien extends javax.swing.JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         this.nv = nv;
-        HocVienDAO.loadHocVien();
+//        HocVienDAO.loadHocVien();
         dcm = (DefaultComboBoxModel) cbb_khoahoc.getModel();
         loadKhoaHoc();
     }
@@ -49,12 +51,10 @@ public class HocVien extends javax.swing.JFrame {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("(MMM d, yyyy)");
             Connection conn = DatabaseHelper.getConnection("EduSys");
-            String sql = "select tencd, ngaykg, makh from khoahoc join chuyende on chuyende.macd = khoahoc.macd WHERE dbo.KhoaHoc.TrangThai = 0";
+            String sql = "select tencd, ngaykg, makh from khoahoc join chuyende on chuyende.macd = khoahoc.macd WHERE dbo.KhoaHoc.TrangThai = 0 and ChuyenDe.TrangThai = 0";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-//                String tencd = String.valueOf(rs.getString(1));
-//                Date d = new Date(rs.getDate(2).getTime());
                 Model.KhoaHoc kh = new Model.KhoaHoc();
                 kh.setMaKH(rs.getInt(3));
                 kh.setTenCD(rs.getString(1));
@@ -65,6 +65,26 @@ public class HocVien extends javax.swing.JFrame {
             System.out.println(e);
         }
     }
+    
+    public void loadTableHocVien() {
+        dtm = (DefaultTableModel) tb_content.getModel();
+        dtm.setRowCount(0);
+        try {
+            Model.KhoaHoc kh = (Model.KhoaHoc) dcm.getSelectedItem();
+            Connection conn = DatabaseHelper.getConnection("EduSys");
+            String sql = "select * from hocvien where trangthai = 0 and makh = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, kh.getMaKH());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                dtm.addRow(new Object[] {rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getFloat(4)});
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -187,6 +207,12 @@ public class HocVien extends javax.swing.JFrame {
             }
         });
 
+        cbb_khoahoc.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbb_khoahocItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout pn_mainLayout = new javax.swing.GroupLayout(pn_main);
         pn_main.setLayout(pn_mainLayout);
         pn_mainLayout.setHorizontalGroup(
@@ -274,8 +300,9 @@ public class HocVien extends javax.swing.JFrame {
         }
         int parseHV = Integer.parseInt(maHocVien);
         HocVienDAO.XoaHV(parseHV);
-        HocVienDAO.loadHocVien();
+        loadTableHocVien();
         JOptionPane.showMessageDialog(this, "Xóa thành công!");
+        clear();
     }//GEN-LAST:event_btn_xoaActionPerformed
 
     private void tf_manguoihocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_manguoihocActionPerformed
@@ -292,7 +319,7 @@ public class HocVien extends javax.swing.JFrame {
     private void btn_lammoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lammoiActionPerformed
         // TODO add your handling code here:
         clear();
-        HocVienDAO.loadHocVien();
+        loadTableHocVien();
     }//GEN-LAST:event_btn_lammoiActionPerformed
 
     private void btn_themActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_themActionPerformed
@@ -303,6 +330,12 @@ public class HocVien extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập mã người học!");
             return;
         }
+        for (int i = 0; i < tb_content.getRowCount(); i++) {
+                if (tb_content.getValueAt(i, 2).toString().equals(maNguoiHoc)) {
+                    JOptionPane.showMessageDialog(this, "Trùng mã người học!");
+                    return;
+                }
+            }
         int parseNH = Integer.parseInt(maNguoiHoc);
         String diem = tf_diem.getText().trim();
         if (diem.isEmpty()) {
@@ -312,7 +345,7 @@ public class HocVien extends javax.swing.JFrame {
         float parseDiem = Float.parseFloat(diem);
         try {
             HocVienDAO.ThemHV(kh.getMaKH(), parseNH, parseDiem);
-            HocVienDAO.loadHocVien();
+            loadTableHocVien();
             JOptionPane.showMessageDialog(this, "Thêm thành công!");
         } catch (Exception e) {
             System.out.println(e);
@@ -339,7 +372,7 @@ public class HocVien extends javax.swing.JFrame {
         float parseDiem = Float.parseFloat(diem);
         try {
             HocVienDAO.SuaHV(parseHV, kh.getMaKH(), parseNH, parseDiem);
-            HocVienDAO.loadHocVien();
+            loadTableHocVien();
             JOptionPane.showMessageDialog(this, "Sửa thành công!");
         } catch (Exception e) {
             System.out.println(e);
@@ -363,6 +396,13 @@ public class HocVien extends javax.swing.JFrame {
         tf_manguoihoc.setText(String.valueOf(tb_content.getValueAt(index, 2)));
         tf_diem.setText(String.valueOf(tb_content.getValueAt(index, 3)));
     }//GEN-LAST:event_tb_contentMouseClicked
+
+    private void cbb_khoahocItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbb_khoahocItemStateChanged
+        // TODO add your handling code here:
+        loadTableHocVien();
+        clear();
+           
+    }//GEN-LAST:event_cbb_khoahocItemStateChanged
 
     /**
      * @param args the command line arguments

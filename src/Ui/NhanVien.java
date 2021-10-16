@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
  * @author sangt
  */
 public class NhanVien extends javax.swing.JFrame {
+
     DefaultTableModel model;
     Model.NhanVien nv;
     int index;
@@ -30,7 +31,7 @@ public class NhanVien extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         this.nv = nv;
         NhanVienDAO.loadNhanVien();
-        model =(DefaultTableModel) tb_fillNV.getModel();
+        model = (DefaultTableModel) tb_fillNV.getModel();
 //        if(model.getRowCount()>0){
 //            index=1;
 //            showdetail();
@@ -56,6 +57,7 @@ public class NhanVien extends javax.swing.JFrame {
         btn_sua = new javax.swing.JButton();
         btn_xoa = new javax.swing.JButton();
         btn_lammoi = new javax.swing.JButton();
+        btn_timkiem = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tb_fillNV = new javax.swing.JTable();
         tf_ma = new javax.swing.JTextField();
@@ -82,7 +84,7 @@ public class NhanVien extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Vai trò:");
 
-        pn_btn.setLayout(new java.awt.GridLayout(4, 1, 0, 5));
+        pn_btn.setLayout(new java.awt.GridLayout(5, 1, 0, 5));
 
         btn_them.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btn_them.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/them.png"))); // NOI18N
@@ -123,6 +125,16 @@ public class NhanVien extends javax.swing.JFrame {
             }
         });
         pn_btn.add(btn_lammoi);
+
+        btn_timkiem.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btn_timkiem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Search.png"))); // NOI18N
+        btn_timkiem.setText("Tìm Kiếm");
+        btn_timkiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_timkiemActionPerformed(evt);
+            }
+        });
+        pn_btn.add(btn_timkiem);
 
         tb_fillNV.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -188,38 +200,37 @@ public class NhanVien extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 629, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pn_mainLayout.createSequentialGroup()
-                        .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pn_mainLayout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(pn_mainLayout.createSequentialGroup()
-                                        .addComponent(jLabel8)
-                                        .addGap(197, 197, 197)
-                                        .addComponent(jLabel6))
-                                    .addGroup(pn_mainLayout.createSequentialGroup()
-                                        .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel1)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabel5)
-                                            .addComponent(jLabel4)
-                                            .addComponent(jLabel3))
-                                        .addGap(56, 56, 56)
-                                        .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(pn_mainLayout.createSequentialGroup()
-                                                .addComponent(rbtn_truongphong)
-                                                .addGap(27, 27, 27)
-                                                .addComponent(rbtn_nhanvien, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(tf_hoten, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
-                                            .addComponent(tf_ma)
-                                            .addComponent(tf_email)
-                                            .addComponent(tf_matkhau))))
-                                .addGap(62, 62, 62)
-                                .addComponent(pn_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pn_mainLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel7)))
+                        .addContainerGap()
+                        .addComponent(jLabel7)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(pn_mainLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pn_mainLayout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(197, 197, 197)
+                        .addComponent(jLabel6))
+                    .addGroup(pn_mainLayout.createSequentialGroup()
+                        .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3))
+                        .addGap(56, 56, 56)
+                        .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(pn_mainLayout.createSequentialGroup()
+                                .addComponent(rbtn_truongphong)
+                                .addGap(27, 27, 27)
+                                .addComponent(rbtn_nhanvien, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tf_hoten, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+                            .addComponent(tf_ma)
+                            .addComponent(tf_email)
+                            .addComponent(tf_matkhau))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pn_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60))
         );
 
         pn_mainLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {tf_hoten, tf_ma});
@@ -235,8 +246,7 @@ public class NhanVien extends javax.swing.JFrame {
                         .addGap(26, 26, 26)
                         .addComponent(jLabel6)
                         .addGap(18, 18, 18)
-                        .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pn_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(pn_mainLayout.createSequentialGroup()
                                 .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
@@ -258,7 +268,8 @@ public class NhanVien extends javax.swing.JFrame {
                                 .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(rbtn_truongphong)
                                     .addComponent(rbtn_nhanvien)
-                                    .addComponent(jLabel4))))))
+                                    .addComponent(jLabel4)))
+                            .addComponent(pn_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -294,23 +305,27 @@ public class NhanVien extends javax.swing.JFrame {
 
     private void btn_xoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xoaActionPerformed
         // TODO add your handling code here:
-        if(nv.getVaitro()==1){
-            JOptionPane.showMessageDialog(this,"chỉ trưởng phòng mới được dùng chức năng này");
-            return;
-        }
         String ma = tf_ma.getText().trim();
         if (ma.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập mã nhân viên");
             return;
         }
-          
-                if(tf_ma.getText().equals(nv.getMaNv())){
-                    JOptionPane.showMessageDialog(this, "bạn không thể xóa nhân viên khi đang dùng tài khoản này");
-                    return; 
-                }
-        NhanVienDAO.xoaNV(ma);
-        NhanVienDAO.loadNhanVien();
-        clear();
+        int hoi = JOptionPane.showConfirmDialog(this, "Bạn có muốn đuổi việc nhân viên này?", "Đuổi việc", JOptionPane.YES_NO_OPTION);
+        if (hoi == JOptionPane.YES_OPTION) {
+            if (nv.getVaitro() == 1) {
+                JOptionPane.showMessageDialog(this, "chỉ trưởng phòng mới được dùng chức năng này");
+                return;
+            }
+
+            if (tf_ma.getText().equals(nv.getMaNv())) {
+                JOptionPane.showMessageDialog(this, "Bạn không thể đuổi việc chính mình!");
+                return;
+            }
+            NhanVienDAO.xoaNV(ma);
+            NhanVienDAO.loadNhanVien();
+            JOptionPane.showMessageDialog(this, "Nhân viên " + tf_hoten.getText() + " đã bị đuổi việc!");
+            clear();
+        }
     }//GEN-LAST:event_btn_xoaActionPerformed
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
@@ -331,51 +346,51 @@ public class NhanVien extends javax.swing.JFrame {
         String hoten = tf_hoten.getText().trim();
         String email = tf_email.getText().trim();
         try {
-              if (ma.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã nhân viên");
-            return;
-        }
-        if (matkhau.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập mật khẩu");
-            return;
-        }
-        if (hoten.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập họ tên nhân viên");
-            return;
-        }
-        if (email.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập email");
-            return;
-        }
-         String checkEmail = "\\w+@\\w+(\\.\\w+){1,2}";
-                if (!email.matches(checkEmail)) {
-                    JOptionPane.showMessageDialog(this, "Email không hợp lệ");
-                    tf_email.setBackground(Color.yellow);
-                    tf_email.requestFocus();
+            if (ma.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập mã nhân viên");
+                return;
+            }
+            if (matkhau.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập mật khẩu");
+                return;
+            }
+            if (hoten.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập họ tên nhân viên");
+                return;
+            }
+            if (email.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập email");
+                return;
+            }
+            String checkEmail = "\\w+@\\w+(\\.\\w+){1,2}";
+            if (!email.matches(checkEmail)) {
+                JOptionPane.showMessageDialog(this, "Email không hợp lệ");
+                tf_email.setBackground(Color.yellow);
+                tf_email.requestFocus();
+                return;
+            }
+
+            for (int i = 0; i < model.getRowCount(); i++) {
+                if (model.getValueAt(i, 0).equals(ma)) {
+                    JOptionPane.showMessageDialog(this, "trùng mã nhân viên");
                     return;
                 }
-       
-              for(int i=0;i<model.getRowCount();i++){
-                if(model.getValueAt(i, 0).equals(ma)){
-                    JOptionPane.showMessageDialog(this, "trùng mã nhân viên");
-                    return; 
-                }
-                if(model.getValueAt(i, 2).equals(email)){
+                if (model.getValueAt(i, 2).equals(email)) {
                     JOptionPane.showMessageDialog(this, "trùng email");
-                    return; 
+                    return;
                 }
-                
-            } 
-        
-        int vaitro = rbtn_truongphong.isSelected() ? 0 : 1;
-        
-        NhanVienDAO.themNV(ma, matkhau, hoten, email, vaitro);
-        NhanVienDAO.loadNhanVien();
-        showdetail();
-        JOptionPane.showMessageDialog(this, "thêm thành công");
+
+            }
+
+            int vaitro = rbtn_truongphong.isSelected() ? 0 : 1;
+
+            NhanVienDAO.themNV(ma, matkhau, hoten, email, vaitro);
+            NhanVienDAO.loadNhanVien();
+            showdetail();
+            JOptionPane.showMessageDialog(this, "thêm thành công");
         } catch (Exception e) {
         }
-      
+
     }//GEN-LAST:event_btn_themActionPerformed
 
     private void btn_lammoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lammoiActionPerformed
@@ -390,7 +405,7 @@ public class NhanVien extends javax.swing.JFrame {
 
     public void showdetail() {
         // TODO add your handling code here:
-         index = tb_fillNV.getSelectedRow();
+        index = tb_fillNV.getSelectedRow();
         tf_ma.setText(String.valueOf(tb_fillNV.getValueAt(index, 0)));
         tf_hoten.setText(String.valueOf(tb_fillNV.getValueAt(index, 1)));
         tf_email.setText(String.valueOf(tb_fillNV.getValueAt(index, 2)));
@@ -412,6 +427,10 @@ public class NhanVien extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập mã nhân viên");
             return;
         }
+        if (ma.equals(nv.getMaNv()) && rbtn_nhanvien.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Không được giáng chức chính mình!");
+            return;
+        }
         if (hoten.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập họ tên nhân viên");
             return;
@@ -421,17 +440,38 @@ public class NhanVien extends javax.swing.JFrame {
             return;
         }
         String checkEmail = "\\w+@\\w+(\\.\\w+){1,2}";
-                if (!email.matches(checkEmail)) {
-                    JOptionPane.showMessageDialog(this, "Email không hợp lệ");
-                    tf_email.setBackground(Color.yellow);
-                    tf_email.requestFocus();
-                    return;
-                }
-                
+        if (!email.matches(checkEmail)) {
+            JOptionPane.showMessageDialog(this, "Email không hợp lệ");
+            tf_email.setBackground(Color.yellow);
+            tf_email.requestFocus();
+            return;
+        }
+
         int vaitro = rbtn_truongphong.isSelected() ? 0 : 1;
         NhanVienDAO.suaNV(ma, nv.getMatKhau(), hoten, email, vaitro);
         NhanVienDAO.loadNhanVien();
     }//GEN-LAST:event_btn_suaActionPerformed
+
+    private void btn_timkiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_timkiemActionPerformed
+        // TODO add your handling code here:
+        boolean check = false;
+        String ma = tf_ma.getText().trim();
+        if (ma.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã nhân viên");
+            return;
+        }
+        for (int i = 0; i < tb_fillNV.getRowCount(); i++) {
+            if (ma.equals(tb_fillNV.getValueAt(i, 0))) {
+                tb_fillNV.setRowSelectionInterval(i, i);
+                showdetail();
+                check = true;
+            }
+        }
+        if (check == false) {
+            JOptionPane.showMessageDialog(this, "Nhân viên không tồn tại");
+            return;
+        }
+    }//GEN-LAST:event_btn_timkiemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -470,6 +510,7 @@ public class NhanVien extends javax.swing.JFrame {
     private javax.swing.JButton btn_lammoi;
     private javax.swing.JButton btn_sua;
     private javax.swing.JButton btn_them;
+    private javax.swing.JButton btn_timkiem;
     private javax.swing.JButton btn_xoa;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;

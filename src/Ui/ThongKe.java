@@ -14,10 +14,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-//import static org.apache.commons.math3.fitting.leastsquares.LeastSquaresFactory.model;
+import static org.apache.commons.math3.fitting.leastsquares.LeastSquaresFactory.model;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -28,7 +29,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @author sangt
  */
 public class ThongKe extends javax.swing.JFrame {
+
     Model.NhanVien nv;
+    DefaultComboBoxModel dcm;
+    DefaultTableModel dtm;
+
     /**
      * Creates new form ThongKe
      */
@@ -38,23 +43,118 @@ public class ThongKe extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         this.nv = nv;
-        loadCbb();
+        dcm = (DefaultComboBoxModel) cbb_khoahoc.getModel();
+        loadCbbKhoaHoc();
+        loadTableNguoiHoc();
+        loadTableDiemChuyenDe();
+        loadCbb_Nam();
+        //loadTableDoanhThu();
     }
-    
-    public void loadCbb() {
+
+    public void loadCbbKhoaHoc() {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("(MMM d, yyyy)");
+            SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy");
             Connection conn = DatabaseHelper.getConnection("EduSys");
-            String sql = "select tencd, ngaykg from khoahoc join chuyende on chuyende.macd = khoahoc.macd WHERE dbo.KhoaHoc.TrangThai = 0";
+            String sql = "select tencd, ngaykg, makh from khoahoc join chuyende on chuyende.macd = khoahoc.macd WHERE dbo.KhoaHoc.TrangThai = 0";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                String tencd = String.valueOf(rs.getString(1));
-                Date d = new Date(rs.getDate(2).getTime());
-                cbb_khoahoc.addItem(tencd + " " + sdf.format(d));
+                Model.KhoaHoc kh = new Model.KhoaHoc();
+                kh.setMaKH(rs.getInt(3));
+                kh.setTenCD(rs.getString(1));
+                kh.setNgayKG(rs.getDate(2));
+                dcm.addElement(kh);
             }
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
+        }
+    }
+
+    public void loadTableKhoaHoc(int makh) {
+        dtm = (DefaultTableModel) tb_bangdiem.getModel();
+        dtm.setRowCount(0);
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy");
+            Connection conn = DatabaseHelper.getConnection("EduSys");
+            String sql = "SELECT HocVien.MaNH, hoten, diem, IIF(diem>=9, N'Xuất sắc', IIF(diem>=8, N'Giỏi', IIF(diem>=6.5, N'Khá', IIF(diem >= 5, N'Trung bình', N'Yếu')))) AS xeploai FROM dbo.HocVien JOIN dbo.NguoiHoc ON NguoiHoc.MaNH = HocVien.MaNH WHERE MaKH = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, makh);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                dtm.addRow(new Object[]{rs.getInt(1), rs.getString(2), rs.getFloat(3), rs.getString(4)});
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadTableNguoiHoc() {
+        dtm = (DefaultTableModel) tb_nguoihoc.getModel();
+        dtm.setRowCount(0);
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy");
+            Connection conn = DatabaseHelper.getConnection("EduSys");
+            String sql = "select year(ngaydk)as Nam,count(maNH) as SoLuong, MIN(ngayDK), MAX(ngayDK) from NguoiHoc GROUP by year(ngaydk)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                dtm.addRow(new Object[]{rs.getInt(1), rs.getInt(2), sdf.format(rs.getDate(3)), sdf.format(rs.getDate(4))});
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadTableDiemChuyenDe() {
+        dtm = (DefaultTableModel) tb_diemchuyende.getModel();
+        dtm.setRowCount(0);
+        try {
+            Connection conn = DatabaseHelper.getConnection("EduSys");
+            String sql = "select TenCD, count(mahv),max(diem),min(diem),CONVERT(decimal(8,2),avg(diem),0) from ChuyenDe join KhoaHoc on ChuyenDe.MaCD = KhoaHoc.MaCD join HocVien on HocVien.MaKH = KhoaHoc.MaKH group by TenCD";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                dtm.addRow(new Object[]{rs.getString(1), rs.getInt(2), rs.getFloat(3), rs.getFloat(4), rs.getFloat(5)});
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadCbb_Nam() {
+        try {
+            Connection conn = DatabaseHelper.getConnection("EduSys");
+            String sql = "SELECT DISTINCT YEAR(NgayDK) FROM dbo.NguoiHoc";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                cbb_nam.addItem(rs.getString(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void loadTableDoanhThu() {
+        try {
+            String namString = cbb_nam.getSelectedItem().toString();
+            int nam = Integer.parseInt(namString);
+            Connection conn = DatabaseHelper.getConnection("EduSys");
+            String sql = "SELECT TenCD,count(ChuyenDe.MaCD),count(mahv),sum(khoahoc.hocphi),max(khoahoc.HocPhi),min(khoahoc.hocphi),year(ngaytao) \n"
+                    + "FROM ChuyenDe join KhoaHoc on ChuyenDe.MaCD = KhoaHoc.MaCD\n"
+                    + "JOIN HocVien on HocVien.MaKH = KhoaHoc.MaKH\n"
+                    + "GROUP by TenCD,year(ngaytao)\n"
+                    + "HAVING year(ngaytao) = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, nam);
+            ResultSet rs = ps.executeQuery();
+            dtm = (DefaultTableModel) tb_doanhthu.getModel();
+            tb_doanhthu.removeAll();
+            while (rs.next()) {
+                dtm.addRow(new Object[] {rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6)});
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -165,7 +265,7 @@ public class ThongKe extends javax.swing.JFrame {
                     .addComponent(cbb_khoahoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Btn_xuatdiem))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 724, Short.MAX_VALUE))
         );
 
         tb_thongke.addTab("Bảng điểm", pn_bangdiem);
@@ -190,7 +290,7 @@ public class ThongKe extends javax.swing.JFrame {
         );
         pn_nguoihocLayout.setVerticalGroup(
             pn_nguoihocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 761, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 765, Short.MAX_VALUE)
         );
 
         tb_thongke.addTab("Người học", pn_nguoihoc);
@@ -215,7 +315,7 @@ public class ThongKe extends javax.swing.JFrame {
         );
         pn_diemchuyendeLayout.setVerticalGroup(
             pn_diemchuyendeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 761, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 765, Short.MAX_VALUE)
         );
 
         tb_thongke.addTab("Điểm chuyên đề", pn_diemchuyende);
@@ -224,7 +324,11 @@ public class ThongKe extends javax.swing.JFrame {
         jLabel4.setText("Năm");
 
         cbb_nam.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        cbb_nam.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbb_nam.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbb_namItemStateChanged(evt);
+            }
+        });
 
         tb_doanhthu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -256,7 +360,7 @@ public class ThongKe extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(cbb_nam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 723, Short.MAX_VALUE))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 725, Short.MAX_VALUE))
         );
 
         tb_thongke.addTab("Doanh thu", pn_doanhthu);
@@ -301,21 +405,8 @@ public class ThongKe extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cbb_khoahocItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbb_khoahocItemStateChanged
-        // TODO add your handling code here:
-//        try {
-//            SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy");
-//            Connection conn = DatabaseHelper.getConnection("EduSys");
-//            String sql = "select tencd, ngaykg from khoahoc join chuyende on chuyende.macd = khoahoc.macd";
-//            PreparedStatement ps = conn.prepareStatement(sql);
-//            ResultSet rs = ps.executeQuery();
-//            while (rs.next()) {
-//                String tencd = String.valueOf(rs.getString(1));
-//                Date d = new Date(rs.getDate(2).getTime());
-//                System.out.println(sdf.format(d));
-//            }
-//        } catch (Exception e) {
-//            System.out.println(e);
-//        }
+        Model.KhoaHoc kh = (Model.KhoaHoc) dcm.getSelectedItem();
+        loadTableKhoaHoc(kh.getMaKH());
     }//GEN-LAST:event_cbb_khoahocItemStateChanged
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
@@ -327,6 +418,11 @@ public class ThongKe extends javax.swing.JFrame {
     private void Btn_xuatdiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_xuatdiemActionPerformed
         ngu((DefaultTableModel) tb_bangdiem.getModel());
     }//GEN-LAST:event_Btn_xuatdiemActionPerformed
+
+    private void cbb_namItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbb_namItemStateChanged
+        // TODO add your handling code here:
+        loadTableDoanhThu();
+    }//GEN-LAST:event_cbb_namItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -388,8 +484,8 @@ public class ThongKe extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void ngu(DefaultTableModel model) {
-        
-          JFileChooser fchoChooser = new JFileChooser();
+
+        JFileChooser fchoChooser = new JFileChooser();
         int result = fchoChooser.showSaveDialog(null);
         if (result == JFileChooser.APPROVE_OPTION) {
             try {
@@ -428,10 +524,9 @@ public class ThongKe extends javax.swing.JFrame {
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                
+
             }
         }
 
-        
     }
 }

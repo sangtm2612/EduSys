@@ -82,6 +82,13 @@ delete from nhanvien
 insert into NhanVien values('thaohocdot','123456','thaoongvang','thaocnph13274@fpt.edu.vn',0,0)
 insert into NhanVien values('admin','admin','admin','admin@fpt.edu.vn',0,0)
 insert into NhanVien values('sang','sang','sang','sangtm2612@gmail.com',0,0)
+insert into NhanVien values('1','1','sang','sangtm2612@gmail.com',0,0)
+
+SELECT COUNT(ChuyenDe.MaCD) FROM dbo.KhoaHoc 
+JOIN dbo.ChuyenDe ON ChuyenDe.MaCD = KhoaHoc.MaCD 
+WHERE ChuyenDe.TrangThai = 0 AND KhoaHoc.TrangThai = 0 AND ChuyenDe.MaCD = ?
+
+
 
 select * from chuyende
 select * from hocvien
@@ -97,3 +104,26 @@ select tencd, ngaykg from khoahoc join chuyende on chuyende.macd = khoahoc.macd
 
 
 select tencd, ngaykg, makh from khoahoc join chuyende on chuyende.macd = khoahoc.macd WHERE dbo.KhoaHoc.TrangThai = 0
+
+SELECT HocVien.MaNH, hoten, diem, IIF(diem>=9, N'Xuất sắc', IIF(diem>=8, N'Giỏi', IIF(diem>=6.5, N'Khá', IIF(diem >= 5, N'Trung bình', N'Yếu')))) AS xeploai FROM dbo.HocVien JOIN dbo.NguoiHoc ON NguoiHoc.MaNH = HocVien.MaNH WHERE MaKH = ?
+
+SELECT * FROM dbo.NguoiHoc
+SELECT * FROM dbo.HocVien
+SELECT * FROM dbo.NguoiHoc
+
+select year(ngaydk)as Nam,count(maNH) as SoLuong, MIN(ngayDK), MAX(ngayDK) from NguoiHoc GROUP by year(ngaydk)
+select TenCD, count(mahv),max(diem),min(diem),CONVERT(decimal(8,2),avg(diem),0) from ChuyenDe join KhoaHoc on ChuyenDe.MaCD = KhoaHoc.MaCD join HocVien on HocVien.MaKH = KhoaHoc.MaKH group by TenCD
+
+SELECT TenCD,count(ChuyenDe.MaCD),count(mahv),sum(khoahoc.hocphi),max(khoahoc.HocPhi),min(khoahoc.hocphi),year(ngaytao) 
+FROM ChuyenDe join KhoaHoc on ChuyenDe.MaCD = KhoaHoc.MaCD
+JOIN HocVien on HocVien.MaKH = KhoaHoc.MaKH
+GROUP by TenCD,year(ngaytao)
+HAVING year(ngaytao) = ?
+
+SELECT DISTINCT YEAR(NgayDK) FROM dbo.NguoiHoc
+
+SELECT TenCD,count(ChuyenDe.MaCD),count(mahv),sum(khoahoc.hocphi),max(khoahoc.HocPhi),min(khoahoc.hocphi),year(ngaytao)
+FROM ChuyenDe join KhoaHoc on ChuyenDe.MaCD = KhoaHoc.MaCD
+JOIN HocVien on HocVien.MaKH = KhoaHoc.MaKH
+GROUP by TenCD,year(ngaytao)
+HAVING year(ngaytao) = 2021
