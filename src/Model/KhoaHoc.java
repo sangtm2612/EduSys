@@ -5,6 +5,7 @@
  */
 package Model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Date;
  */
 public class KhoaHoc {
     private int MaKH;
-    private int MaCD;
+    private String tenCD;
     private int HocPhi;
     private int ThoiLuong;
     private Date NgayKG;
@@ -23,17 +24,8 @@ public class KhoaHoc {
 
     public KhoaHoc() {
     }
-
-    public KhoaHoc(int MaKH, int MaCD, int HocPhi, int ThoiLuong, Date NgayKG, String GhiChu, String MaNV, Date NgayTao) {
-        this.MaKH = MaKH;
-        this.MaCD = MaCD;
-        this.HocPhi = HocPhi;
-        this.ThoiLuong = ThoiLuong;
-        this.NgayKG = NgayKG;
-        this.GhiChu = GhiChu;
-        this.MaNV = MaNV;
-        this.NgayTao = NgayTao;
-    }
+    
+    
 
     public int getMaKH() {
         return MaKH;
@@ -43,15 +35,15 @@ public class KhoaHoc {
         this.MaKH = MaKH;
     }
 
-    public int getMaCD() {
-        return MaCD;
+    public String getTenCD() {
+        return tenCD;
     }
 
-    public void setMaCD(int MaCD) {
-        this.MaCD = MaCD;
+    public void setTenCD(String tenCD) {
+        this.tenCD = tenCD;
     }
 
-    public float getHocPhi() {
+    public int getHocPhi() {
         return HocPhi;
     }
 
@@ -98,10 +90,12 @@ public class KhoaHoc {
     public void setNgayTao(Date NgayTao) {
         this.NgayTao = NgayTao;
     }
+    
+    
 
     @Override
     public String toString() {
-        return "KhoaHoc{" + "MaKH=" + MaKH + ", MaCD=" + MaCD + ", HocPhi=" + HocPhi + ", ThoiLuong=" + ThoiLuong + ", NgayKG=" + NgayKG + ", GhiChu=" + GhiChu + ", MaNV=" + MaNV + ", NgayTao=" + NgayTao + '}';
+        return tenCD + " (" + new SimpleDateFormat("MMM d, yyyy").format(NgayKG) + ")";
     }
 
     

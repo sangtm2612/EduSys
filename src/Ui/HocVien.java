@@ -6,7 +6,14 @@
 package Ui;
 
 import DAO.HocVienDAO;
+import Database.DatabaseHelper;
 import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,6 +23,7 @@ import javax.swing.JOptionPane;
 public class HocVien extends javax.swing.JFrame {
 
     Model.NhanVien nv;
+    DefaultComboBoxModel dcm;
 
     /**
      * Creates new form ChuyenDe
@@ -27,13 +35,35 @@ public class HocVien extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         this.nv = nv;
         HocVienDAO.loadHocVien();
+        dcm = (DefaultComboBoxModel) cbb_khoahoc.getModel();
+        loadKhoaHoc();
     }
 
     public void clear() {
         tf_mahocvien.setText("");
-        tf_makhoahoc.setText("");
         tf_manguoihoc.setText("");
         tf_diem.setText("");
+    }
+
+    public void loadKhoaHoc() {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("(MMM d, yyyy)");
+            Connection conn = DatabaseHelper.getConnection("EduSys");
+            String sql = "select tencd, ngaykg, makh from khoahoc join chuyende on chuyende.macd = khoahoc.macd WHERE dbo.KhoaHoc.TrangThai = 0";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+//                String tencd = String.valueOf(rs.getString(1));
+//                Date d = new Date(rs.getDate(2).getTime());
+                Model.KhoaHoc kh = new Model.KhoaHoc();
+                kh.setMaKH(rs.getInt(3));
+                kh.setTenCD(rs.getString(1));
+                kh.setNgayKG(rs.getDate(2));
+                dcm.addElement(kh);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     /**
@@ -58,11 +88,11 @@ public class HocVien extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tb_content = new javax.swing.JTable();
         tf_mahocvien = new javax.swing.JTextField();
-        tf_makhoahoc = new javax.swing.JTextField();
         tf_manguoihoc = new javax.swing.JTextField();
         tf_diem = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        cbb_khoahoc = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("QUẢN LÝ HỌC VIÊN");
@@ -71,7 +101,7 @@ public class HocVien extends javax.swing.JFrame {
         jLabel1.setText("Mã học viên:");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("Mã khóa học:");
+        jLabel2.setText("Khóa học:");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Mã người học:");
@@ -139,8 +169,6 @@ public class HocVien extends javax.swing.JFrame {
         tf_mahocvien.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tf_mahocvien.setEnabled(false);
 
-        tf_makhoahoc.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-
         tf_manguoihoc.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tf_manguoihoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -169,7 +197,7 @@ public class HocVien extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_mainLayout.createSequentialGroup()
                         .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pn_mainLayout.createSequentialGroup()
                                 .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
@@ -177,12 +205,12 @@ public class HocVien extends javax.swing.JFrame {
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel4))
                                 .addGap(22, 22, 22)
-                                .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(tf_mahocvien, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tf_makhoahoc, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tf_manguoihoc, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tf_diem, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+                                .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(tf_mahocvien, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                    .addComponent(tf_manguoihoc, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                    .addComponent(tf_diem, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                    .addComponent(cbb_khoahoc, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(pn_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())))
             .addGroup(pn_mainLayout.createSequentialGroup()
@@ -201,10 +229,10 @@ public class HocVien extends javax.swing.JFrame {
                         .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(tf_mahocvien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))
-                        .addGap(19, 19, 19)
+                        .addGap(20, 20, 20)
                         .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tf_makhoahoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
+                            .addComponent(jLabel2)
+                            .addComponent(cbb_khoahoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(tf_manguoihoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -239,7 +267,7 @@ public class HocVien extends javax.swing.JFrame {
 
     private void btn_xoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xoaActionPerformed
         // TODO add your handling code here:
-        String maHocVien = tf_makhoahoc.getText();
+        String maHocVien = tf_mahocvien.getText();
         if (maHocVien.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn học viên cần xóa!");
             return;
@@ -269,12 +297,7 @@ public class HocVien extends javax.swing.JFrame {
 
     private void btn_themActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_themActionPerformed
         // TODO add your handling code here:
-        String maKhoaHoc = tf_makhoahoc.getText().trim();
-        if (maKhoaHoc.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã khóa học!");
-            return;
-        }
-        int parseKH = Integer.parseInt(maKhoaHoc);
+        Model.KhoaHoc kh = (Model.KhoaHoc) dcm.getSelectedItem();
         String maNguoiHoc = tf_manguoihoc.getText().trim();
         if (maNguoiHoc.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập mã người học!");
@@ -288,7 +311,7 @@ public class HocVien extends javax.swing.JFrame {
         }
         float parseDiem = Float.parseFloat(diem);
         try {
-            HocVienDAO.ThemHV(parseKH, parseNH, parseDiem);
+            HocVienDAO.ThemHV(kh.getMaKH(), parseNH, parseDiem);
             HocVienDAO.loadHocVien();
             JOptionPane.showMessageDialog(this, "Thêm thành công!");
         } catch (Exception e) {
@@ -301,12 +324,7 @@ public class HocVien extends javax.swing.JFrame {
         // TODO add your handling code here:
         String maHocVien = tf_mahocvien.getText();
         int parseHV = Integer.parseInt(maHocVien);
-        String maKhoaHoc = tf_makhoahoc.getText().trim();
-        if (maKhoaHoc.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã khóa học!");
-            return;
-        }
-        int parseKH = Integer.parseInt(maKhoaHoc);
+        Model.KhoaHoc kh = (Model.KhoaHoc) dcm.getSelectedItem();
         String maNguoiHoc = tf_manguoihoc.getText().trim();
         if (maNguoiHoc.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập mã người học!");
@@ -320,7 +338,7 @@ public class HocVien extends javax.swing.JFrame {
         }
         float parseDiem = Float.parseFloat(diem);
         try {
-            HocVienDAO.SuaHV(parseHV, parseKH, parseNH, parseDiem);
+            HocVienDAO.SuaHV(parseHV, kh.getMaKH(), parseNH, parseDiem);
             HocVienDAO.loadHocVien();
             JOptionPane.showMessageDialog(this, "Sửa thành công!");
         } catch (Exception e) {
@@ -332,8 +350,16 @@ public class HocVien extends javax.swing.JFrame {
     private void tb_contentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_contentMouseClicked
         // TODO add your handling code here:
         int index = tb_content.getSelectedRow();
+        
+        for (int i = 0; i < dcm.getSize(); i++) {
+            Model.KhoaHoc kh = (Model.KhoaHoc) dcm.getElementAt(i);
+            if (String.valueOf(tb_content.getValueAt(index, 1)).equals(String.valueOf(kh.getMaKH()))) {
+                dcm.setSelectedItem(kh);
+                break;
+            }
+        }
         tf_mahocvien.setText(String.valueOf(tb_content.getValueAt(index, 0)));
-        tf_makhoahoc.setText(String.valueOf(tb_content.getValueAt(index, 1)));
+        
         tf_manguoihoc.setText(String.valueOf(tb_content.getValueAt(index, 2)));
         tf_diem.setText(String.valueOf(tb_content.getValueAt(index, 3)));
     }//GEN-LAST:event_tb_contentMouseClicked
@@ -374,6 +400,7 @@ public class HocVien extends javax.swing.JFrame {
     private javax.swing.JButton btn_sua;
     private javax.swing.JButton btn_them;
     private javax.swing.JButton btn_xoa;
+    private javax.swing.JComboBox<String> cbb_khoahoc;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -386,7 +413,6 @@ public class HocVien extends javax.swing.JFrame {
     public static javax.swing.JTable tb_content;
     private javax.swing.JTextField tf_diem;
     private javax.swing.JTextField tf_mahocvien;
-    private javax.swing.JTextField tf_makhoahoc;
     private javax.swing.JTextField tf_manguoihoc;
     // End of variables declaration//GEN-END:variables
 }

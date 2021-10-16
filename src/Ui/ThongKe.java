@@ -43,15 +43,15 @@ public class ThongKe extends javax.swing.JFrame {
     
     public void loadCbb() {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("(MMM d, yyyy)");
             Connection conn = DatabaseHelper.getConnection("EduSys");
-            String sql = "select tencd, ngaykg from khoahoc join chuyende on chuyende.macd = khoahoc.macd";
+            String sql = "select tencd, ngaykg from khoahoc join chuyende on chuyende.macd = khoahoc.macd WHERE dbo.KhoaHoc.TrangThai = 0";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String tencd = String.valueOf(rs.getString(1));
                 Date d = new Date(rs.getDate(2).getTime());
-                cbb_khoahoc.addItem(sdf.format(d));
+                cbb_khoahoc.addItem(tencd + " " + sdf.format(d));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -302,20 +302,20 @@ public class ThongKe extends javax.swing.JFrame {
 
     private void cbb_khoahocItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbb_khoahocItemStateChanged
         // TODO add your handling code here:
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            Connection conn = DatabaseHelper.getConnection("EduSys");
-            String sql = "select tencd, ngaykg from khoahoc join chuyende on chuyende.macd = khoahoc.macd";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                String tencd = String.valueOf(rs.getInt(1));
-                Date d = new Date(rs.getDate(2).getTime());
-                System.out.println(sdf.format(d));
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+//        try {
+//            SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy");
+//            Connection conn = DatabaseHelper.getConnection("EduSys");
+//            String sql = "select tencd, ngaykg from khoahoc join chuyende on chuyende.macd = khoahoc.macd";
+//            PreparedStatement ps = conn.prepareStatement(sql);
+//            ResultSet rs = ps.executeQuery();
+//            while (rs.next()) {
+//                String tencd = String.valueOf(rs.getString(1));
+//                Date d = new Date(rs.getDate(2).getTime());
+//                System.out.println(sdf.format(d));
+//            }
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
     }//GEN-LAST:event_cbb_khoahocItemStateChanged
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
