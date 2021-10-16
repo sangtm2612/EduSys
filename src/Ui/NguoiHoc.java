@@ -6,6 +6,7 @@
 package Ui;
 
 import DAO.NguoiHocDao;
+import java.awt.Color;
 import java.awt.Toolkit;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -370,16 +371,25 @@ public class NguoiHoc extends javax.swing.JFrame {
 
     private void btn_xoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xoaActionPerformed
         // TODO add your handling code here:
+        try {
+               if(nv.getVaitro()==1){
+            JOptionPane.showMessageDialog(this,"chỉ trưởng phòng mới được dùng chức năng này");
+            return;
+        }
         String ma = tf_ma.getText();
         if (ma.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn người học cần xóa!");
             return;
         }
         int parseMa = Integer.parseInt(ma);
+       
         NguoiHocDao.XoaNH(parseMa);
         NguoiHocDao.loadNguoiHoc();
         JOptionPane.showMessageDialog(this, "Xóa thành công!");
         clear();
+        } catch (Exception e) {
+        }
+     
     }//GEN-LAST:event_btn_xoaActionPerformed
 
     private void btn_themActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_themActionPerformed
@@ -406,6 +416,13 @@ public class NguoiHoc extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập email!");
             return;
         }
+         String checkEmail = "\\w+@\\w+(\\.\\w+){1,2}";
+                if (!email.matches(checkEmail)) {
+                    JOptionPane.showMessageDialog(this, "Email không hợp lệ");
+                    tf_email.setBackground(Color.yellow);
+                    tf_email.requestFocus();
+                    return;
+                }
         String ghiChu = ta_ghichu.getText().trim();
         String ngayDangKy = tf_ngaydangky.getText().trim();
         if (ngayDangKy.isEmpty()) {

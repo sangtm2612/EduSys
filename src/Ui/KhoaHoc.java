@@ -363,6 +363,10 @@ public class KhoaHoc extends javax.swing.JFrame {
 
     private void btn_xoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xoaActionPerformed
         // TODO add your handling code here:
+        if(nv.getVaitro()==1){
+            JOptionPane.showMessageDialog(this,"chỉ trưởng phòng mới được dùng chức năng này");
+            return;
+        }
 
     }//GEN-LAST:event_btn_xoaActionPerformed
 

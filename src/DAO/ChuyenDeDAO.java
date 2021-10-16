@@ -30,6 +30,7 @@ public class ChuyenDeDAO {
             ps.setString(5, MoTa);
             int rs = ps.executeUpdate();
             System.out.println(rs);
+            
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -83,4 +84,6 @@ public class ChuyenDeDAO {
             System.out.println(e);
         }
     }
+
+  
 }

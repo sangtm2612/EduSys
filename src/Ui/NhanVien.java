@@ -6,6 +6,7 @@
 package Ui;
 
 import DAO.NhanVienDAO;
+import java.awt.Color;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -15,8 +16,9 @@ import javax.swing.table.DefaultTableModel;
  * @author sangt
  */
 public class NhanVien extends javax.swing.JFrame {
-
+    DefaultTableModel model;
     Model.NhanVien nv;
+    int index;
 
     /**
      * Creates new form ChuyenDe
@@ -28,6 +30,11 @@ public class NhanVien extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         this.nv = nv;
         NhanVienDAO.loadNhanVien();
+        model =(DefaultTableModel) tb_fillNV.getModel();
+//        if(model.getRowCount()>0){
+//            index=1;
+//            showdetail();
+//        }
     }
 
     /**
@@ -287,11 +294,20 @@ public class NhanVien extends javax.swing.JFrame {
 
     private void btn_xoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xoaActionPerformed
         // TODO add your handling code here:
+        if(nv.getVaitro()==1){
+            JOptionPane.showMessageDialog(this,"chỉ trưởng phòng mới được dùng chức năng này");
+            return;
+        }
         String ma = tf_ma.getText().trim();
         if (ma.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập mã nhân viên");
             return;
         }
+          
+                if(tf_ma.getText().equals(nv.getMaNv())){
+                    JOptionPane.showMessageDialog(this, "bạn không thể xóa nhân viên khi đang dùng tài khoản này");
+                    return; 
+                }
         NhanVienDAO.xoaNV(ma);
         NhanVienDAO.loadNhanVien();
         clear();
@@ -314,7 +330,8 @@ public class NhanVien extends javax.swing.JFrame {
         String matkhau = tf_matkhau.getText().trim();
         String hoten = tf_hoten.getText().trim();
         String email = tf_email.getText().trim();
-        if (ma.isEmpty()) {
+        try {
+              if (ma.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập mã nhân viên");
             return;
         }
@@ -330,9 +347,35 @@ public class NhanVien extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập email");
             return;
         }
+         String checkEmail = "\\w+@\\w+(\\.\\w+){1,2}";
+                if (!email.matches(checkEmail)) {
+                    JOptionPane.showMessageDialog(this, "Email không hợp lệ");
+                    tf_email.setBackground(Color.yellow);
+                    tf_email.requestFocus();
+                    return;
+                }
+       
+              for(int i=0;i<model.getRowCount();i++){
+                if(model.getValueAt(i, 0).equals(ma)){
+                    JOptionPane.showMessageDialog(this, "trùng mã nhân viên");
+                    return; 
+                }
+                if(model.getValueAt(i, 2).equals(email)){
+                    JOptionPane.showMessageDialog(this, "trùng email");
+                    return; 
+                }
+                
+            } 
+        
         int vaitro = rbtn_truongphong.isSelected() ? 0 : 1;
+        
         NhanVienDAO.themNV(ma, matkhau, hoten, email, vaitro);
         NhanVienDAO.loadNhanVien();
+        showdetail();
+        JOptionPane.showMessageDialog(this, "thêm thành công");
+        } catch (Exception e) {
+        }
+      
     }//GEN-LAST:event_btn_themActionPerformed
 
     private void btn_lammoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lammoiActionPerformed
@@ -342,8 +385,12 @@ public class NhanVien extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_lammoiActionPerformed
 
     private void tb_fillNVMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_fillNVMouseClicked
+        showdetail();
+    }//GEN-LAST:event_tb_fillNVMouseClicked
+
+    public void showdetail() {
         // TODO add your handling code here:
-        int index = tb_fillNV.getSelectedRow();
+         index = tb_fillNV.getSelectedRow();
         tf_ma.setText(String.valueOf(tb_fillNV.getValueAt(index, 0)));
         tf_hoten.setText(String.valueOf(tb_fillNV.getValueAt(index, 1)));
         tf_email.setText(String.valueOf(tb_fillNV.getValueAt(index, 2)));
@@ -352,7 +399,8 @@ public class NhanVien extends javax.swing.JFrame {
         } else {
             rbtn_nhanvien.setSelected(true);
         }
-    }//GEN-LAST:event_tb_fillNVMouseClicked
+        tb_fillNV.setRowSelectionInterval(index, index);
+    }
 
     private void btn_suaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_suaActionPerformed
         // TODO add your handling code here:
@@ -372,6 +420,14 @@ public class NhanVien extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập email");
             return;
         }
+        String checkEmail = "\\w+@\\w+(\\.\\w+){1,2}";
+                if (!email.matches(checkEmail)) {
+                    JOptionPane.showMessageDialog(this, "Email không hợp lệ");
+                    tf_email.setBackground(Color.yellow);
+                    tf_email.requestFocus();
+                    return;
+                }
+                
         int vaitro = rbtn_truongphong.isSelected() ? 0 : 1;
         NhanVienDAO.suaNV(ma, hoten, email, vaitro);
         NhanVienDAO.loadNhanVien();
