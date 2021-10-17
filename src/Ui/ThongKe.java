@@ -17,6 +17,7 @@ import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import static org.apache.commons.math3.fitting.leastsquares.LeastSquaresFactory.model;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -134,7 +135,7 @@ public class ThongKe extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
+
     public void loadTableDoanhThu() {
         try {
             String namString = cbb_nam.getSelectedItem().toString();
@@ -151,7 +152,7 @@ public class ThongKe extends javax.swing.JFrame {
             dtm = (DefaultTableModel) tb_doanhthu.getModel();
             tb_doanhthu.removeAll();
             while (rs.next()) {
-                dtm.addRow(new Object[] {rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6)});
+                dtm.addRow(new Object[]{rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6)});
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -440,7 +441,7 @@ public class ThongKe extends javax.swing.JFrame {
                 //TK điểm
                 XSSFSheet Diemsheep = wb.createSheet("TK_Diem");
                 XSSFRow row = Diemsheep.createRow((short) 0);
-                XSSFCell h;     
+                XSSFCell h;
                 for (int i = 0; i < dtm.getColumnCount(); i++) {
                     h = row.createCell((short) i);
                     h.setCellValue(dtm.getColumnName(i));
@@ -457,11 +458,11 @@ public class ThongKe extends javax.swing.JFrame {
                         a1.setCellValue(dtm.getValueAt(i, j).toString());
                     }
                 }
-                
+
                 //TK điểm
                 dtm = (DefaultTableModel) tb_nguoihoc.getModel();
                 XSSFSheet NguoiHocsheep = wb.createSheet("TK_NguoiHoc");
-                row = NguoiHocsheep.createRow((short) 0); 
+                row = NguoiHocsheep.createRow((short) 0);
                 for (int i = 0; i < dtm.getColumnCount(); i++) {
                     h = row.createCell((short) i);
                     h.setCellValue(dtm.getColumnName(i));
@@ -473,11 +474,11 @@ public class ThongKe extends javax.swing.JFrame {
                         a1.setCellValue(dtm.getValueAt(i, j).toString());
                     }
                 }
-                
+
                 //TK điểm
                 dtm = (DefaultTableModel) tb_diemchuyende.getModel();
                 XSSFSheet ChuyenDesheep = wb.createSheet("TK_DiemChuyenDe");
-                row = ChuyenDesheep.createRow((short) 0); 
+                row = ChuyenDesheep.createRow((short) 0);
                 for (int i = 0; i < dtm.getColumnCount(); i++) {
                     h = row.createCell((short) i);
                     h.setCellValue(dtm.getColumnName(i));
@@ -489,11 +490,11 @@ public class ThongKe extends javax.swing.JFrame {
                         a1.setCellValue(dtm.getValueAt(i, j).toString());
                     }
                 }
-                
+
                 //TK Doanh Thu
                 dtm = (DefaultTableModel) tb_doanhthu.getModel();
                 XSSFSheet DoanhThusheep = wb.createSheet("TK_DoanhThu");
-                row = DoanhThusheep.createRow((short) 0); 
+                row = DoanhThusheep.createRow((short) 0);
                 for (int i = 0; i < dtm.getColumnCount(); i++) {
                     h = row.createCell((short) i);
                     h.setCellValue(dtm.getColumnName(i));
@@ -514,11 +515,9 @@ public class ThongKe extends javax.swing.JFrame {
 
             }
         }
-        
 
     }
-    
-    
+
     /**
      * @param args the command line arguments
      */
@@ -578,5 +577,4 @@ public class ThongKe extends javax.swing.JFrame {
     private javax.swing.JTabbedPane tb_thongke;
     // End of variables declaration//GEN-END:variables
 
-    
 }

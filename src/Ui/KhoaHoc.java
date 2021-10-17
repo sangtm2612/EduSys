@@ -52,6 +52,8 @@ public class KhoaHoc extends javax.swing.JFrame {
         dc_calendar.setDate(null);
         tf_thoiluong.setText("");
         tf_ghichu.setText("");
+        Model.ChuyenDe cd = (Model.ChuyenDe) dcm.getSelectedItem();
+        dcm.setSelectedItem(cd);
     }
 
     public void loadCbbChuyenDe() {
@@ -67,8 +69,6 @@ public class KhoaHoc extends javax.swing.JFrame {
             System.out.println(e);
         }
     }
-
-    
 
     public void loadTable(int macd) {
         DefaultTableModel dtm = (DefaultTableModel) KhoaHoc.tb_content.getModel();
@@ -352,8 +352,8 @@ public class KhoaHoc extends javax.swing.JFrame {
 
     private void btn_xoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xoaActionPerformed
         // TODO add your handling code here:
-        if(nv.getVaitro()==1){
-            JOptionPane.showMessageDialog(this,"chỉ trưởng phòng mới được dùng chức năng này");
+        if (nv.getVaitro() == 1) {
+            JOptionPane.showMessageDialog(this, "chỉ trưởng phòng mới được dùng chức năng này");
             return;
         }
 
@@ -382,7 +382,7 @@ public class KhoaHoc extends javax.swing.JFrame {
         Model.ChuyenDe cd = (Model.ChuyenDe) dcm.getSelectedItem();
         String ghiChu = tf_ghichu.getText().trim();
         KhoaHocDAO.themKH(cd.getMaCD(), cd.getHocPhi(), cd.getThoiLuong(), ngayKhaiGiang, ghiChu, nv.getMaNv());
-        KhoaHocDAO.loadKhoaHoc();
+        loadTable(cd.getMaCD());
         JOptionPane.showMessageDialog(this, "Thêm thành công!");
 
     }//GEN-LAST:event_btn_themActionPerformed
@@ -391,7 +391,7 @@ public class KhoaHoc extends javax.swing.JFrame {
         // TODO add your handling code here:
         clearForm();
         cbb_chuyende.setSelectedIndex(0);
-        KhoaHocDAO.loadKhoaHoc();
+        //KhoaHocDAO.loadKhoaHoc();
     }//GEN-LAST:event_btn_lammoiActionPerformed
 
     private void tb_contentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_contentMouseClicked
@@ -425,7 +425,7 @@ public class KhoaHoc extends javax.swing.JFrame {
         Model.ChuyenDe cd = (Model.ChuyenDe) dcm.getSelectedItem();
         String ghiChu = tf_ghichu.getText().trim();
         KhoaHocDAO.suaKH(maInt, cd.getMaCD(), cd.getHocPhi(), cd.getThoiLuong(), dc_calendar.getDate().getTime(), ghiChu);
-        KhoaHocDAO.loadKhoaHoc();
+        loadTable(cd.getMaCD());
         JOptionPane.showMessageDialog(this, "Sửa thành công!");
 
     }//GEN-LAST:event_btn_suaActionPerformed
