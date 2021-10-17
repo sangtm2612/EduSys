@@ -50,8 +50,6 @@ public class Main extends javax.swing.JFrame {
         if (nv.getVaitro() == 1) {
             btn_nhanvien.setEnabled(false);
         }
-        System.out.println(nv.toString());
-
     }
 
     /**

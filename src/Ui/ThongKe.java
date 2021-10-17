@@ -17,6 +17,7 @@ import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import static org.apache.commons.math3.fitting.leastsquares.LeastSquaresFactory.model;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -134,7 +135,7 @@ public class ThongKe extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
+
     public void loadTableDoanhThu() {
         try {
             String namString = cbb_nam.getSelectedItem().toString();
@@ -151,7 +152,7 @@ public class ThongKe extends javax.swing.JFrame {
             dtm = (DefaultTableModel) tb_doanhthu.getModel();
             tb_doanhthu.removeAll();
             while (rs.next()) {
-                dtm.addRow(new Object[] {rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6)});
+                dtm.addRow(new Object[]{rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6)});
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -416,13 +417,106 @@ public class ThongKe extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void Btn_xuatdiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_xuatdiemActionPerformed
-        ngu((DefaultTableModel) tb_bangdiem.getModel());
+        TKBangDiem();
     }//GEN-LAST:event_Btn_xuatdiemActionPerformed
 
     private void cbb_namItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbb_namItemStateChanged
         // TODO add your handling code here:
         loadTableDoanhThu();
     }//GEN-LAST:event_cbb_namItemStateChanged
+
+    private void TKBangDiem() {
+        dtm = (DefaultTableModel) tb_bangdiem.getModel();
+        JFileChooser fchoChooser = new JFileChooser();
+        int result = fchoChooser.showSaveDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            try {
+                if (!fchoChooser.getSelectedFile().toString().endsWith(".xlsx")) {
+                    JOptionPane.showMessageDialog(this, "Không đúng định dạng!");
+                    return;
+                }
+                File newFile = new File(fchoChooser.getSelectedFile().toString());
+                FileOutputStream file = new FileOutputStream(newFile.getAbsoluteFile().getPath());
+                XSSFWorkbook wb = new XSSFWorkbook();
+                //TK điểm
+                XSSFSheet Diemsheep = wb.createSheet("TK_Diem");
+                XSSFRow row = Diemsheep.createRow((short) 0);
+                XSSFCell h;
+                for (int i = 0; i < dtm.getColumnCount(); i++) {
+                    h = row.createCell((short) i);
+                    h.setCellValue(dtm.getColumnName(i));
+                }
+                XSSFRow row1;
+                XSSFCell a1;
+                XSSFCell a2;
+                XSSFCell a3;
+                XSSFCell a4;
+                for (int i = 0; i < dtm.getRowCount(); i++) {
+                    row1 = Diemsheep.createRow((short) i + 1);
+                    for (int j = 0; j < dtm.getColumnCount(); j++) {
+                        a1 = row1.createCell((short) j);
+                        a1.setCellValue(dtm.getValueAt(i, j).toString());
+                    }
+                }
+
+                //TK điểm
+                dtm = (DefaultTableModel) tb_nguoihoc.getModel();
+                XSSFSheet NguoiHocsheep = wb.createSheet("TK_NguoiHoc");
+                row = NguoiHocsheep.createRow((short) 0);
+                for (int i = 0; i < dtm.getColumnCount(); i++) {
+                    h = row.createCell((short) i);
+                    h.setCellValue(dtm.getColumnName(i));
+                }
+                for (int i = 0; i < dtm.getRowCount(); i++) {
+                    row1 = NguoiHocsheep.createRow((short) i + 1);
+                    for (int j = 0; j < dtm.getColumnCount(); j++) {
+                        a1 = row1.createCell((short) j);
+                        a1.setCellValue(dtm.getValueAt(i, j).toString());
+                    }
+                }
+
+                //TK điểm
+                dtm = (DefaultTableModel) tb_diemchuyende.getModel();
+                XSSFSheet ChuyenDesheep = wb.createSheet("TK_DiemChuyenDe");
+                row = ChuyenDesheep.createRow((short) 0);
+                for (int i = 0; i < dtm.getColumnCount(); i++) {
+                    h = row.createCell((short) i);
+                    h.setCellValue(dtm.getColumnName(i));
+                }
+                for (int i = 0; i < dtm.getRowCount(); i++) {
+                    row1 = ChuyenDesheep.createRow((short) i + 1);
+                    for (int j = 0; j < dtm.getColumnCount(); j++) {
+                        a1 = row1.createCell((short) j);
+                        a1.setCellValue(dtm.getValueAt(i, j).toString());
+                    }
+                }
+
+                //TK Doanh Thu
+                dtm = (DefaultTableModel) tb_doanhthu.getModel();
+                XSSFSheet DoanhThusheep = wb.createSheet("TK_DoanhThu");
+                row = DoanhThusheep.createRow((short) 0);
+                for (int i = 0; i < dtm.getColumnCount(); i++) {
+                    h = row.createCell((short) i);
+                    h.setCellValue(dtm.getColumnName(i));
+                }
+                for (int i = 0; i < dtm.getRowCount(); i++) {
+                    row1 = DoanhThusheep.createRow((short) i + 1);
+                    for (int j = 0; j < dtm.getColumnCount(); j++) {
+                        a1 = row1.createCell((short) j);
+                        a1.setCellValue(dtm.getValueAt(i, j).toString());
+                    }
+                }
+                wb.write(file);
+                wb.close();
+                file.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+
+            }
+        }
+
+    }
 
     /**
      * @param args the command line arguments
@@ -483,50 +577,4 @@ public class ThongKe extends javax.swing.JFrame {
     private javax.swing.JTabbedPane tb_thongke;
     // End of variables declaration//GEN-END:variables
 
-    private void ngu(DefaultTableModel model) {
-
-        JFileChooser fchoChooser = new JFileChooser();
-        int result = fchoChooser.showSaveDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            try {
-                if (!fchoChooser.getSelectedFile().toString().endsWith(".xlsx")) {
-                    JOptionPane.showMessageDialog(this, "ngu");
-                    return;
-                }
-                File newFile = new File(fchoChooser.getSelectedFile().toString());
-                FileOutputStream file = new FileOutputStream(newFile.getAbsoluteFile().getPath());
-//       
-                XSSFWorkbook wb = new XSSFWorkbook();
-                XSSFSheet wsheep = wb.createSheet("name");
-                XSSFRow row = wsheep.createRow((short) 0);
-                XSSFCell h;
-//      
-                for (int i = 0; i < model.getColumnCount(); i++) {
-                    h = row.createCell((short) i);
-                    h.setCellValue(model.getColumnName(i));
-                }
-                XSSFRow row1;
-                XSSFCell a1;
-                XSSFCell a2;
-                XSSFCell a3;
-                XSSFCell a4;
-                for (int i = 0; i < model.getRowCount(); i++) {
-                    row1 = wsheep.createRow((short) i + 1);
-//           
-                    for (int j = 0; j < model.getColumnCount(); j++) {
-                        a1 = row1.createCell((short) j);
-                        a1.setCellValue(model.getValueAt(i, j).toString());
-                    }
-                }
-                wb.write(file);
-                wb.close();
-                file.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-
-            }
-        }
-
-    }
 }

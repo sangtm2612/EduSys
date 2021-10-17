@@ -87,7 +87,7 @@ public class NguoiHocDao {
     public static void loadNguoiHoc() {
         DefaultTableModel dtm = (DefaultTableModel) NguoiHoc.tb_fillNH.getModel();
         dtm.setRowCount(0);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy");
         try {
             Connection conn = DatabaseHelper.getConnection("EduSys");
             String sql = "select * from NguoiHoc where trangthai = 0";
