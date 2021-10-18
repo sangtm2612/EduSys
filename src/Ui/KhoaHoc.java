@@ -46,12 +46,12 @@ public class KhoaHoc extends javax.swing.JFrame {
         dcm = (DefaultComboBoxModel) cbb_chuyende.getModel();
         dcm.removeAllElements();
         loadCbbChuyenDe();
-        
-        if(tb_content.getRowCount()>0){
-        index = 0;
-        tb_content.setRowSelectionInterval(index,index);
+
+        if (tb_content.getRowCount() > 0) {
+            index = 0;
+            tb_content.setRowSelectionInterval(index, index);
         }
-        
+
     }
 
     public void clearForm() {
@@ -365,7 +365,7 @@ public class KhoaHoc extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "không còn khóa học để xóa");
                 return;
             }
-             int i =  tb_content.getSelectedRow();
+            int i = tb_content.getSelectedRow();
             int ma = (int) tb_content.getValueAt(i, 0);
 //            if () {
 ////                JOptionPane.showMessageDialog(this, "Vui lòng chọn khóa học cần xóa!");
@@ -383,13 +383,14 @@ public class KhoaHoc extends javax.swing.JFrame {
 
                 clearForm();
 
-                KhoaHocDAO.loadKhoaHoc();
+                Model.ChuyenDe cd = (Model.ChuyenDe) dcm.getSelectedItem();
+                loadTable(cd.getMaCD());
                 JOptionPane.showMessageDialog(this, "Xóa thành công");
                 if (tb_content.getRowCount() == 0) {
                     clearForm();
                 } else {
-                    if(index == tb_content.getRowCount()){
-                    index--;
+                    if (index == tb_content.getRowCount()) {
+                        index--;
                     }
                     tb_content.setRowSelectionInterval(index, index);
                 }
@@ -439,9 +440,9 @@ public class KhoaHoc extends javax.swing.JFrame {
 
     private void tb_contentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_contentMouseClicked
         // TODO add your handling code here:
-        
+
         int i = tb_content.getSelectedRow();
-        
+
         tf_hocphi.setText(String.valueOf(tb_content.getValueAt(i, 2)));
         tf_thoiluong.setText(String.valueOf(tb_content.getValueAt(i, 3)));
         tf_ghichu.setText(String.valueOf(tb_content.getValueAt(i, 5)));

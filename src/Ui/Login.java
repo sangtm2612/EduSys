@@ -86,7 +86,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        lblQMK.setText("Quên Mật Khẩu");
+        lblQMK.setText("Quên mật khẩu?");
         lblQMK.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 lblQMKMouseMoved(evt);

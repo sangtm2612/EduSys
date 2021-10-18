@@ -372,11 +372,11 @@ public class NhanVien extends javax.swing.JFrame {
 
             for (int i = 0; i < model.getRowCount(); i++) {
                 if (model.getValueAt(i, 0).equals(ma)) {
-                    JOptionPane.showMessageDialog(this, "trùng mã nhân viên");
+                    JOptionPane.showMessageDialog(this, "Trùng mã nhân viên");
                     return;
                 }
                 if (model.getValueAt(i, 2).equals(email)) {
-                    JOptionPane.showMessageDialog(this, "trùng email");
+                    JOptionPane.showMessageDialog(this, "Trùng email");
                     return;
                 }
 
@@ -387,7 +387,7 @@ public class NhanVien extends javax.swing.JFrame {
             NhanVienDAO.themNV(ma, matkhau, hoten, email, vaitro);
             NhanVienDAO.loadNhanVien();
             showdetail();
-            JOptionPane.showMessageDialog(this, "thêm thành công");
+            JOptionPane.showMessageDialog(this, "Thêm thành công");
         } catch (Exception e) {
         }
 

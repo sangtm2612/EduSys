@@ -345,6 +345,10 @@ public class HocVien extends javax.swing.JFrame {
     private void btn_themActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_themActionPerformed
         // TODO add your handling code here:
         Model.KhoaHoc kh = (Model.KhoaHoc) dcm.getSelectedItem();
+        if (kh == null) {
+            JOptionPane.showMessageDialog(this, "Chưa có khóa học nào!");
+            return;
+        }
         String maNguoiHoc = tf_manguoihoc.getText().trim();
         if (maNguoiHoc.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập mã người học!");
@@ -375,9 +379,18 @@ public class HocVien extends javax.swing.JFrame {
 
     private void btn_suaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_suaActionPerformed
         // TODO add your handling code here:
-        String maHocVien = tf_mahocvien.getText();
-        int parseHV = Integer.parseInt(maHocVien);
         Model.KhoaHoc kh = (Model.KhoaHoc) dcm.getSelectedItem();
+        if (kh == null) {
+            JOptionPane.showMessageDialog(this, "Chưa có khóa học nào!");
+            return;
+        }
+        String maHocVien = tf_mahocvien.getText();
+        if (maHocVien.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn học viên!");
+            return;
+        }
+        int parseHV = Integer.parseInt(maHocVien);
+        
         String maNguoiHoc = tf_manguoihoc.getText().trim();
         if (maNguoiHoc.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập mã người học!");
@@ -403,7 +416,6 @@ public class HocVien extends javax.swing.JFrame {
     private void tb_contentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_contentMouseClicked
         // TODO add your handling code here:
         int index = tb_content.getSelectedRow();
-        
         for (int i = 0; i < dcm.getSize(); i++) {
             Model.KhoaHoc kh = (Model.KhoaHoc) dcm.getElementAt(i);
             if (String.valueOf(tb_content.getValueAt(index, 1)).equals(String.valueOf(kh.getMaKH()))) {

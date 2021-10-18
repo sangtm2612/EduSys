@@ -166,7 +166,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lblQMK">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Qu&#xea;n M&#x1ead;t Kh&#x1ea9;u"/>
+            <Property name="text" type="java.lang.String" value="Qu&#xea;n m&#xe2;&#x323;t kh&#xe2;&#x309;u?"/>
           </Properties>
           <Events>
             <EventHandler event="mouseMoved" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="lblQMKMouseMoved"/>
