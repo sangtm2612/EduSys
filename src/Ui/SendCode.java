@@ -66,14 +66,23 @@ public class SendCode extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Xác Nhận Email");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Nhập Email");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Mã Xác Nhận");
 
-        tf_email.setText("thaocnph13274@fpt.edu.vn");
+        txtcode.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
+        tf_email.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tf_email.setText("thaocnph13274@fpt.edu.vn");
+        tf_email.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tf_emailActionPerformed(evt);
+            }
+        });
+
+        btn_xacnhan.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btn_xacnhan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Accept.png"))); // NOI18N
         btn_xacnhan.setText("Xác nhận");
         btn_xacnhan.addActionListener(new java.awt.event.ActionListener() {
@@ -82,6 +91,7 @@ public class SendCode extends javax.swing.JFrame {
             }
         });
 
+        btn_send.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btn_send.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Mail.png"))); // NOI18N
         btn_send.setText("Gửi");
         btn_send.addActionListener(new java.awt.event.ActionListener() {
@@ -120,8 +130,11 @@ public class SendCode extends javax.swing.JFrame {
                         .addComponent(lbl_trolai)
                         .addGap(112, 112, 112)
                         .addComponent(jLabel1)))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btn_send, btn_xacnhan});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -135,20 +148,22 @@ public class SendCode extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(jLabel2))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(tf_email, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btn_send)))
-                .addGap(26, 26, 26)
+                        .addGap(1, 1, 1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(tf_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btn_send))
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtcode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_xacnhan))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {tf_email, txtcode});
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_send, btn_xacnhan});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -245,6 +260,10 @@ public class SendCode extends javax.swing.JFrame {
         this.dispose();
         new Login().setVisible(true);
     }//GEN-LAST:event_lbl_trolaiMouseClicked
+
+    private void tf_emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_emailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tf_emailActionPerformed
 
     /**
      * @param args the command line arguments

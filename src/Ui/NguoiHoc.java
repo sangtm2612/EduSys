@@ -69,10 +69,10 @@ public class NguoiHoc extends javax.swing.JFrame {
 
         btngr_gioitinh = new javax.swing.ButtonGroup();
         pn_main = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        lb_nguoihoc = new javax.swing.JLabel();
+        lb_hoten = new javax.swing.JLabel();
+        lb_ngaysinh = new javax.swing.JLabel();
+        lb_gioitinh = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         pn_btn = new javax.swing.JPanel();
@@ -101,17 +101,17 @@ public class NguoiHoc extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("QUẢN LÝ NGƯỜI HỌC");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Mã người học:");
+        lb_nguoihoc.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lb_nguoihoc.setText("Mã người học:");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("Họ tên:");
+        lb_hoten.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lb_hoten.setText("Họ tên:");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel3.setText("Ngày sinh:");
+        lb_ngaysinh.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lb_ngaysinh.setText("Ngày sinh:");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("Giới tính:");
+        lb_gioitinh.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lb_gioitinh.setText("Giới tính:");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Điện thoại:");
@@ -255,10 +255,10 @@ public class NguoiHoc extends javax.swing.JFrame {
                         .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pn_mainLayout.createSequentialGroup()
                                 .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4))
+                                    .addComponent(lb_nguoihoc)
+                                    .addComponent(lb_hoten)
+                                    .addComponent(lb_ngaysinh)
+                                    .addComponent(lb_gioitinh))
                                 .addGap(38, 38, 38)
                                 .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(tf_ma, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
@@ -306,21 +306,21 @@ public class NguoiHoc extends javax.swing.JFrame {
                                 .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(pn_mainLayout.createSequentialGroup()
                                         .addGap(7, 7, 7)
-                                        .addComponent(jLabel1))
+                                        .addComponent(lb_nguoihoc))
                                     .addGroup(pn_mainLayout.createSequentialGroup()
                                         .addGap(6, 6, 6)
                                         .addComponent(tf_ma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                             .addComponent(tf_hoten, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel2))
+                                            .addComponent(lb_hoten))
                                         .addGap(18, 18, 18)
                                         .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel3)
+                                            .addComponent(lb_ngaysinh)
                                             .addComponent(dc_ngaysinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(18, 18, 18)
                                         .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel4)
+                                            .addComponent(lb_gioitinh)
                                             .addComponent(rbtn_nam)
                                             .addComponent(rbtn_nu))))
                                 .addGap(18, 18, 18)
@@ -601,11 +601,7 @@ public class NguoiHoc extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser dc_ngaydangky;
     private com.toedter.calendar.JDateChooser dc_ngaysinh;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -613,6 +609,10 @@ public class NguoiHoc extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lb_gioitinh;
+    private javax.swing.JLabel lb_hoten;
+    private javax.swing.JLabel lb_ngaysinh;
+    private javax.swing.JLabel lb_nguoihoc;
     private javax.swing.JPanel pn_btn;
     private javax.swing.JPanel pn_main;
     private javax.swing.JRadioButton rbtn_nam;

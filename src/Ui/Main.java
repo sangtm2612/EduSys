@@ -193,8 +193,8 @@ public class Main extends javax.swing.JFrame {
         jToolBar1.add(jSeparator8);
 
         jButton4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Brick house.png"))); // NOI18N
-        jButton4.setText("Giới Thiệu");
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/tailieu24.png"))); // NOI18N
+        jButton4.setText("Tài liệu");
         jButton4.setFocusable(false);
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -423,10 +423,9 @@ public class Main extends javax.swing.JFrame {
 
     private void OpenGioiThieu() {
        try {
-            Desktop.getDesktop().browse(new File("GioiThieu/gioithieu.pdf").toURI());
-            //thư mục gioithieu đặt ngang hàng với src
+            Desktop.getDesktop().browse(new File("GioiThieu/SOF2041_TaiLieu.pdf").toURI());
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "dd");
+            JOptionPane.showMessageDialog(this, "Lỗi mở phải giới thiệu!");
         }
     }
 }

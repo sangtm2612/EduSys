@@ -538,8 +538,8 @@ public class ChuyenDe extends javax.swing.JFrame {
         ChuyenDeDAO.suaCD(maInt, tenChuyenDe, hocPhi, thoiLuong, hinh, moTa);
         ChuyenDeDAO.loadChuyenDe();
         JOptionPane.showMessageDialog(this, "Sửa thành công!");
-        index = tb_content.getSelectedRow();
-        tb_content.setRowSelectionInterval(index, index);
+//        index = tb_content.getSelectedRow();
+//        tb_content.setRowSelectionInterval(index, index);
     }//GEN-LAST:event_btn_suaActionPerformed
 
     private void tf_thoiluongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tf_thoiluongMouseClicked
