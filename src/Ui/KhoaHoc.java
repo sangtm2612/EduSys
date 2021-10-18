@@ -32,6 +32,7 @@ public class KhoaHoc extends javax.swing.JFrame {
 
     Model.NhanVien nv;
     DefaultComboBoxModel dcm;
+    int index;
 
     /**
      * Creates new form ChuyenDe
@@ -45,6 +46,12 @@ public class KhoaHoc extends javax.swing.JFrame {
         dcm = (DefaultComboBoxModel) cbb_chuyende.getModel();
         dcm.removeAllElements();
         loadCbbChuyenDe();
+        
+        if(tb_content.getRowCount()>0){
+        index = 0;
+        tb_content.setRowSelectionInterval(index,index);
+        }
+        
     }
 
     public void clearForm() {
@@ -212,6 +219,7 @@ public class KhoaHoc extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tb_content.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tb_content.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tb_contentMouseClicked(evt);
@@ -352,11 +360,43 @@ public class KhoaHoc extends javax.swing.JFrame {
 
     private void btn_xoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xoaActionPerformed
         // TODO add your handling code here:
-        if (nv.getVaitro() == 1) {
-            JOptionPane.showMessageDialog(this, "chỉ trưởng phòng mới được dùng chức năng này");
-            return;
-        }
+        try {
+            if (tb_content.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "không còn khóa học để xóa");
+                return;
+            }
+             int i =  tb_content.getSelectedRow();
+            int ma = (int) tb_content.getValueAt(i, 0);
+//            if () {
+////                JOptionPane.showMessageDialog(this, "Vui lòng chọn khóa học cần xóa!");
+//                return;
+//            }
 
+            int hoi = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa khóa học này?", "Xóa khóa học", JOptionPane.YES_NO_OPTION);
+            if (hoi == JOptionPane.YES_OPTION) {
+                if (nv.getVaitro() == 1) {
+                    JOptionPane.showMessageDialog(this, "Chỉ trưởng phòng mới được dùng chức năng này");
+                    return;
+
+                }
+                KhoaHocDAO.XoaKH(ma);
+
+                clearForm();
+
+                KhoaHocDAO.loadKhoaHoc();
+                JOptionPane.showMessageDialog(this, "Xóa thành công");
+                if (tb_content.getRowCount() == 0) {
+                    clearForm();
+                } else {
+                    if(index == tb_content.getRowCount()){
+                    index--;
+                    }
+                    tb_content.setRowSelectionInterval(index, index);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btn_xoaActionPerformed
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
@@ -368,6 +408,7 @@ public class KhoaHoc extends javax.swing.JFrame {
 
     private void btn_themActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_themActionPerformed
         // TODO add your handling code here:
+
         if (dc_calendar.getDate() == null) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày khai giảng!");
             return;
@@ -384,6 +425,8 @@ public class KhoaHoc extends javax.swing.JFrame {
         KhoaHocDAO.themKH(cd.getMaCD(), cd.getHocPhi(), cd.getThoiLuong(), ngayKhaiGiang, ghiChu, nv.getMaNv());
         loadTable(cd.getMaCD());
         JOptionPane.showMessageDialog(this, "Thêm thành công!");
+        index = tb_content.getRowCount() - 1;
+        tb_content.setRowSelectionInterval(index, index);
 
     }//GEN-LAST:event_btn_themActionPerformed
 
@@ -396,11 +439,14 @@ public class KhoaHoc extends javax.swing.JFrame {
 
     private void tb_contentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_contentMouseClicked
         // TODO add your handling code here:
+        
         int i = tb_content.getSelectedRow();
+        
         tf_hocphi.setText(String.valueOf(tb_content.getValueAt(i, 2)));
         tf_thoiluong.setText(String.valueOf(tb_content.getValueAt(i, 3)));
         tf_ghichu.setText(String.valueOf(tb_content.getValueAt(i, 5)));
         String date = String.valueOf(tb_content.getValueAt(i, 4));
+//        tb_content.setRowSelectionInterval(index, index);
         SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy");
         try {
             dc_calendar.setDate(sdf.parse(date));
@@ -427,6 +473,7 @@ public class KhoaHoc extends javax.swing.JFrame {
         KhoaHocDAO.suaKH(maInt, cd.getMaCD(), cd.getHocPhi(), cd.getThoiLuong(), dc_calendar.getDate().getTime(), ghiChu);
         loadTable(cd.getMaCD());
         JOptionPane.showMessageDialog(this, "Sửa thành công!");
+        tb_content.setRowSelectionInterval(index, index);
 
     }//GEN-LAST:event_btn_suaActionPerformed
 
