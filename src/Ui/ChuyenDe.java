@@ -84,6 +84,7 @@ public class ChuyenDe extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         ta_mota = new javax.swing.JTextArea();
+        btn_timkiem = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("QUẢN LÝ CHUYÊN ĐỀ");
@@ -239,6 +240,15 @@ public class ChuyenDe extends javax.swing.JFrame {
         ta_mota.setRows(5);
         jScrollPane2.setViewportView(ta_mota);
 
+        btn_timkiem.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btn_timkiem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Search.png"))); // NOI18N
+        btn_timkiem.setText("Tìm kiếm");
+        btn_timkiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_timkiemActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pn_mainLayout = new javax.swing.GroupLayout(pn_main);
         pn_main.setLayout(pn_mainLayout);
         pn_mainLayout.setHorizontalGroup(
@@ -275,7 +285,11 @@ public class ChuyenDe extends javax.swing.JFrame {
                                     .addComponent(tf_chuyende, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(tf_ma, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(pn_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGroup(pn_mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(pn_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_mainLayout.createSequentialGroup()
+                                        .addComponent(btn_timkiem)
+                                        .addGap(62, 62, 62)))))))
                 .addContainerGap(12, Short.MAX_VALUE))
             .addGroup(pn_mainLayout.createSequentialGroup()
                 .addContainerGap()
@@ -322,6 +336,8 @@ public class ChuyenDe extends javax.swing.JFrame {
                             .addGroup(pn_mainLayout.createSequentialGroup()
                                 .addGap(3, 3, 3)
                                 .addComponent(pn_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_timkiem)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel7))
                     .addGroup(pn_mainLayout.createSequentialGroup()
@@ -512,6 +528,33 @@ public class ChuyenDe extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tf_hinhMouseClicked
 
+    private void btn_timkiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_timkiemActionPerformed
+        // TODO add your handling code here:
+        String tenChuyenDe = tf_chuyende.getText().trim();
+        if (tenChuyenDe.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên chuyên đề!");
+            return;
+        }
+        boolean check = false;
+        for (int i = 0; i < tb_content.getRowCount(); i++) {
+            if (tenChuyenDe.equalsIgnoreCase(tb_content.getValueAt(i, 1).toString())) {
+                tf_ma.setText(String.valueOf(tb_content.getValueAt(i, 0)));
+                tf_chuyende.setText(String.valueOf(tb_content.getValueAt(i, 1)));
+                tf_hocphi.setText(String.valueOf(tb_content.getValueAt(i, 2)));
+                tf_hinh.setText(String.valueOf(tb_content.getValueAt(i, 4)));
+                tf_thoiluong.setText(String.valueOf(tb_content.getValueAt(i, 3)));
+                ta_mota.setText(String.valueOf(tb_content.getValueAt(i, 5)));
+                lb_anh.setIcon(new javax.swing.ImageIcon(String.valueOf(tb_content.getValueAt(i, 4))));
+                tb_content.setRowSelectionInterval(i, i);
+                check = true;
+            }
+        }
+        if (check == false) {
+            JOptionPane.showMessageDialog(this, "Không tìm thấy chuyên đề!");
+            return;
+        }
+    }//GEN-LAST:event_btn_timkiemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -546,6 +589,7 @@ public class ChuyenDe extends javax.swing.JFrame {
     private javax.swing.JButton btn_lammoi;
     private javax.swing.JButton btn_sua;
     private javax.swing.JButton btn_them;
+    private javax.swing.JButton btn_timkiem;
     private javax.swing.JButton btn_xoa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
