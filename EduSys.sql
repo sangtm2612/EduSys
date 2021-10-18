@@ -45,6 +45,22 @@ CREATE TABLE KhoaHoc
 )
 GO
 
+select * from KhoaHoc
+CREATE TABLE LsKhoaHoc
+(
+	Mals INT IDENTITY(1,1) PRIMARY KEY,
+	MaKH INT  NULL,	
+	MaNV NVARCHAR(50) NOT NULL,
+	Ngaythuchien DATETIME DEFAULT GETDATE() NOT NULL,
+	mota NVARCHAR(200) NULL,
+	TrangThai bit default(0),
+	FOREIGN KEY(MaKH) REFERENCES dbo.KhoaHoc(MaKH) ON UPDATE CASCADE ON DELETE NO ACTION,
+	
+)
+GO
+
+insert into LsKhoaHoc (MaKH,MaNV,mota,TrangThai) values(?,?,?,0)
+
 CREATE TABLE NguoiHoc
 (
 	MaNH INT IDENTITY(1,1) PRIMARY KEY,
@@ -88,8 +104,8 @@ SELECT COUNT(ChuyenDe.MaCD) FROM dbo.KhoaHoc
 JOIN dbo.ChuyenDe ON ChuyenDe.MaCD = KhoaHoc.MaCD 
 WHERE ChuyenDe.TrangThai = 0 AND KhoaHoc.TrangThai = 0 AND ChuyenDe.MaCD = ?
 
-
-
+select * from LsKhoaHoc tr
+select * from LsKhoaHoc where trangthai = 0
 select * from chuyende
 select * from hocvien
 select * from nguoihoc

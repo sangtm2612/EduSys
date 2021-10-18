@@ -537,7 +537,9 @@ public class ChuyenDe extends javax.swing.JFrame {
         String moTa = ta_mota.getText().trim();
         ChuyenDeDAO.suaCD(maInt, tenChuyenDe, hocPhi, thoiLuong, hinh, moTa);
         ChuyenDeDAO.loadChuyenDe();
+       
         JOptionPane.showMessageDialog(this, "Sửa thành công!");
+        
 //        index = tb_content.getSelectedRow();
 //        tb_content.setRowSelectionInterval(index, index);
     }//GEN-LAST:event_btn_suaActionPerformed
