@@ -7,6 +7,7 @@ package DAO;
 
 import Database.DatabaseHelper;
 import Ui.KhoaHoc;
+import Ui.LichSuKhoaHoc;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
@@ -93,4 +94,50 @@ public class KhoaHocDAO {
             System.out.println(e);
         }
     }
+     public static void ls(String maKH, String manv) {
+        try {
+            Connection conn = DatabaseHelper.getConnection("EduSys");
+            String sql = "insert into LsKhoaHoc (MaKH,MaNV,mota,TrangThai) values(?,?,?,0)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, maKH);
+            ps.setString(2, manv);
+            ps.setString(3, "đã sửa Khóa Học "+maKH);
+            int rs = ps.executeUpdate();
+            System.out.println(rs);
+        } catch (Exception e) {
+        }
+    }
+     public static void ls2(String maKH, String manv) {
+        try {
+            Connection conn = DatabaseHelper.getConnection("EduSys");
+            String sql = "insert into LsKhoaHoc (MaKH,MaNV,mota,TrangThai) values(?,?,?,0)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, maKH);
+            ps.setString(2, manv);
+            ps.setString(3, "đã xóa Khóa Học "+maKH);
+            int rs = ps.executeUpdate();
+            System.out.println(rs);
+        } catch (Exception e) {
+        }
+    }
+       public static void loadlskhoHOC() {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Connection conn = DatabaseHelper.getConnection("EduSys");
+            String sql = "select * from LsKhoaHoc where trangthai = 0";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            DefaultTableModel dtm = (DefaultTableModel) LichSuKhoaHoc.tbl_lichsu.getModel();
+            dtm.setRowCount(0);
+            
+            while (rs.next()) {
+                java.sql.Date d1 = rs.getDate(4);
+                Date ngaytao = new Date(d1.getTime());
+                dtm.addRow(new Object[] {rs.getInt(1), rs.getInt(2), rs.getString(3), sdf.format(d1), rs.getString(5)});
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       }
 }

@@ -45,6 +45,22 @@ CREATE TABLE KhoaHoc
 )
 GO
 
+select * from KhoaHoc
+CREATE TABLE LsKhoaHoc
+(
+	Mals INT IDENTITY(1,1) PRIMARY KEY,
+	MaKH INT  NULL,	
+	MaNV NVARCHAR(50) NOT NULL,
+	Ngaythuchien DATETIME DEFAULT GETDATE() NOT NULL,
+	mota NVARCHAR(200) NULL,
+	TrangThai bit default(0),
+	FOREIGN KEY(MaKH) REFERENCES dbo.KhoaHoc(MaKH) ON UPDATE CASCADE ON DELETE NO ACTION,
+	
+)
+GO
+
+insert into LsKhoaHoc (MaKH,MaNV,mota,TrangThai) values(?,?,?,0)
+
 CREATE TABLE NguoiHoc
 (
 	MaNH INT IDENTITY(1,1) PRIMARY KEY,
@@ -75,7 +91,7 @@ CREATE TABLE HocVien
 GO
 
 --insert into nhanvien values ( '3','1','1', 1)
-select * from nhanvien where trangthai = 0
+select * from nhanvien where TrangThai = 0
 select * from nhanvien
 delete from nhanvien
 --update nhanvien set manv = 'sangsakerquy' where trangthai = 0 
@@ -84,12 +100,13 @@ insert into NhanVien values('admin','admin','admin','admin@fpt.edu.vn',0,0)
 insert into NhanVien values('sang','sang','sang','sangtm2612@gmail.com',0,0)
 insert into NhanVien values('1','1','sang','sangtm2612@gmail.com',0,0)
 
+insert into NhanVien values('2','1','sang','meo',1,0)
 SELECT COUNT(ChuyenDe.MaCD) FROM dbo.KhoaHoc 
 JOIN dbo.ChuyenDe ON ChuyenDe.MaCD = KhoaHoc.MaCD 
 WHERE ChuyenDe.TrangThai = 0 AND KhoaHoc.TrangThai = 0 AND ChuyenDe.MaCD = ?
 
-
-
+select * from LsKhoaHoc tr
+select * from LsKhoaHoc where trangthai = 0
 select * from chuyende
 select * from hocvien
 select * from nguoihoc
