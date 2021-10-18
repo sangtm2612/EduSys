@@ -313,6 +313,11 @@ public class HocVien extends javax.swing.JFrame {
 
     private void btn_xoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xoaActionPerformed
         // TODO add your handling code here:
+         if (nv.getVaitro() == 1) {
+                    JOptionPane.showMessageDialog(this, "Chỉ trưởng phòng mới được dùng chức năng này");
+                    return;
+
+                }
         String maHocVien = tf_mahocvien.getText();
         if (maHocVien.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn học viên cần xóa!");

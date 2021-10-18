@@ -49,6 +49,7 @@ public class Main extends javax.swing.JFrame {
         this.nv = nv;
         if (nv.getVaitro() == 1) {
             btn_nhanvien.setEnabled(false);
+            btn_thongke.setEnabled(false);
         }
     }
 
@@ -64,23 +65,23 @@ public class Main extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JSeparator();
         pn_main = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
+        btn_chuyende = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
-        jButton2 = new javax.swing.JButton();
+        btn_nguoihoc = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
-        jButton3 = new javax.swing.JButton();
+        btn_khoahoc = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JToolBar.Separator();
         btn_nhanvien = new javax.swing.JButton();
         jSeparator5 = new javax.swing.JToolBar.Separator();
-        jButton5 = new javax.swing.JButton();
+        btn_hocvien = new javax.swing.JButton();
         jSeparator6 = new javax.swing.JToolBar.Separator();
-        jButton6 = new javax.swing.JButton();
+        btn_thongke = new javax.swing.JButton();
         jSeparator7 = new javax.swing.JToolBar.Separator();
-        jButton7 = new javax.swing.JButton();
+        btn_doimatkhau = new javax.swing.JButton();
         jSeparator8 = new javax.swing.JToolBar.Separator();
-        jButton4 = new javax.swing.JButton();
+        btn_xuattailieu = new javax.swing.JButton();
         jSeparator9 = new javax.swing.JToolBar.Separator();
-        jButton8 = new javax.swing.JButton();
+        btn_dangxuat = new javax.swing.JButton();
         pn_statusbar = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         lb_dongho = new javax.swing.JLabel();
@@ -94,46 +95,46 @@ public class Main extends javax.swing.JFrame {
 
         jToolBar1.setRollover(true);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/chuyende24.png"))); // NOI18N
-        jButton1.setText("Chuyên đề");
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_chuyende.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btn_chuyende.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/chuyende24.png"))); // NOI18N
+        btn_chuyende.setText("Chuyên đề");
+        btn_chuyende.setFocusable(false);
+        btn_chuyende.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_chuyende.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_chuyende.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_chuyendeActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton1);
+        jToolBar1.add(btn_chuyende);
         jToolBar1.add(jSeparator1);
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/student24.png"))); // NOI18N
-        jButton2.setText("Người học");
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btn_nguoihoc.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btn_nguoihoc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/student24.png"))); // NOI18N
+        btn_nguoihoc.setText("Người học");
+        btn_nguoihoc.setFocusable(false);
+        btn_nguoihoc.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_nguoihoc.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_nguoihoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btn_nguoihocActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton2);
+        jToolBar1.add(btn_nguoihoc);
         jToolBar1.add(jSeparator2);
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/khoahoc24.png"))); // NOI18N
-        jButton3.setText("Khóa học");
-        jButton3.setFocusable(false);
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btn_khoahoc.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btn_khoahoc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/khoahoc24.png"))); // NOI18N
+        btn_khoahoc.setText("Khóa học");
+        btn_khoahoc.setFocusable(false);
+        btn_khoahoc.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_khoahoc.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_khoahoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btn_khoahocActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton3);
+        jToolBar1.add(btn_khoahoc);
         jToolBar1.add(jSeparator4);
 
         btn_nhanvien.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -150,74 +151,74 @@ public class Main extends javax.swing.JFrame {
         jToolBar1.add(btn_nhanvien);
         jToolBar1.add(jSeparator5);
 
-        jButton5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/hocvien24.png"))); // NOI18N
-        jButton5.setText("Học viên");
-        jButton5.setFocusable(false);
-        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btn_hocvien.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btn_hocvien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/hocvien24.png"))); // NOI18N
+        btn_hocvien.setText("Học viên");
+        btn_hocvien.setFocusable(false);
+        btn_hocvien.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_hocvien.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_hocvien.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btn_hocvienActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton5);
+        jToolBar1.add(btn_hocvien);
         jToolBar1.add(jSeparator6);
 
-        jButton6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/thongke.png"))); // NOI18N
-        jButton6.setText("Thống kê");
-        jButton6.setFocusable(false);
-        jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        btn_thongke.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btn_thongke.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/thongke.png"))); // NOI18N
+        btn_thongke.setText("Thống kê");
+        btn_thongke.setFocusable(false);
+        btn_thongke.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_thongke.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_thongke.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                btn_thongkeActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton6);
+        jToolBar1.add(btn_thongke);
         jToolBar1.add(jSeparator7);
 
-        jButton7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/doimatkhau.png"))); // NOI18N
-        jButton7.setText("Đổi mật khẩu");
-        jButton7.setFocusable(false);
-        jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        btn_doimatkhau.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btn_doimatkhau.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/doimatkhau.png"))); // NOI18N
+        btn_doimatkhau.setText("Đổi mật khẩu");
+        btn_doimatkhau.setFocusable(false);
+        btn_doimatkhau.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_doimatkhau.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_doimatkhau.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                btn_doimatkhauActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton7);
+        jToolBar1.add(btn_doimatkhau);
         jToolBar1.add(jSeparator8);
 
-        jButton4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/tailieu24.png"))); // NOI18N
-        jButton4.setText("Tài liệu");
-        jButton4.setFocusable(false);
-        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btn_xuattailieu.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btn_xuattailieu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/tailieu24.png"))); // NOI18N
+        btn_xuattailieu.setText("Tài liệu");
+        btn_xuattailieu.setFocusable(false);
+        btn_xuattailieu.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_xuattailieu.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_xuattailieu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btn_xuattailieuActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton4);
+        jToolBar1.add(btn_xuattailieu);
         jToolBar1.add(jSeparator9);
 
-        jButton8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/logout.png"))); // NOI18N
-        jButton8.setText("Đăng xuất");
-        jButton8.setFocusable(false);
-        jButton8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton8.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        btn_dangxuat.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btn_dangxuat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/logout.png"))); // NOI18N
+        btn_dangxuat.setText("Đăng xuất");
+        btn_dangxuat.setFocusable(false);
+        btn_dangxuat.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_dangxuat.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_dangxuat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                btn_dangxuatActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton8);
+        jToolBar1.add(btn_dangxuat);
 
         pn_statusbar.setBackground(new java.awt.Color(255, 255, 255));
         pn_statusbar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -315,51 +316,51 @@ public class Main extends javax.swing.JFrame {
         new Ui.NhanVien(nv).setVisible(true);
     }//GEN-LAST:event_btn_nhanvienActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void btn_hocvienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hocvienActionPerformed
         // TODO add your handling code here:
         this.dispose();
         new HocVien(nv).setVisible(true);
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_btn_hocvienActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btn_chuyendeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_chuyendeActionPerformed
         // TODO add your handling code here:
         this.dispose();
         new ChuyenDe(nv).setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btn_chuyendeActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void btn_doimatkhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_doimatkhauActionPerformed
         // TODO add your handling code here:
         this.dispose();
         new DoiMatKhau(nv).setVisible(true);
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_btn_doimatkhauActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    private void btn_dangxuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_dangxuatActionPerformed
         // TODO add your handling code here:
         this.dispose();
         new Login().setVisible(true);
-    }//GEN-LAST:event_jButton8ActionPerformed
+    }//GEN-LAST:event_btn_dangxuatActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btn_nguoihocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nguoihocActionPerformed
         // TODO add your handling code here:
         this.dispose();
         new NguoiHoc(nv).setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btn_nguoihocActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btn_khoahocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_khoahocActionPerformed
         // TODO add your handling code here:
         this.dispose();
         new KhoaHoc(nv).setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btn_khoahocActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void btn_thongkeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_thongkeActionPerformed
         // TODO add your handling code here:
         this.dispose();
         new ThongKe(nv).setVisible(true);
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_btn_thongkeActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btn_xuattailieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xuattailieuActionPerformed
         OpenGioiThieu();
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btn_xuattailieuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -392,15 +393,15 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_chuyende;
+    private javax.swing.JButton btn_dangxuat;
+    private javax.swing.JButton btn_doimatkhau;
+    private javax.swing.JButton btn_hocvien;
+    private javax.swing.JButton btn_khoahoc;
+    private javax.swing.JButton btn_nguoihoc;
     private javax.swing.JButton btn_nhanvien;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
+    private javax.swing.JButton btn_thongke;
+    private javax.swing.JButton btn_xuattailieu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

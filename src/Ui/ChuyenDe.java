@@ -510,6 +510,11 @@ public class ChuyenDe extends javax.swing.JFrame {
 
     private void btn_suaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_suaActionPerformed
         // TODO add your handling code here:
+         if (nv.getVaitro() == 1) {
+                    JOptionPane.showMessageDialog(this, "Chỉ trưởng phòng mới được dùng chức năng này");
+                    return;
+
+                }
         String ma = tf_ma.getText().trim();
         if (ma.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn chuyên đề cần sửa!");

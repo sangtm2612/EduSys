@@ -377,6 +377,11 @@ public class KhoaHoc extends javax.swing.JFrame {
     private void btn_xoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_xoaActionPerformed
         // TODO add your handling code here:
         try {
+             if (nv.getVaitro() == 1) {
+                    JOptionPane.showMessageDialog(this, "Chỉ trưởng phòng mới được dùng chức năng này");
+                    return;
+
+                }
             String maKH = tb_content.getValueAt(index, 0).toString();
             if (tb_content.getRowCount() == 0) {
                 JOptionPane.showMessageDialog(this, "không còn khóa học để xóa");
@@ -391,11 +396,7 @@ public class KhoaHoc extends javax.swing.JFrame {
 
             int hoi = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa khóa học này?", "Xóa khóa học", JOptionPane.YES_NO_OPTION);
             if (hoi == JOptionPane.YES_OPTION) {
-                if (nv.getVaitro() == 1) {
-                    JOptionPane.showMessageDialog(this, "Chỉ trưởng phòng mới được dùng chức năng này");
-                    return;
-
-                }
+               
                 KhoaHocDAO.XoaKH(ma);
                 KhoaHocDAO.ls2(maKH, nv.getMaNv());
                 clearForm();
