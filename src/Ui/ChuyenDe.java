@@ -7,6 +7,7 @@ package Ui;
 
 import DAO.ChuyenDeDAO;
 import Database.DatabaseHelper;
+import static Ui.KhoaHoc.tb_content;
 import java.awt.Toolkit;
 import java.io.File;
 import java.sql.Connection;
@@ -25,6 +26,7 @@ public class ChuyenDe extends javax.swing.JFrame {
 
     DefaultTableModel model;
     Model.NhanVien nv;
+    int index;
 
     /**
      * Creates new form ChuyenDe
@@ -37,6 +39,11 @@ public class ChuyenDe extends javax.swing.JFrame {
         this.nv = nv;
         ChuyenDeDAO.loadChuyenDe();
         model = (DefaultTableModel) tb_content.getModel();
+        if (tb_content.getRowCount() > 0) {
+            index = 0;
+            tb_content.setRowSelectionInterval(index, index);
+        }
+//        showdetails();
     }
 
     public void clearForm() {
@@ -178,7 +185,16 @@ public class ChuyenDe extends javax.swing.JFrame {
             new String [] {
                 "Mã CD", "Tên CD", "Học phí", "Thời lượng", "Hình", "Mô tả"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tb_content.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tb_content.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tb_contentMouseClicked(evt);
@@ -404,6 +420,16 @@ public class ChuyenDe extends javax.swing.JFrame {
             ChuyenDeDAO.xoaCD(maInt);
             clearForm();
             JOptionPane.showMessageDialog(this, "Xóa thành công!");
+            if (tb_content.getRowCount() == 0) {
+                clearForm();
+            } else {
+                if (index == tb_content.getRowCount()) {
+                    index--;
+                    
+                }
+                tb_content.setRowSelectionInterval(index, index);
+            }
+            showdetails();
         }
     }//GEN-LAST:event_btn_xoaActionPerformed
 
@@ -454,6 +480,8 @@ public class ChuyenDe extends javax.swing.JFrame {
         ChuyenDeDAO.loadChuyenDe();
 
         JOptionPane.showMessageDialog(this, "Thêm thành công!");
+        index = tb_content.getRowCount() - 1;
+        tb_content.setRowSelectionInterval(index, index);
 
     }//GEN-LAST:event_btn_themActionPerformed
 
@@ -464,6 +492,10 @@ public class ChuyenDe extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_lammoiActionPerformed
 
     private void tb_contentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_contentMouseClicked
+        showdetails();
+    }//GEN-LAST:event_tb_contentMouseClicked
+
+    public void showdetails() {
         // TODO add your handling code here:
         int i = tb_content.getSelectedRow();
         tf_ma.setText(String.valueOf(tb_content.getValueAt(i, 0)));
@@ -474,7 +506,7 @@ public class ChuyenDe extends javax.swing.JFrame {
         ta_mota.setText(String.valueOf(tb_content.getValueAt(i, 5)));
         lb_anh.setIcon(new javax.swing.ImageIcon(String.valueOf(tb_content.getValueAt(i, 4))));
         tb_content.setRowSelectionInterval(i, i);
-    }//GEN-LAST:event_tb_contentMouseClicked
+    }
 
     private void btn_suaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_suaActionPerformed
         // TODO add your handling code here:
@@ -506,6 +538,8 @@ public class ChuyenDe extends javax.swing.JFrame {
         ChuyenDeDAO.suaCD(maInt, tenChuyenDe, hocPhi, thoiLuong, hinh, moTa);
         ChuyenDeDAO.loadChuyenDe();
         JOptionPane.showMessageDialog(this, "Sửa thành công!");
+        index = tb_content.getSelectedRow();
+        tb_content.setRowSelectionInterval(index, index);
     }//GEN-LAST:event_btn_suaActionPerformed
 
     private void tf_thoiluongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tf_thoiluongMouseClicked
