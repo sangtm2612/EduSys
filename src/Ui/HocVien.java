@@ -371,7 +371,12 @@ public class HocVien extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập điểm!");
             return;
         }
+        
         float parseDiem = Float.parseFloat(diem);
+        if (parseDiem>10 || parseDiem<0 ) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập điểm từ 0-10!");
+            return;
+        }
         try {
             HocVienDAO.ThemHV(kh.getMaKH(), parseNH, parseDiem);
             loadTableHocVien();
